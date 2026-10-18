@@ -1,0 +1,395 @@
+{%- liquid
+  assign slide_blocks = section.blocks | where: 'type', 'slide'
+  assign is_slider = false
+  if slide_blocks.size > 1
+    assign is_slider = true
+  endif
+  assign cover = false
+  if is_slider or section.settings.height_type == 'fixed'
+    assign cover = true
+  endif
+-%}
+<style>
+  #theme-section-{{ section.id }}{
+    --hero-image-radius: {{ section.settings.border_radius }}px;
+  }
+  #theme-section-{{ section.id }} .hero-slider{
+    position:relative;
+    display:block;
+    overflow:hidden;
+    border-radius:var(--hero-image-radius);
+  }
+  #theme-section-{{ section.id }} .hero-slider__track{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+  }
+  #theme-section-{{ section.id }} .hero-slider__track::-webkit-scrollbar{ display:none; }
+  #theme-section-{{ section.id }} .hero-image{
+    position:relative;
+    display:block;
+    flex:0 0 100%;
+    width:100%;
+    margin:0;
+    overflow:hidden;
+    scroll-snap-align:start;
+  }
+  #theme-section-{{ section.id }} .hero-image img,
+  #theme-section-{{ section.id }} .hero-image video{
+    display:block;
+    width:100%;
+    height:{% if cover %}100%{% else %}auto{% endif %};
+    {% if cover %}object-fit:cover;object-position:{{ section.settings.image_position }};{% endif %}
+  }
+  {%- if cover -%}
+  #theme-section-{{ section.id }} .hero-image > div{ height:100%; }
+  {%- endif -%}
+  {%- if section.settings.height_type == 'fixed' -%}
+  #theme-section-{{ section.id }} .hero-image{
+    height:{{ section.settings.height_mobile }}px;
+  }
+  @media (min-width:1025px){
+    #theme-section-{{ section.id }} .hero-image{
+      height:{{ section.settings.height_desktop }}px;
+    }
+  }
+  {%- endif -%}
+  #theme-section-{{ section.id }} .hero-image__mobile{ display:none; }
+  #theme-section-{{ section.id }} .hero-image--has-mobile .hero-image__mobile{ display:block; }
+  #theme-section-{{ section.id }} .hero-image--has-mobile .hero-image__desktop{ display:none; }
+  @media (min-width:768px){
+    #theme-section-{{ section.id }} .hero-image--has-mobile .hero-image__mobile{ display:none; }
+    #theme-section-{{ section.id }} .hero-image--has-mobile .hero-image__desktop{ display:block; }
+  }
+  #theme-section-{{ section.id }} .hero-slider__arrow{
+    position:absolute;
+    top:50%;
+    z-index:2;
+    display:grid;
+    place-items:center;
+    width:44px;
+    height:44px;
+    padding:0;
+    border:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.85);
+    color:#000;
+    cursor:pointer;
+    transform:translateY(-50%);
+    transition:background .2s ease;
+  }
+  #theme-section-{{ section.id }} .hero-slider__arrow:hover{ background:#fff; }
+  #theme-section-{{ section.id }} .hero-slider__arrow svg{ width:16px; height:16px; }
+  #theme-section-{{ section.id }} .hero-slider__arrow--prev{ left:16px; }
+  #theme-section-{{ section.id }} .hero-slider__arrow--next{ right:16px; }
+  #theme-section-{{ section.id }} .hero-slider__dots{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:16px;
+    z-index:2;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+  }
+  #theme-section-{{ section.id }} .hero-slider__dot{
+    width:28px;
+    height:3px;
+    padding:0;
+    border:0;
+    background:rgba(255,255,255,.5);
+    box-shadow:0 0 2px rgba(0,0,0,.25);
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  #theme-section-{{ section.id }} .hero-slider__dot[aria-current="true"]{ background:#fff; }
+  @media (max-width:767px){
+    #theme-section-{{ section.id }} .hero-slider__arrow{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #theme-section-{{ section.id }} .hero-slider__track{ scroll-behavior:auto; }
+  }
+</style>
+
+<div id="theme-section-{{ section.id }}"
+     class="hero-image__section top-spacing-{{ section.settings.top_spacing }}"
+     data-section-name="hero-image">
+  <hero-slider
+    class="hero-slider"
+    data-autoplay="{% if section.settings.autoplay and is_slider %}{{ section.settings.autoplay_time | times: 1000 }}{% else %}0{% endif %}"
+  >
+    <div class="hero-slider__track" data-hero-track>
+      {%- if slide_blocks.size > 0 -%}
+        {%- for block in slide_blocks -%}
+          {%- render 'hero-image-slide',
+            image: block.settings.image,
+            image_mobile: block.settings.image_mobile,
+            video: block.settings.video,
+            video_mobile: block.settings.video_mobile,
+            link: block.settings.url,
+            link_title: block.settings.link_title,
+            first: forloop.first,
+            attrs: block.shopify_attributes
+          -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} No slides: single image from the section settings {%- endcomment -%}
+        {%- render 'hero-image-slide',
+          image: section.settings.image,
+          image_mobile: section.settings.image_mobile,
+          video: nil,
+          video_mobile: nil,
+          link: section.settings.url,
+          link_title: section.settings.link_title,
+          first: true,
+          attrs: ''
+        -%}
+      {%- endif -%}
+    </div>
+
+    {%- if is_slider -%}
+      {%- if section.settings.show_arrows -%}
+        <button type="button" class="hero-slider__arrow hero-slider__arrow--prev" data-hero-prev aria-label="Previous slide">{% render 'mpc-icon', name: 'chevron-left' %}</button>
+        <button type="button" class="hero-slider__arrow hero-slider__arrow--next" data-hero-next aria-label="Next slide">{% render 'mpc-icon', name: 'chevron-right' %}</button>
+      {%- endif -%}
+      {%- if section.settings.show_dots -%}
+        <div class="hero-slider__dots">
+          {%- for block in slide_blocks -%}
+            <button type="button" class="hero-slider__dot" data-hero-dot="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </hero-slider>
+</div>
+
+<script src="{{ 'hero-slider.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Hero image",
+  "tag": "section",
+  "class": "shopify-section-clip",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add Slide blocks to show several images or videos. The image and link below are only used when there are no slides."
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image mobile",
+      "info": "Optional. Used on screens under 768px."
+    },
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_title",
+      "label": "Link description",
+      "info": "Used for accessibility when the image is a link."
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_time",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "label": "Change slides every"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show slide indicators",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "height_type",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed height"
+        }
+      ],
+      "default": "adapt",
+      "label": "Height"
+    },
+    {
+      "visible_if": "{{ section.settings.height_type == 'fixed' }}",
+      "type": "range",
+      "id": "height_desktop",
+      "min": 200,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 700,
+      "label": "Height on desktop"
+    },
+    {
+      "visible_if": "{{ section.settings.height_type == 'fixed' }}",
+      "type": "range",
+      "id": "height_mobile",
+      "min": 200,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 500,
+      "label": "Height on mobile"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center",
+      "label": "Image / video position"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0,
+      "label": "Corner radius"
+    },
+    {
+      "type": "select",
+      "id": "top_spacing",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        }
+      ],
+      "default": "none",
+      "label": "Top spacing"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image mobile",
+          "info": "Optional. Used on screens under 768px."
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "Optional. Plays muted and looped instead of the image."
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Video mobile",
+          "info": "Optional. Used on screens under 768px."
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "link_title",
+          "label": "Link description",
+          "info": "Used for accessibility when the slide is a link."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero image"
+    }
+  ]
+}
+{% endschema %}

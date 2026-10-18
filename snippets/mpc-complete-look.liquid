@@ -1,0 +1,51 @@
+{%- comment -%}
+  "Complete the look" mini product slider for main-product-custom.
+  Accepts: block, product
+{%- endcomment -%}
+{%- liquid
+  assign look_products = product.metafields.custom.complete_the_look.value
+  if look_products == blank
+    assign look_products = block.settings.products
+  endif
+  assign look_ratio = block.settings.image_ratio | default: '1.1'
+  assign look_fit = block.settings.image_fit | default: 'contain'
+-%}
+{%- if look_products != blank -%}
+  <div class="mpc-block mpc-look reveal-fade{% if look_ratio == 'auto' %} mpc-look--ratio-auto{% endif %}" data-mpc-look {{ block.shopify_attributes }} style="--mpc-look-ratio:{% if look_ratio == 'auto' %}1{% else %}{{ look_ratio }}{% endif %};--mpc-look-fit:{{ look_fit }};">
+    <h2 class="mpc-look__heading">{{ block.settings.heading | escape }}</h2>
+    <div class="mpc-look__viewport">
+      <button type="button" class="mpc-look__arrow mpc-look__arrow--prev" data-mpc-look-prev aria-label="Previous">{% render 'mpc-icon', name: 'chevron-left' %}</button>
+      <ul class="mpc-look__track" role="list" data-mpc-look-track>
+        {%- for item in look_products limit: 12 -%}
+          {%- assign item_variant = item.selected_or_first_available_variant -%}
+          <li class="mpc-look__card">
+            <a href="{{ item.url }}" class="mpc-look__media">
+              {%- if item.featured_media -%}
+                {{ item.featured_media | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150,300', sizes: '140px', alt: item.featured_media.alt }}
+              {%- endif -%}
+            </a>
+            <a href="{{ item.url }}" class="mpc-look__title">{{ item.title | escape }}</a>
+            <span class="mpc-look__price">{{ item.price | money }}</span>
+            {%- if item.available and item.has_only_default_variant -%}
+              <product-form class="mpc-look__form" data-hide-errors="true">
+                {%- form 'product', item, novalidate: 'novalidate' -%}
+                  <input type="hidden" name="id" value="{{ item_variant.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" name="add" class="mpc-look__add">
+                    <span>{{ block.settings.add_label | escape }}</span>
+                    <span class="loading__spinner loading-overlay__spinner hidden"><span class="mpc-spinner"></span></span>
+                  </button>
+                {%- endform -%}
+              </product-form>
+            {%- elsif item.available -%}
+              <a href="{{ item.url }}" class="mpc-look__add">{{ block.settings.choose_label | escape }}</a>
+            {%- else -%}
+              <span class="mpc-look__add mpc-look__add--disabled">{{ 'products.product.sold_out' | t }}</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+      <button type="button" class="mpc-look__arrow mpc-look__arrow--next" data-mpc-look-next aria-label="Next">{% render 'mpc-icon', name: 'chevron-right' %}</button>
+    </div>
+  </div>
+{%- endif -%}

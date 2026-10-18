@@ -1,0 +1,259 @@
+{%- comment -%}
+  Alternating image + text rows ("story" rows) for the custom product page.
+  Content source, in order:
+    1. Product metafield custom.story_rows (list of "Product story row" metaobjects: image, heading, text)
+    2. The blocks added in the theme editor
+{%- endcomment -%}
+{%- liquid
+  assign mf_rows = blank
+  if section.settings.use_metafield and product
+    assign mf_rows = product.metafields.custom.story_rows.value
+  endif
+-%}
+
+<style>
+  #psr-{{ section.id }} {
+    --psr-bg-odd: {{ section.settings.bg_odd }};
+    --psr-bg-even: {{ section.settings.bg_even }};
+    --psr-radius: {{ section.settings.radius }}px;
+    --psr-pad: {{ section.settings.padding_mobile }}px;
+  }
+  @media (min-width: 990px) {
+    #psr-{{ section.id }} { --psr-pad: {{ section.settings.padding }}px; }
+  }
+</style>
+
+{%- capture rows_html -%}
+  {%- if mf_rows != blank -%}
+    {%- for row in mf_rows -%}
+      {%- liquid
+        assign row_image = row.image.value
+        assign row_heading = row.heading.value
+        assign row_text = ''
+        if row.text.value != blank
+          assign row_text = row.text.value | escape | newline_to_br | prepend: '<p>' | append: '</p>'
+        endif
+      -%}
+      {%- if row_image != blank or row_heading != blank -%}
+        {%- render 'product-story-row',
+          section: section,
+          index: forloop.index,
+          image: row_image,
+          video: nil,
+          heading: row_heading,
+          text: row_text,
+          bg: nil,
+          attrs: ''
+        -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- for block in section.blocks -%}
+      {%- if block.settings.image != blank or block.settings.video != blank or block.settings.heading != blank -%}
+        {%- render 'product-story-row',
+          section: section,
+          index: forloop.index,
+          image: block.settings.image,
+          video: block.settings.video,
+          heading: block.settings.heading,
+          text: block.settings.text,
+          bg: block.settings.bg_color,
+          attrs: block.shopify_attributes
+        -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if rows_html != blank -%}
+  <div id="psr-{{ section.id }}" class="psr psr--{{ section.settings.layout }}">
+    {{ 'section-product-story-rows.css' | asset_url | stylesheet_tag }}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="psr__section-heading page-width">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {{ rows_html }}
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('psr-{{ section.id }}');
+      if (!root) return;
+      var rows = root.querySelectorAll('.psr-row');
+      if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        rows.forEach(function (r) { r.classList.add('is-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15 });
+      rows.forEach(function (r) { io.observe(r); });
+    })();
+  </script>
+{%- elsif request.design_mode -%}
+  <div class="page-width" style="padding: 40px 0; text-align: center; opacity: .6;">
+    Product story rows: add rows here, or fill the product metafield "Story rows".
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product story rows",
+  "tag": "section",
+  "class": "section-product-story-rows",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "use_metafield",
+      "label": "Use product metafield rows when available",
+      "info": "Reads custom.story_rows (list of Product story row entries). Falls back to the blocks below.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "alternate",
+          "label": "Alternate"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ],
+      "default": "landscape"
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "bg_odd",
+      "label": "Odd row background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bg_even",
+      "label": "Even row background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Row padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "label": "Row padding (mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "Plays muted and looped in place of the image."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Inspired by crescent moons & starlit skies"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Drawing from the soft shimmer of stars and the delicate curve of the moon, this collection brings celestial beauty into everyday wear.</p>"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background override"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product story rows",
+      "blocks": [
+        {
+          "type": "row"
+        },
+        {
+          "type": "row",
+          "settings": {
+            "heading": "Lightweight & comfortable for daily wear",
+            "text": "<p>Designed to feel light, effortless and radiant, each piece is crafted from hypoallergenic materials for lasting comfort.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

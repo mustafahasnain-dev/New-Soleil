@@ -1,0 +1,26 @@
+{%- comment -%}
+  Trust badges row for main-product-custom.
+  Accepts: block
+{%- endcomment -%}
+<ul class="mpc-block mpc-trust reveal-fade" role="list" style="--mpc-trust-bg: {{ block.settings.bg_color }};" {{ block.shopify_attributes }}>
+  {%- for i in (1..4) -%}
+    {%- liquid
+      assign text_key = 'text_' | append: i
+      assign icon_key = 'icon_' | append: i
+      assign img_key = 'icon_image_' | append: i
+      assign text = block.settings[text_key]
+    -%}
+    {%- if text != blank -%}
+      <li class="mpc-trust__item">
+        <span class="mpc-trust__icon">
+          {%- if block.settings[img_key] != blank -%}
+            {{ block.settings[img_key] | image_url: width: 64 | image_tag: loading: 'lazy', alt: '' }}
+          {%- else -%}
+            {% render 'mpc-icon', name: block.settings[icon_key] %}
+          {%- endif -%}
+        </span>
+        <span class="mpc-trust__text">{{ text | escape }}</span>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

@@ -1,0 +1,39 @@
+{%- comment -%}
+  One row of the "Product story rows" section.
+  Accepts: section, index, image, video, heading, text, bg, attrs
+{%- endcomment -%}
+{%- liquid
+  assign is_even = index | modulo: 2
+  assign flip = false
+  if section.settings.layout == 'left'
+    assign flip = true
+  elsif section.settings.layout == 'alternate' and is_even == 0
+    assign flip = true
+  endif
+-%}
+<div
+  class="psr-row{% if is_even == 0 %} psr-row--even{% endif %}{% if flip %} psr-row--flip{% endif %}{% if video == blank and image == blank %} psr-row--no-media{% endif %}"
+  {% if bg != blank and bg != 'rgba(0,0,0,0)' %}style="--psr-row-bg: {{ bg }};"{% endif %}
+  {{ attrs }}
+>
+  <div class="psr-row__inner page-width">
+    {%- if heading != blank -%}
+      <h3 class="psr-row__heading">{{ heading | escape }}</h3>
+    {%- endif -%}
+
+    {%- if video != blank or image != blank -%}
+      <div class="psr-row__media psr-row__media--{{ section.settings.image_ratio }}">
+        {%- if video != blank -%}
+          {{ video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1200x' }}
+        {%- else -%}
+          {%- assign image_alt = image.alt | default: heading -%}
+          {{ image | image_url: width: 1600 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '400,600,800,1000,1200,1600', alt: image_alt }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if text != blank -%}
+      <div class="psr-row__text">{{ text }}</div>
+    {%- endif -%}
+  </div>
+</div>

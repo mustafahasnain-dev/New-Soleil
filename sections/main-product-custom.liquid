@@ -1,0 +1,2059 @@
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+{{ 'section-main-product-custom.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'main-product-custom.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'mpc-form-' | append: section.id
+  assign installment_count = 4
+  for block in section.blocks
+    if block.type == 'installments'
+      assign installment_count = block.settings.count
+    endif
+  endfor
+  assign accent = section.settings.accent_color
+  assign tab_blocks = section.blocks | where: 'type', 'collapsible_tab'
+  assign single_variant = false
+  if product.has_only_default_variant
+    assign single_variant = true
+  endif
+-%}
+
+<style>
+  #mpc-{{ section.id }} {
+    --mpc-accent: {{ accent }};
+    --mpc-accent-text: {{ section.settings.accent_text_color }};
+    --mpc-muted-bg: {{ section.settings.muted_bg }};
+    --mpc-line: {{ section.settings.line_color }};
+    --mpc-info-width: {{ section.settings.info_width }}%;
+    --mpc-thumb-radius: {% if section.settings.thumb_shape == 'circle' %}50%{% else %}4px{% endif %};
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+  }
+  @media (min-width: 990px) {
+    #mpc-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .reveal-fade{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
+  }
+  .reveal-fade.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal-fade{
+      transition:none !important;
+      opacity:1 !important;
+      transform:none !important;
+    }
+  }
+</style>
+
+<main-product-custom
+  id="mpc-{{ section.id }}"
+  class="mpc{% if section.settings.gallery_position == 'right' %} mpc--flip{% endif %}"
+  data-section="{{ section.id }}"
+  data-url="{{ product.url }}"
+  data-form-id="{{ form_id }}"
+>
+  <div class="mpc__container page-width">
+    <div class="mpc__grid reveal-fade{% if tab_blocks.size == 0 %} mpc__grid--no-tabs{% endif %}">
+
+      {%- comment -%} ============ MEDIA GALLERY ============ {%- endcomment -%}
+      <div class="mpc__media">
+        {%- if product.media.size > 0 -%}
+          <div class="mpc-gallery mpc-gallery--{{ section.settings.image_ratio }}" data-mpc-gallery>
+            {%- if product.media.size > 1 -%}
+              <div class="mpc-gallery__thumbs{% if section.settings.hide_thumbs_mobile %} mpc-hide-mobile{% endif %}" role="tablist" aria-label="{{ 'products.product.media.gallery_viewer' | t }}">
+                {%- for media in product.media -%}
+                  <button
+                    type="button"
+                    class="mpc-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+                    data-index="{{ forloop.index0 }}"
+                    aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+                    {% if forloop.first %}aria-current="true"{% endif %}
+                  >
+                    {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', alt: media.alt, widths: '90,180' }}
+                    {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                      <span class="mpc-gallery__thumb-badge">{% render 'mpc-icon', name: 'play' %}</span>
+                    {%- endif -%}
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            <div class="mpc-gallery__main">
+              <div class="mpc-gallery__track" data-mpc-track tabindex="0" aria-label="{{ product.title | escape }}">
+                {%- for media in product.media -%}
+                  <div class="mpc-gallery__slide" data-media-id="{{ media.id }}" data-index="{{ forloop.index0 }}">
+                    {%- case media.media_type -%}
+                      {%- when 'image' -%}
+                        <button type="button" class="mpc-gallery__zoom" data-mpc-zoom="{{ forloop.index0 }}" aria-label="{{ 'products.product.media.open_media' | t: index: forloop.index }}">
+                          {%- if forloop.first -%}
+                            {{ media | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', widths: '400,600,800,1000,1200,1500,1800', alt: media.alt }}
+                          {%- else -%}
+                            {{ media | image_url: width: 1800 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 55vw, 100vw', widths: '400,600,800,1000,1200,1500,1800', alt: media.alt }}
+                          {%- endif -%}
+                        </button>
+                      {%- when 'video' -%}
+                        {{ media | video_tag: controls: true, playsinline: true, muted: true, loop: true, image_size: '1200x' }}
+                      {%- when 'external_video' -%}
+                        {{ media | external_video_tag }}
+                      {%- when 'model' -%}
+                        {{ media | model_viewer_tag: image_size: '1200x', reveal: 'interaction', toggleable: true }}
+                    {%- endcase -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              {%- if product.media.size > 1 -%}
+                <button type="button" class="mpc-gallery__arrow mpc-gallery__arrow--prev" data-mpc-prev aria-label="Previous">{% render 'mpc-icon', name: 'chevron-left' %}</button>
+                <button type="button" class="mpc-gallery__arrow mpc-gallery__arrow--next" data-mpc-next aria-label="Next">{% render 'mpc-icon', name: 'chevron-right' %}</button>
+                <div class="mpc-gallery__progress" aria-hidden="true"><span data-mpc-progress style="width: {{ 100.0 | divided_by: product.media.size }}%;"></span></div>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <dialog class="mpc-lightbox" data-mpc-lightbox aria-label="{{ product.title | escape }}">
+            <button type="button" class="mpc-lightbox__close" data-mpc-lightbox-close aria-label="{{ 'accessibility.close' | t }}">{% render 'mpc-icon', name: 'close' %}</button>
+            <div class="mpc-lightbox__list">
+              {%- for media in product.media -%}
+                {%- if media.media_type == 'image' -%}
+                  <div class="mpc-lightbox__item" data-index="{{ forloop.index0 }}">
+                    {{ media | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '800,1200,1600,2000,2400', alt: media.alt }}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </dialog>
+        {%- else -%}
+          <div class="mpc-gallery__placeholder">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ============ ACCORDIONS (under gallery on desktop) ============ {%- endcomment -%}
+      {%- if tab_blocks.size > 0 -%}
+        <div class="mpc__tabs">
+          {%- for block in tab_blocks -%}
+            {%- liquid
+              assign tab_content = ''
+              if block.settings.metafield_key != blank
+                assign mf_parts = block.settings.metafield_key | split: '.'
+                assign mf = product.metafields[mf_parts[0]][mf_parts[1]]
+                if mf != blank
+                  assign tab_content = mf | metafield_tag
+                endif
+              endif
+              if tab_content == blank and block.settings.use_description
+                assign tab_content = product.description
+              endif
+              if tab_content == blank
+                assign tab_content = block.settings.content | append: block.settings.page.content
+              endif
+            -%}
+            {%- if tab_content != blank or request.design_mode -%}
+              <details class="mpc-tab" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+                <summary class="mpc-tab__summary">
+                  <span>{{ block.settings.heading | escape }}</span>
+                  <span class="mpc-tab__icon" aria-hidden="true">{% render 'mpc-icon', name: 'plus' %}</span>
+                </summary>
+                <div class="mpc-tab__content mpc-rte">{{ tab_content }}</div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} ============ PRODUCT INFO ============ {%- endcomment -%}
+      <div class="mpc__info">
+        <div class="mpc__info-inner{% if section.settings.sticky_info %} mpc__info-inner--sticky{% endif %}">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+
+              {%- when '@app' -%}
+                <div class="mpc-block">{% render block %}</div>
+
+              {%- when 'rating' -%}
+                {%- liquid
+                  assign rating_value = product.metafields.reviews.rating.value.rating | default: 0
+                  assign rating_max = product.metafields.reviews.rating.value.scale_max | default: 5
+                  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+                  assign rating_pct = rating_value | times: 100.0 | divided_by: rating_max
+                -%}
+                {%- if rating_count > 0 or block.settings.show_empty -%}
+                  <div class="mpc-block mpc-rating" {{ block.shopify_attributes }}>
+                    <span class="mpc-rating__stars" style="--mpc-rating: {{ rating_pct }}%;" aria-hidden="true">
+                      <span class="mpc-rating__bg">★★★★★</span><span class="mpc-rating__fg">★★★★★</span>
+                    </span>
+                    <span class="visually-hidden">{{ rating_value | round: 1 }} / {{ rating_max }}</span>
+                    <span class="mpc-rating__value">{{ rating_value | round: 1 }}</span>
+                    <span class="mpc-rating__sep" aria-hidden="true">|</span>
+                    <a href="{{ block.settings.reviews_anchor }}" class="mpc-rating__link" data-mpc-scroll-link>{{ rating_count }} {{ block.settings.reviews_label | escape }}</a>
+                  </div>
+                {%- endif -%}
+
+              {%- when 'label' -%}
+                {%- liquid
+                  assign label_text = product.metafields.custom.collection_label.value
+                  if label_text == blank
+                    assign label_text = block.settings.text
+                  endif
+                  if label_text == blank and block.settings.vendor_fallback
+                    assign label_text = product.vendor
+                  endif
+                -%}
+                {%- if label_text != blank -%}
+                  <p class="mpc-block mpc-label" {{ block.shopify_attributes }}>{{ label_text | escape }}</p>
+                {%- endif -%}
+
+              {%- when 'title' -%}
+                <h1 class="mpc-block mpc-title" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
+
+              {%- when 'price' -%}
+                <div class="mpc-block mpc-price" {{ block.shopify_attributes }}>
+                  <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+                  <span class="mpc-price__current" data-mpc-price>{{ current_variant.price | money }}</span>
+                  <s class="mpc-price__compare" data-mpc-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s>
+                  {%- if block.settings.show_badge -%}
+                    <span class="mpc-price__badge" data-mpc-sale-badge {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{{ block.settings.badge_text | escape }}</span>
+                  {%- endif -%}
+                  {%- if block.settings.show_tax and cart.taxes_included -%}
+                    <p class="mpc-price__tax">{{ 'products.product.taxes_included' | t }}</p>
+                  {%- endif -%}
+                </div>
+
+              {%- when 'variant_picker' -%}
+                {%- unless single_variant -%}
+                  {%- liquid
+                    assign swatch_names = block.settings.swatch_options | downcase | split: ','
+                    assign chart_names = block.settings.size_chart_options | downcase | split: ','
+                    assign has_size_chart = false
+                    if product.metafields.custom.size_chart != blank or block.settings.size_chart_page != blank or block.settings.size_chart_content != blank or block.settings.size_chart_image != blank
+                      assign has_size_chart = true
+                    endif
+                  -%}
+                  <div class="mpc-block mpc-variants" data-mpc-variants {{ block.shopify_attributes }}>
+                    {%- for option in product.options_with_values -%}
+                      {%- liquid
+                        assign option_down = option.name | downcase | strip
+                        assign is_swatch = false
+                        for s in swatch_names
+                          assign s_clean = s | strip
+                          if s_clean == option_down
+                            assign is_swatch = true
+                          endif
+                        endfor
+                        assign is_chart = false
+                        for c in chart_names
+                          assign c_clean = c | strip
+                          if c_clean == option_down
+                            assign is_chart = true
+                          endif
+                        endfor
+                        assign option_heading = option.name
+                        if is_chart and block.settings.size_heading != blank
+                          assign option_heading = block.settings.size_heading
+                        endif
+                      -%}
+                      <fieldset class="mpc-option{% if is_swatch %} mpc-option--swatch{% endif %}" data-option-position="{{ option.position }}">
+                        <div class="mpc-option__head">
+                          <legend class="mpc-option__legend">
+                            {{ option_heading | escape }}:
+                            {%- if is_swatch -%}<span class="mpc-option__selected" data-mpc-selected-value>{{ option.selected_value | escape }}</span>{%- endif -%}
+                          </legend>
+                          {%- if is_chart and has_size_chart -%}
+                            <button type="button" class="mpc-option__chart" data-mpc-open-dialog="mpc-sizechart-{{ section.id }}">{{ block.settings.size_chart_label | escape }}</button>
+                          {%- endif -%}
+                        </div>
+                        <div class="mpc-option__values">
+                          {%- for value in option.values -%}
+                            {%- assign value_name = value.name | default: value -%}
+                            {%- assign input_id = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index0 -%}
+                            <input
+                              type="radio"
+                              class="mpc-option__input"
+                              id="{{ input_id }}"
+                              name="mpc-option-{{ section.id }}-{{ option.position }}"
+                              value="{{ value | escape }}"
+                              {% if option.selected_value == value_name %}checked{% endif %}
+                            >
+                            {%- if is_swatch -%}
+                              {%- liquid
+                                assign swatch_img = value.swatch.image
+                                assign opt_index = option.position | minus: 1
+                                if swatch_img == blank
+                                  for v in product.variants
+                                    if v.options[opt_index] == value_name and v.featured_image
+                                      assign swatch_img = v.featured_image
+                                      break
+                                    endif
+                                  endfor
+                                endif
+                              -%}
+                              <label for="{{ input_id }}" class="mpc-swatch" title="{{ value | escape }}">
+                                {%- if swatch_img != blank -%}
+                                  {{ swatch_img | image_url: width: 160 | image_tag: loading: 'lazy', alt: value_name }}
+                                {%- elsif value.swatch.color -%}
+                                  <span class="mpc-swatch__color" style="background: {{ value.swatch.color }};"></span>
+                                {%- else -%}
+                                  <span class="mpc-swatch__text">{{ value | escape }}</span>
+                                {%- endif -%}
+                                <span class="visually-hidden">{{ value | escape }}</span>
+                              </label>
+                            {%- else -%}
+                              <label for="{{ input_id }}" class="mpc-pill">{{ value | escape }}</label>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </div>
+                      </fieldset>
+                    {%- endfor -%}
+                  </div>
+
+                  {%- if has_size_chart -%}
+                    <dialog class="mpc-dialog" id="mpc-sizechart-{{ section.id }}" aria-label="{{ block.settings.size_chart_label | escape }}">
+                      <div class="mpc-dialog__panel">
+                        <div class="mpc-dialog__head">
+                          <h2 class="mpc-dialog__title">{{ block.settings.size_chart_label | escape }}</h2>
+                          <button type="button" class="mpc-dialog__close" data-mpc-close-dialog aria-label="{{ 'accessibility.close' | t }}">{% render 'mpc-icon', name: 'close' %}</button>
+                        </div>
+                        <div class="mpc-dialog__body mpc-rte">
+                          {%- assign chart_mf = product.metafields.custom.size_chart -%}
+                          {%- if chart_mf != blank -%}
+                            {%- case chart_mf.type -%}
+                              {%- when 'page_reference' -%}
+                                {{ chart_mf.value.content }}
+                              {%- when 'file_reference' -%}
+                                {{ chart_mf.value | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600,900,1200,1400' }}
+                              {%- else -%}
+                                {{ chart_mf | metafield_tag }}
+                            {%- endcase -%}
+                          {%- else -%}
+                            {%- if block.settings.size_chart_image != blank -%}
+                              {{ block.settings.size_chart_image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600,900,1200,1400' }}
+                            {%- endif -%}
+                            {{ block.settings.size_chart_content }}
+                            {{ block.settings.size_chart_page.content }}
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </dialog>
+                  {%- endif -%}
+                {%- endunless -%}
+
+              {%- when 'delivery' -%}
+                {%- liquid
+                  assign d_min = product.metafields.custom.delivery_min_days.value | default: block.settings.min_days
+                  assign d_max = product.metafields.custom.delivery_max_days.value | default: block.settings.max_days
+                -%}
+                <div
+                  class="mpc-block mpc-delivery"
+                  data-mpc-delivery
+                  data-min="{{ d_min }}"
+                  data-max="{{ d_max }}"
+                  data-skip="{{ block.settings.skip_days }}"
+                  data-cutoff="{{ block.settings.cutoff_hour }}"
+                  style="--mpc-dot: {{ block.settings.dot_color }};"
+                  {{ block.shopify_attributes }}
+                >
+                  <span class="mpc-delivery__dot" aria-hidden="true"></span>
+                  <span class="mpc-delivery__text">
+                    {{ block.settings.text_before | escape }}
+                    <strong data-mpc-delivery-from></strong>
+                    {{ block.settings.text_between | escape }}
+                    <strong data-mpc-delivery-to></strong>
+                  </span>
+                </div>
+
+              {%- when 'features' -%}
+                {%- assign mf_highlights = product.metafields.custom.highlights.value -%}
+                <ul class="mpc-block mpc-features" role="list" {{ block.shopify_attributes }}>
+                  {%- if mf_highlights != blank -%}
+                    {%- for text in mf_highlights limit: 8 -%}
+                      {%- liquid
+                        assign icon_key = 'icon_' | append: forloop.index
+                        assign img_key = 'icon_image_' | append: forloop.index
+                        assign icon_name = block.settings[icon_key] | default: 'sparkle'
+                        assign icon_img = block.settings[img_key]
+                      -%}
+                      <li class="mpc-features__item">
+                        <span class="mpc-features__icon">
+                          {%- if icon_img != blank -%}{{ icon_img | image_url: width: 64 | image_tag: loading: 'lazy', alt: '' }}{%- else -%}{% render 'mpc-icon', name: icon_name %}{%- endif -%}
+                        </span>
+                        <span>{{ text | escape }}</span>
+                      </li>
+                    {%- endfor -%}
+                  {%- else -%}
+                    {%- for i in (1..6) -%}
+                      {%- liquid
+                        assign text_key = 'text_' | append: i
+                        assign icon_key = 'icon_' | append: i
+                        assign img_key = 'icon_image_' | append: i
+                        assign text = block.settings[text_key]
+                        assign icon_name = block.settings[icon_key]
+                        assign icon_img = block.settings[img_key]
+                      -%}
+                      {%- if text != blank -%}
+                        <li class="mpc-features__item">
+                          <span class="mpc-features__icon">
+                            {%- if icon_img != blank -%}{{ icon_img | image_url: width: 64 | image_tag: loading: 'lazy', alt: '' }}{%- else -%}{% render 'mpc-icon', name: icon_name %}{%- endif -%}
+                          </span>
+                          <span>{{ text }}</span>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                </ul>
+
+              {%- when 'gift_wrap' -%}
+                <label class="mpc-block mpc-gift" {{ block.shopify_attributes }}>
+                  <input
+                    type="checkbox"
+                    class="mpc-gift__input"
+                    form="{{ form_id }}"
+                    name="properties[{{ block.settings.property_name | escape }}]"
+                    value="{{ block.settings.property_value | escape }}"
+                  >
+                  <span class="mpc-gift__check" aria-hidden="true"></span>
+                  <span class="mpc-gift__text">{{ block.settings.text | escape }}</span>
+                  {%- if block.settings.image != blank -%}
+                    <span class="mpc-gift__image">{{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</span>
+                  {%- endif -%}
+                </label>
+
+              {%- when 'buy_buttons' -%}
+                <div class="mpc-block mpc-buy" {{ block.shopify_attributes }}>
+                  <product-form class="mpc-buy__form" data-hide-errors="false">
+                    {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                      <input type="hidden" name="id" value="{{ current_variant.id }}" data-mpc-variant-id>
+                      <div class="mpc-buy__row">
+                        {%- if block.settings.show_quantity -%}
+                          <div class="mpc-qty">
+                            <button type="button" class="mpc-qty__btn" data-mpc-qty="-1" aria-label="{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}">{% render 'mpc-icon', name: 'minus' %}</button>
+                            <input class="mpc-qty__input" type="number" name="quantity" value="1" min="1" aria-label="{{ 'products.product.quantity.label' | t }}">
+                            <button type="button" class="mpc-qty__btn" data-mpc-qty="1" aria-label="{{ 'products.product.quantity.increase' | t: product: product.title | escape }}">{% render 'mpc-icon', name: 'plus' %}</button>
+                          </div>
+                        {%- endif -%}
+                        <button
+                          type="submit"
+                          name="add"
+                          class="mpc-atc"
+                          data-mpc-atc
+                          data-label-add="{{ block.settings.button_label | escape }}"
+                          data-label-soldout="{{ 'products.product.sold_out' | t | escape }}"
+                          data-label-unavailable="{{ 'products.product.unavailable' | t | escape }}"
+                          {% unless current_variant.available %}disabled aria-disabled="true"{% endunless %}
+                        >
+                          {%- render 'mpc-icon', name: 'bag' -%}
+                          <span data-mpc-atc-label>{%- if current_variant.available -%}{{ block.settings.button_label | escape }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
+                          <span class="loading__spinner loading-overlay__spinner hidden"><span class="mpc-spinner"></span></span>
+                        </button>
+                      </div>
+                      {%- if block.settings.show_dynamic_checkout -%}
+                        <div class="mpc-buy__dynamic">{{ form | payment_button }}</div>
+                      {%- endif -%}
+                      <div class="product-form__error-message-wrapper mpc-buy__error" role="alert" hidden>
+                        <span class="product-form__error-message"></span>
+                      </div>
+                    {%- endform -%}
+                  </product-form>
+                </div>
+
+              {%- when 'installments' -%}
+                <div class="mpc-block mpc-installments" {{ block.shopify_attributes }}>
+                  <span>{{ block.settings.text_before | escape }} <strong data-mpc-installment>{{ current_variant.price | divided_by: block.settings.count | money }}</strong> {{ block.settings.text_after | escape }}</span>
+                  {%- if block.settings.logo_1 != blank -%}{{ block.settings.logo_1 | image_url: height: 40 | image_tag: loading: 'lazy', class: 'mpc-installments__logo', alt: block.settings.logo_1.alt }}{%- endif -%}
+                  {%- if block.settings.logo_2 != blank -%}{{ block.settings.logo_2 | image_url: height: 40 | image_tag: loading: 'lazy', class: 'mpc-installments__logo', alt: block.settings.logo_2.alt }}{%- endif -%}
+                </div>
+
+              {%- when 'complete_the_look' -%}
+                {%- render 'mpc-complete-look', block: block, product: product -%}
+
+              {%- when 'trust_badges' -%}
+                {%- render 'mpc-trust-badges', block: block -%}
+
+              {%- when 'text' -%}
+                <div class="mpc-block mpc-text mpc-rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+              {%- when 'description' -%}
+                {%- if product.description != blank -%}
+                  <div class="mpc-block mpc-text mpc-rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
+                {%- endif -%}
+
+              {%- when 'custom_liquid' -%}
+                <div class="mpc-block" {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ============ STICKY ADD TO BAG ============ {%- endcomment -%}
+  {%- assign buy_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
+  {%- if buy_block and buy_block.settings.enable_sticky -%}
+    <div class="mpc-sticky" data-mpc-sticky aria-hidden="true">
+      <div class="mpc-sticky__inner">
+        <p class="mpc-sticky__title">
+          <span>{{ buy_block.settings.sticky_label | escape }}</span>
+          {{ product.title | escape }}<span data-mpc-sticky-variant>{% unless single_variant %} – {{ current_variant.title | escape }}{% endunless %}</span>
+        </p>
+        <button type="submit" form="{{ form_id }}" class="mpc-sticky__btn" data-mpc-sticky-btn tabindex="-1" {% unless current_variant.available %}disabled{% endunless %}>
+          {%- render 'mpc-icon', name: 'bag' -%}
+          <span data-mpc-atc-label>{%- if current_variant.available -%}{{ buy_block.settings.button_label | escape }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <script type="application/json" data-mpc-json>
+    {
+      "singleVariant": {{ single_variant | json }},
+      "variants": [
+        {%- for v in product.variants -%}
+          {
+            "id": {{ v.id }},
+            "title": {{ v.title | json }},
+            "options": {{ v.options | json }},
+            "available": {{ v.available | json }},
+            "price": {{ v.price | money | json }},
+            "compare": {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %},
+            "installment": {{ v.price | divided_by: installment_count | money | json }},
+            "media": {% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+</main-product-custom>
+<script>
+(function(){
+  if (window.__themeRevealInit) { if (window.__themeRevealScan) window.__themeRevealScan(); return; }
+  window.__themeRevealInit = true;
+  var supportsIO = 'IntersectionObserver' in window;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var observer;
+  function reveal(el){ el.classList.add('is-visible'); }
+  function ensureObserver(){
+    if (observer || !supportsIO) return;
+    observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          reveal(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+  }
+  function scan(root){
+    root = (root && root.querySelectorAll) ? root : document;
+    var els = root.querySelectorAll('.reveal-fade:not(.is-visible):not([data-reveal-bound])');
+    els.forEach(function(el){
+      el.setAttribute('data-reveal-bound', 'true');
+      if (!supportsIO || reduceMotion){ reveal(el); return; }
+      ensureObserver();
+      observer.observe(el);
+    });
+  }
+  window.__themeRevealScan = scan;
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ scan(); });
+  } else {
+    scan();
+  }
+  document.addEventListener('shopify:section:load', function(e){ scan(e.target); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Custom product info",
+  "tag": "section",
+  "class": "section-main-product-custom",
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "gallery_position",
+      "label": "Gallery position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "info_width",
+      "label": "Product info width",
+      "min": 30,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 38
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_info",
+      "label": "Keep product info sticky while scrolling",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Main image ratio",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "select",
+      "id": "thumb_shape",
+      "label": "Thumbnail shape",
+      "options": [
+        {
+          "value": "circle",
+          "label": "Circle"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_thumbs_mobile",
+      "label": "Hide thumbnails on mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Button background",
+      "default": "#202259"
+    },
+    {
+      "type": "color",
+      "id": "accent_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_bg",
+      "label": "Box background",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Divider lines",
+      "default": "#e3e3e3"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding (mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding (mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "rating",
+      "name": "Rating stars",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Uses the standard product review metafields (reviews.rating / reviews.rating_count) filled by Judge.me and other review apps."
+        },
+        {
+          "type": "text",
+          "id": "reviews_label",
+          "label": "Reviews label",
+          "default": "Reviews"
+        },
+        {
+          "type": "text",
+          "id": "reviews_anchor",
+          "label": "Link target",
+          "info": "Anchor of the reviews widget further down the page.",
+          "default": "#judgeme_product_reviews"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_empty",
+          "label": "Show when product has no reviews",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "label",
+      "name": "Collection label",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the product metafield custom.collection_label. Falls back to the text below, then to the vendor."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Fallback text"
+        },
+        {
+          "type": "checkbox",
+          "id": "vendor_fallback",
+          "label": "Use vendor when empty",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_badge",
+          "label": "Show sale badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Sale badge text",
+          "default": "Sale"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_tax",
+          "label": "Show tax note",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "swatch_options",
+          "label": "Options shown as image swatches",
+          "info": "Comma separated option names. Swatches use the variant image.",
+          "default": "Color,Colour"
+        },
+        {
+          "type": "header",
+          "content": "Size chart"
+        },
+        {
+          "type": "text",
+          "id": "size_chart_options",
+          "label": "Options that show the size chart link",
+          "info": "Comma separated option names.",
+          "default": "Size,Ring size"
+        },
+        {
+          "type": "text",
+          "id": "size_heading",
+          "label": "Size option heading",
+          "info": "Leave empty to use the option name.",
+          "default": "Select your size"
+        },
+        {
+          "type": "text",
+          "id": "size_chart_label",
+          "label": "Size chart link label",
+          "default": "Size chart"
+        },
+        {
+          "type": "paragraph",
+          "content": "Product metafield custom.size_chart overrides the content below for individual products."
+        },
+        {
+          "type": "image_picker",
+          "id": "size_chart_image",
+          "label": "Size chart image"
+        },
+        {
+          "type": "richtext",
+          "id": "size_chart_content",
+          "label": "Size chart text"
+        },
+        {
+          "type": "page",
+          "id": "size_chart_page",
+          "label": "Size chart page"
+        }
+      ]
+    },
+    {
+      "type": "delivery",
+      "name": "Delivery estimate",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Product metafields custom.delivery_min_days and custom.delivery_max_days override these values."
+        },
+        {
+          "type": "range",
+          "id": "min_days",
+          "label": "Minimum business days",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "max_days",
+          "label": "Maximum business days",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "select",
+          "id": "skip_days",
+          "label": "Non-delivery days",
+          "options": [
+            {
+              "value": "",
+              "label": "None"
+            },
+            {
+              "value": "0",
+              "label": "Sunday"
+            },
+            {
+              "value": "5",
+              "label": "Friday"
+            },
+            {
+              "value": "0,6",
+              "label": "Saturday & Sunday"
+            },
+            {
+              "value": "5,6",
+              "label": "Friday & Saturday"
+            }
+          ],
+          "default": "0"
+        },
+        {
+          "type": "range",
+          "id": "cutoff_hour",
+          "label": "Same-day dispatch cut-off hour",
+          "info": "Orders after this hour count from the next day.",
+          "min": 0,
+          "max": 24,
+          "step": 1,
+          "default": 24
+        },
+        {
+          "type": "text",
+          "id": "text_before",
+          "label": "Text before",
+          "default": "Delivery from"
+        },
+        {
+          "type": "text",
+          "id": "text_between",
+          "label": "Text between",
+          "default": "to"
+        },
+        {
+          "type": "color",
+          "id": "dot_color",
+          "label": "Dot color",
+          "default": "#3ec46d"
+        }
+      ]
+    },
+    {
+      "type": "features",
+      "name": "Feature list",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Product metafield custom.highlights (list of single line text) overrides the texts below; icons 1–6 are reused in order."
+        },
+        {
+          "type": "header",
+          "content": "Item 1"
+        },
+        {
+          "type": "select",
+          "id": "icon_1",
+          "label": "Icon",
+          "default": "feather",
+          "options": [
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "resize",
+              "label": "Resize"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_1",
+          "label": "Custom icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_1",
+          "label": "Text",
+          "default": "Lightweight & comfortable for daily wear"
+        },
+        {
+          "type": "header",
+          "content": "Item 2"
+        },
+        {
+          "type": "select",
+          "id": "icon_2",
+          "label": "Icon",
+          "default": "moon",
+          "options": [
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "resize",
+              "label": "Resize"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_2",
+          "label": "Custom icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_2",
+          "label": "Text",
+          "default": "Inspired by crescent moons & starlit skies"
+        },
+        {
+          "type": "header",
+          "content": "Item 3"
+        },
+        {
+          "type": "select",
+          "id": "icon_3",
+          "label": "Icon",
+          "default": "resize",
+          "options": [
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "resize",
+              "label": "Resize"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_3",
+          "label": "Custom icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_3",
+          "label": "Text",
+          "default": "Easily adjustable to fit every size"
+        },
+        {
+          "type": "header",
+          "content": "Item 4"
+        },
+        {
+          "type": "select",
+          "id": "icon_4",
+          "label": "Icon",
+          "default": "leaf",
+          "options": [
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "resize",
+              "label": "Resize"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_4",
+          "label": "Custom icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_4",
+          "label": "Text",
+          "default": "Hypoallergenic materials for everyday comfort"
+        },
+        {
+          "type": "header",
+          "content": "Item 5"
+        },
+        {
+          "type": "select",
+          "id": "icon_5",
+          "label": "Icon",
+          "default": "layers",
+          "options": [
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "resize",
+              "label": "Resize"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_5",
+          "label": "Custom icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_5",
+          "label": "Text",
+          "default": "Perfect for stacking or wearing solo"
+        },
+        {
+          "type": "header",
+          "content": "Item 6"
+        },
+        {
+          "type": "select",
+          "id": "icon_6",
+          "label": "Icon",
+          "default": "gift",
+          "options": [
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "moon",
+              "label": "Moon"
+            },
+            {
+              "value": "resize",
+              "label": "Resize"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "ruler",
+              "label": "Ruler"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_6",
+          "label": "Custom icon"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_6",
+          "label": "Text",
+          "default": "Ideal for gifting for any occasion"
+        }
+      ]
+    },
+    {
+      "type": "gift_wrap",
+      "name": "Gift wrapping",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "When ticked, the choice is saved on the cart line as a line item property."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Label",
+          "default": "Complimentary gift wrapping"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "property_name",
+          "label": "Line item property name",
+          "default": "Gift wrapping"
+        },
+        {
+          "type": "text",
+          "id": "property_value",
+          "label": "Line item property value",
+          "default": "Yes"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Add to bag"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "label": "Show quantity selector",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout buttons",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Sticky bar"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_sticky",
+          "label": "Show sticky add to bag bar",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "sticky_label",
+          "label": "Sticky bar prefix",
+          "default": "Selected:"
+        }
+      ]
+    },
+    {
+      "type": "installments",
+      "name": "Installments",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "count",
+          "label": "Number of payments",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "default": 4
+        },
+        {
+          "type": "text",
+          "id": "text_before",
+          "label": "Text before amount",
+          "default": "4 interest-free payments of"
+        },
+        {
+          "type": "text",
+          "id": "text_after",
+          "label": "Text after amount",
+          "default": "using"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_1",
+          "label": "Logo 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_2",
+          "label": "Logo 2"
+        }
+      ]
+    },
+    {
+      "type": "complete_the_look",
+      "name": "Complete the look",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Product metafield custom.complete_the_look (list of products) overrides the products below."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Complete the look"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products",
+          "limit": 12
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "label": "Image ratio",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "1",
+              "label": "Square (1:1)"
+            },
+            {
+              "value": "1.1",
+              "label": "Portrait (tall, current default)"
+            },
+            {
+              "value": "1.25",
+              "label": "Portrait (4:5)"
+            },
+            {
+              "value": "1.333333",
+              "label": "Portrait (3:4)"
+            },
+            {
+              "value": "0.75",
+              "label": "Landscape (4:3)"
+            }
+          ],
+          "default": "1.1"
+        },
+        {
+          "type": "select",
+          "id": "image_fit",
+          "label": "Image fit",
+          "options": [
+            {
+              "value": "cover",
+              "label": "Cover (fill and crop, uniform size)"
+            },
+            {
+              "value": "contain",
+              "label": "Contain (show full image, may vary in size)"
+            }
+          ],
+          "default": "cover"
+        },
+        {
+          "type": "text",
+          "id": "add_label",
+          "label": "Add button label",
+          "default": "Add +"
+        },
+        {
+          "type": "text",
+          "id": "choose_label",
+          "label": "Label for products with options",
+          "default": "View"
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Trust badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background",
+          "default": "#f2f2f2"
+        },
+        {
+          "type": "header",
+          "content": "Badge 1"
+        },
+        {
+          "type": "select",
+          "id": "icon_1",
+          "label": "Icon",
+          "default": "shield",
+          "options": [
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_1",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "text_1",
+          "label": "Text",
+          "default": "24 Months Warranty"
+        },
+        {
+          "type": "header",
+          "content": "Badge 2"
+        },
+        {
+          "type": "select",
+          "id": "icon_2",
+          "label": "Icon",
+          "default": "check",
+          "options": [
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_2",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "text_2",
+          "label": "Text",
+          "default": "Easy Exchanges"
+        },
+        {
+          "type": "header",
+          "content": "Badge 3"
+        },
+        {
+          "type": "select",
+          "id": "icon_3",
+          "label": "Icon",
+          "default": "truck",
+          "options": [
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_3",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "text_3",
+          "label": "Text",
+          "default": "Express Delivery"
+        },
+        {
+          "type": "header",
+          "content": "Badge 4"
+        },
+        {
+          "type": "select",
+          "id": "icon_4",
+          "label": "Icon",
+          "default": "lock",
+          "options": [
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "box",
+              "label": "Box"
+            },
+            {
+              "value": "lock",
+              "label": "Lock"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image_4",
+          "label": "Custom icon"
+        },
+        {
+          "type": "text",
+          "id": "text_4",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "Accordion (under gallery)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Specifications"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Open by default",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Product metafield (namespace.key)",
+          "info": "e.g. custom.specifications. Used first when the product has a value."
+        },
+        {
+          "type": "checkbox",
+          "id": "use_description",
+          "label": "Use product description",
+          "default": false
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Content from page"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Text block</p>"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

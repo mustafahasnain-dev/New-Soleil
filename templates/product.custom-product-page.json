@@ -1,0 +1,248 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product-custom",
+      "blocks": {
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "reviews_label": "Reviews",
+            "reviews_anchor": "#judgeme_product_reviews",
+            "show_empty": false
+          }
+        },
+        "label": {
+          "type": "label",
+          "settings": {
+            "text": "",
+            "vendor_fallback": true
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_badge": true,
+            "badge_text": "Sale",
+            "show_tax": false
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "swatch_options": "Color,Colour",
+            "size_chart_options": "Size,Ring size",
+            "size_heading": "Select your size",
+            "size_chart_label": "Size chart",
+            "size_chart_content": "",
+            "size_chart_page": ""
+          }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {
+            "min_days": 1,
+            "max_days": 3,
+            "skip_days": "0",
+            "cutoff_hour": 24,
+            "text_before": "Delivery from",
+            "text_between": "to",
+            "dot_color": "#3ec46d"
+          }
+        },
+        "features": {
+          "type": "features",
+          "settings": {
+            "icon_1": "feather",
+            "text_1": "Lightweight & comfortable for daily wear",
+            "icon_2": "moon",
+            "text_2": "Inspired by crescent moons & starlit skies",
+            "icon_3": "resize",
+            "text_3": "Easily adjustable to fit every size",
+            "icon_4": "leaf",
+            "text_4": "Hypoallergenic materials for everyday comfort",
+            "icon_5": "layers",
+            "text_5": "Perfect for stacking or wearing solo",
+            "icon_6": "gift",
+            "text_6": "Ideal for gifting for any occasion"
+          }
+        },
+        "gift_wrap": {
+          "type": "gift_wrap",
+          "settings": {
+            "text": "Complimentary gift wrapping",
+            "image": "shopify://shop_images/SOLEIL_Luxury_Gift_Box_Still_Life-removebg-preview.png",
+            "property_name": "Gift wrapping",
+            "property_value": "Yes"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "button_label": "Add to bag",
+            "show_quantity": false,
+            "show_dynamic_checkout": false,
+            "enable_sticky": true,
+            "sticky_label": "Selected:"
+          }
+        },
+        "complete_the_look": {
+          "type": "complete_the_look",
+          "settings": {
+            "heading": "Complete the look",
+            "products": [],
+            "image_ratio": "1",
+            "image_fit": "cover",
+            "add_label": "Add +",
+            "choose_label": "View"
+          }
+        },
+        "trust_badges": {
+          "type": "trust_badges",
+          "settings": {
+            "bg_color": "#f2f2f2",
+            "icon_1": "shield",
+            "text_1": "24 Months Warranty",
+            "icon_2": "check",
+            "text_2": "Easy Exchanges",
+            "icon_3": "truck",
+            "text_3": "Express Delivery",
+            "icon_4": "lock",
+            "text_4": ""
+          }
+        },
+        "tab_specs": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Specifications",
+            "open": false,
+            "metafield_key": "custom.specifications",
+            "use_description": true,
+            "content": "",
+            "page": ""
+          }
+        },
+        "tab_shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping and delivery",
+            "open": false,
+            "metafield_key": "",
+            "use_description": false,
+            "content": "<ul><li>Express delivery within 1–3 business days.</li><li>Free shipping on eligible orders.</li><li>Easy exchanges within 7 days of delivery.</li></ul>",
+            "page": ""
+          }
+        },
+        "tab_warranty": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "24 months warranty",
+            "open": false,
+            "metafield_key": "",
+            "use_description": false,
+            "content": "<p>Every piece is covered by a 24 month warranty against manufacturing defects. Keep your order number handy and contact our team for assistance.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "rating",
+        "label",
+        "title",
+        "price",
+        "variant_picker",
+        "delivery",
+        "features",
+        "gift_wrap",
+        "buy_buttons",
+        "complete_the_look",
+        "trust_badges",
+        "tab_specs",
+        "tab_shipping",
+        "tab_warranty"
+      ],
+      "settings": {
+        "gallery_position": "left",
+        "info_width": 38,
+        "sticky_info": true,
+        "image_ratio": "square",
+        "thumb_shape": "circle",
+        "hide_thumbs_mobile": true,
+        "accent_color": "#202259",
+        "accent_text_color": "#ffffff",
+        "muted_bg": "#f2f2f2",
+        "line_color": "#e3e3e3",
+        "padding_top": 32,
+        "padding_bottom": 64,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "story_rows": {
+      "type": "product-story-rows",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "heading": "Inspired by crescent moons & starlit skies",
+            "text": "<p>Drawing from the soft shimmer of stars and the delicate curve of the moon, the collection brings celestial beauty into everyday wear. Each piece captures a quiet glow, designed to reflect the stillness and sparkle of night.</p>",
+            "bg_color": ""
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/band-ring.webp",
+            "heading": "Lightweight & comfortable for daily wear",
+            "text": "<p>Designed to feel light, effortless and radiant, each piece is crafted from hypoallergenic materials and finished with luminous crystals for lasting comfort. Whether you're getting ready for a quiet evening or a busy day, it moves with you.</p>",
+            "bg_color": ""
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/SOLEIL_Luxury_Gift_Box_Still_Life.png",
+            "heading": "Signature packaging, perfect for gifting",
+            "text": "<p>Every piece arrives in our premium gift box, making it an unforgettable present for birthdays, graduations and other special occasions.</p>",
+            "bg_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3"
+      ],
+      "settings": {
+        "use_metafield": true,
+        "heading": "",
+        "layout": "right",
+        "image_ratio": "landscape",
+        "radius": 8,
+        "bg_odd": "#ffffff",
+        "bg_even": "#f2f2f2",
+        "padding": 60,
+        "padding_mobile": 36
+      }
+    },
+    "reviews": {
+      "type": "apps",
+      "blocks": {},
+      "block_order": [],
+      "settings": {}
+    },
+    "recommendations": {
+      "type": "related-products",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "story_rows",
+    "reviews",
+    "recommendations"
+  ]
+}

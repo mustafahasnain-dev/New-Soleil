@@ -1,0 +1,128 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-image",
+      "blocks": {
+        "slide_PtLp6R": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Jory_Glow_new_arrival_7e73aa1b-e21f-4e91-97b5-172dc1bfdfee.png",
+            "image_mobile": "shopify://shop_images/m1.webp",
+            "url": "",
+            "link_title": ""
+          }
+        },
+        "slide_nxHLFm": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/AL_7ob_bf9eb87f-911e-4c7e-905a-2205d49f7ed7.png",
+            "image_mobile": "shopify://shop_images/m3.webp",
+            "url": "",
+            "link_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_PtLp6R",
+        "slide_nxHLFm"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Jory_Glow_new_arrival.png",
+        "url": "",
+        "link_title": "",
+        "autoplay": true,
+        "autoplay_time": 5,
+        "show_arrows": true,
+        "show_dots": true,
+        "height_type": "adapt",
+        "height_desktop": 700,
+        "height_mobile": 500,
+        "image_position": "center",
+        "border_radius": 0,
+        "top_spacing": "none"
+      }
+    },
+    "toggle": {
+      "type": "collection-toggle",
+      "settings": {
+        "label_1": "Womens",
+        "collection_1": "best-sellers",
+        "label_2": "Mens",
+        "collection_2": "",
+        "default_tab": "1",
+        "remember": true,
+        "heading": "",
+        "heading_size": "h3",
+        "product_limit": 8,
+        "grid": 4,
+        "mobile_grid": "2",
+        "image_ratio": "portrait",
+        "show_vendor": false,
+        "show_rating": true,
+        "link_name": "View all",
+        "color_track": "#ececf1",
+        "color_thumb": "#ffffff",
+        "color_active_text": "#000000",
+        "color_inactive_text": "#a3a3ad",
+        "top_spacing": "normal"
+      }
+    },
+    "best_sellers": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Best Sellers",
+        "collection": "best-sellers",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "columns_mobile": "2"
+      }
+    },
+    "new_arrivals": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "New Arrivals",
+        "collection": "new-arrivals",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "columns_mobile": "2"
+      }
+    },
+    "about": {
+      "type": "custom-aboutus",
+      "settings": {
+        "image": "shopify://shop_images/Soleil_Gold_Jewelry_in_Sunlight_6dca5306-844f-4275-a34f-d7ce547f35b9.webp",
+        "mobile_ratio": "4 / 3",
+        "mobile_focus": "25%",
+        "subheading": "Jewellery with a story",
+        "heading": "About SOLEIL",
+        "text": "<p>At SOLEIL, we create jewellery that celebrates timeless elegance, individuality and meaningful moments. Inspired by beauty, culture and the world around us, each piece is thoughtfully designed to bring a refined touch to everyday life and special occasions.</p>",
+        "button_label": "Discover Soleil",
+        "button_link": "",
+        "text_position": "right",
+        "content_offset": 61,
+        "content_width": 29,
+        "min_height": 460,
+        "width": "full",
+        "border_radius": 0,
+        "top_spacing": "normal",
+        "color_text": "#202259",
+        "color_background": "#f6efe6",
+        "color_button": "#202259",
+        "color_button_text": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "toggle",
+    "best_sellers",
+    "new_arrivals",
+    "about"
+  ]
+}

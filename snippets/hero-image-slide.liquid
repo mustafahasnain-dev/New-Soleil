@@ -1,0 +1,71 @@
+{%- comment -%}
+  One slide of the "Hero image" section (image or muted looping video, optional link).
+  Accepts: image, image_mobile, video, video_mobile, link, link_title, first, attrs
+{%- endcomment -%}
+{%- liquid
+  assign has_mobile = false
+  if image_mobile != blank or video_mobile != blank
+    assign has_mobile = true
+  endif
+  assign loading = 'lazy'
+  if first
+    assign loading = 'eager'
+  endif
+-%}
+{%- if link != blank -%}
+<a class="hero-image{% if has_mobile %} hero-image--has-mobile{% endif %}" href="{{ link }}"{% if link_title != blank %} aria-label="{{ link_title | escape }}"{% endif %} {{ attrs }}>
+{%- else -%}
+<div class="hero-image{% if has_mobile %} hero-image--has-mobile{% endif %}" {{ attrs }}>
+{%- endif -%}
+
+  {%- comment -%} Desktop media {%- endcomment -%}
+  {%- if video != blank -%}
+    <div class="hero-image__desktop">
+      {{ video | video_tag: image_size: '1920x', autoplay: first, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata' }}
+    </div>
+  {%- elsif image != blank -%}
+    <img
+      class="hero-image__desktop"
+      src="{{ image | image_url: width: 1920 }}"
+      srcset="{% if image.width >= 750 %}{{ image | image_url: width: 750 }} 750w,{% endif %}
+              {% if image.width >= 1100 %}{{ image | image_url: width: 1100 }} 1100w,{% endif %}
+              {% if image.width >= 1500 %}{{ image | image_url: width: 1500 }} 1500w,{% endif %}
+              {% if image.width >= 1920 %}{{ image | image_url: width: 1920 }} 1920w,{% endif %}
+              {% if image.width >= 2560 %}{{ image | image_url: width: 2560 }} 2560w,{% endif %}
+              {{ image | image_url }} {{ image.width }}w"
+      sizes="100vw"
+      width="{{ image.width }}"
+      height="{{ image.height }}"
+      alt="{{ image.alt | escape }}"
+      loading="{{ loading }}"
+      {% if first %}fetchpriority="high"{% endif %}
+    >
+  {%- else -%}
+    <div class="hero-image__desktop placeholder__svg--bg" style="--aspect-ratio:1.777777;">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Mobile media (optional) {%- endcomment -%}
+  {%- if video_mobile != blank -%}
+    <div class="hero-image__mobile">
+      {{ video_mobile | video_tag: image_size: '1000x', autoplay: first, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata' }}
+    </div>
+  {%- elsif image_mobile != blank -%}
+    <img
+      class="hero-image__mobile"
+      src="{{ image_mobile | image_url: width: 1000 }}"
+      srcset="{% if image_mobile.width >= 500 %}{{ image_mobile | image_url: width: 500 }} 500w,{% endif %}
+              {% if image_mobile.width >= 750 %}{{ image_mobile | image_url: width: 750 }} 750w,{% endif %}
+              {% if image_mobile.width >= 1000 %}{{ image_mobile | image_url: width: 1000 }} 1000w,{% endif %}
+              {{ image_mobile | image_url }} {{ image_mobile.width }}w"
+      sizes="100vw"
+      width="{{ image_mobile.width }}"
+      height="{{ image_mobile.height }}"
+      alt="{{ image_mobile.alt | escape }}"
+      loading="{{ loading }}"
+      {% if first %}fetchpriority="high"{% endif %}
+    >
+  {%- endif -%}
+
+{%- if link != blank -%}</a>{%- else -%}</div>{%- endif -%}

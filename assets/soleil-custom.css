@@ -1,0 +1,14 @@
+/* Helpers used by the Soleil custom sections */
+.top-spacing-none { margin-top: 0; }
+.top-spacing-small { margin-top: 2rem; }
+.top-spacing-medium { margin-top: 4rem; }
+.top-spacing-normal { margin-top: 6rem; }
+@media (min-width: 990px) {
+  .top-spacing-small { margin-top: 3rem; }
+  .top-spacing-medium { margin-top: 5rem; }
+  .top-spacing-normal { margin-top: 8rem; }
+}
+.unstyle-ul { list-style: none; margin: 0; padding: 0; }
+.placeholder__svg--bg { aspect-ratio: var(--aspect-ratio, 1.78); background: rgba(var(--color-foreground), 0.06); }
+.placeholder__svg--bg svg { display: block; width: 100%; height: 100%; }
+.custom-aboutus, .custom-footer, .collection-hero { font-size: 1.4rem; }

@@ -1,0 +1,40 @@
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      },
+      "disabled": true
+    },
+    "custom_footer": {
+      "type": "custom-footer",
+      "settings": {
+        "tagline": "Timeless jewellery, thoughtfully designed for every moment.",
+        "location_heading": "Our location",
+        "location_text": "<p>Yas Mall, Abu Dhabi</p>",
+        "menu_heading": "Quick links",
+        "menu": "footer"
+      }
+    }
+  },
+  "order": [
+    "custom_footer",
+    "footer"
+  ]
+}
