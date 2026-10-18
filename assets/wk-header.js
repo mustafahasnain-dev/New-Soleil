@@ -380,7 +380,7 @@ class ModalDialog extends HTMLElement {
   connectedCallback() {
     if (this.moved) return;
     this.moved = true;
-    document.body.appendChild(this);
+    (document.getElementById('wk-scope') || document.body).appendChild(this);
   }
 
   /**
