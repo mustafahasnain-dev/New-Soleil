@@ -1,0 +1,49 @@
+#wk-scope .global__tooltip--hover{
+  position:relative;
+}
+#wk-scope .global__tooltip{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+}
+#wk-scope .global__tooltip__content{
+  font-size:10px;
+  line-height:130%;
+  font-weight: var(--font-body-weight);
+  padding:2px 5px 3px;
+  border-radius:var(--radius-tooltip);
+  background:var(--color-tooltip-block, var(--color-tooltip-main));
+  color:var(--color-tooltip-text);
+  width:max-content;
+  opacity:0;
+  transform: translateY(-35px);
+  transition: opacity 500ms, transform 500ms;
+  max-width:240px;
+}
+#wk-scope .global__tooltip--hover:hover .global__tooltip__content{
+  opacity:1;
+  transform: translateY(0px);
+}
+#wk-scope .global__tooltip--hover:has(.global__tooltip__static){
+  display:flex;
+  justify-content:center;
+}
+#wk-scope .global__tooltip__static{
+  top:calc(100% + 8px);
+}
+#wk-scope .global__tooltip__static .global__tooltip__content{
+  transform: translateY(15px);
+}
+@media (min-width:1025px){
+  #wk-scope .product-form__buttons__content__media__item+.global__tooltip .global__tooltip__content:after{
+    content:attr(data-text);
+  }
+  #wk-scope .product-form__buttons__content__media__item.active+.global__tooltip .global__tooltip__content:after{
+    content:attr(data-text-active);
+  }
+}
+@media (max-width:1024px){
+  #wk-scope .global__tooltip{
+    display:none;
+  }
+}

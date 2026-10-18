@@ -65,6 +65,17 @@
 
     {{ content_for_header }}
 
+    {%- comment -%} Header ported from the Wokiee theme, scoped to .wk-scope {%- endcomment -%}
+    {%- render 'wk-head-styles' -%}
+    {%- render 'wk-style-grid' -%}
+    {{ 'wk-dawn-reset.css' | asset_url | stylesheet_tag }}
+    {{ 'wk-base.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'wk-header.js' | asset_url }}" defer="defer"></script>
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'wk-component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+      <script src="{{ 'wk-predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
       assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
@@ -320,6 +331,7 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+    {%- render 'wk-typography' -%}
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
@@ -331,7 +343,9 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
-    {% sections 'header-group' %}
+    <div id="wk-scope" class="wk-scope{% if settings.wk_system_icon_thickness == '-thin.svg' %} icons-are-thin{% endif %}">
+      {% sections 'header-group' %}
+    </div>
 
     <main
       id="MainContent"

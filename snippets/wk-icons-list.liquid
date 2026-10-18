@@ -1,0 +1,61 @@
+{%- liquid
+capture icon 
+capture icon_code
+if settings.wk_system_icon_thickness == "-thin.svg"
+render "wk-icons-list-general-thin", icon_name:icon_name
+else
+render "wk-icons-list-general", icon_name:icon_name
+endif
+endcapture
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-electronics", icon_name:icon_name
+endcapture
+endif
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-vehicle", icon_name:icon_name
+endcapture
+endif
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-clothing", icon_name:icon_name
+endcapture
+endif
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-sports", icon_name:icon_name
+endcapture
+endif
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-pets", icon_name:icon_name
+endcapture
+endif
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-hookah", icon_name:icon_name
+endcapture
+endif
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-fashion", icon_name:icon_name
+endcapture
+endif
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-social", icon_name:icon_name
+endcapture
+endif
+
+if icon_code == blank
+capture icon_code
+render "wk-icons-list-outdoor-gear", icon_name:icon_name
+endcapture
+endif
+
+echo icon_code
+endcapture
+assign icon = icon | replace: '<svg', '<svg class="theme-icon"'
+echo icon
+-%}

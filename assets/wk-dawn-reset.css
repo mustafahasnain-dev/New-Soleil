@@ -1,0 +1,462 @@
+/* Generated: cancels Dawn base.css rules on class names shared with the ported Wokiee header. Load before wk-base.css. */
+@media screen and (min-width: 750px) {
+    .wk-scope .header.page-width {
+        padding-left: unset;
+        padding-right: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header:not(.drawer-menu).page-width {
+        padding-left: unset;
+        padding-right: unset
+    }
+}
+.wk-scope .customer .field input,
+.wk-scope .field__input {
+    font-size: unset;
+    line-height: unset;
+    letter-spacing: unset
+}
+.wk-scope .link {
+    cursor: unset;
+    display: unset;
+    border: unset;
+    box-shadow: unset;
+    text-decoration: unset;
+    text-underline-offset: unset;
+    color: unset;
+    background-color: unset;
+    font-size: unset;
+    font-family: unset
+}
+.wk-scope .disclosure-has-popup {
+    position: unset
+}
+.wk-scope .disclosure-has-popup[open] > summary::before {
+    position: unset;
+    top: unset;
+    right: unset;
+    bottom: unset;
+    left: unset;
+    z-index: unset;
+    display: unset;
+    cursor: unset;
+    content: unset;
+    background: unset
+}
+.wk-scope .disclosure-has-popup > summary::before {
+    display: unset
+}
+.wk-scope .disclosure-has-popup[open] > summary + * {
+    z-index: unset
+}
+@media screen and (min-width: 750px) {
+    .wk-scope .disclosure-has-popup[open] > summary + * {
+        z-index: unset
+    }
+}
+@media screen and (min-width: 750px) {
+    .wk-scope .facets .disclosure-has-popup[open] > summary + * {
+        z-index: unset
+    }
+}
+.wk-scope .title .link {
+    font-size: unset
+}
+.wk-scope .button.loading > .loading__spinner .spinner {
+    width: unset
+}
+.wk-scope .button.loading > .loading__spinner .path {
+    stroke: unset
+}
+.wk-scope .field:not(:focus-visible):not(.focused) + .share-button__copy:not(:focus-visible):not(.focused),
+.wk-scope .field:not(:focus-visible):not(.focused) + .share-button__close:not(:focus-visible):not(.focused) {
+    background-color: unset
+}
+.wk-scope .share-button__fallback .field:after,
+.wk-scope .share-button__fallback .field:before {
+    content: unset
+}
+.wk-scope .share-button__fallback .field {
+    border-radius: unset;
+    min-width: unset;
+    min-height: unset;
+    transition: unset
+}
+.wk-scope .share-button__fallback .field__input:focus,
+.wk-scope .share-button__fallback .field__input:-webkit-autofill {
+    outline: unset;
+    outline-offset: unset;
+    box-shadow: unset
+}
+.wk-scope .share-button__fallback .field__input {
+    box-shadow: unset;
+    text-overflow: unset;
+    white-space: unset;
+    overflow: unset;
+    filter: unset;
+    min-width: unset;
+    min-height: unset
+}
+.wk-scope .share-button__fallback .field__input:hover {
+    box-shadow: unset
+}
+.wk-scope .field__input,
+.wk-scope .customer .field input {
+    -webkit-appearance: unset;
+    appearance: unset;
+    background-color: unset;
+    color: unset;
+    font-family: unset;
+    font-style: unset;
+    font-weight: unset;
+    font-size: unset;
+    width: unset;
+    box-sizing: unset;
+    transition: unset;
+    border-radius: unset;
+    height: unset;
+    min-height: unset;
+    min-width: unset;
+    position: unset;
+    border: unset
+}
+.wk-scope .field:before,
+.wk-scope .customer .field:before {
+    pointer-events: unset;
+    content: unset;
+    position: unset;
+    top: unset;
+    right: unset;
+    bottom: unset;
+    left: unset;
+    border-radius: unset;
+    box-shadow: unset;
+    z-index: unset
+}
+.wk-scope .field:after,
+.wk-scope .customer .field:after {
+    pointer-events: unset;
+    content: unset;
+    position: unset;
+    top: unset;
+    right: unset;
+    bottom: unset;
+    left: unset;
+    border: unset;
+    border-radius: unset;
+    box-shadow: unset;
+    transition: unset;
+    z-index: unset
+}
+.wk-scope .field:hover.field:after,
+.wk-scope .customer .field:hover.field:after {
+    box-shadow: unset;
+    outline: unset;
+    border-radius: unset
+}
+.wk-scope .field__input:focus-visible,
+.wk-scope .customer .field input:focus-visible {
+    box-shadow: unset;
+    outline: unset;
+    border-radius: unset
+}
+.wk-scope .field__input:focus,
+.wk-scope .customer .field input:focus {
+    box-shadow: unset;
+    outline: unset;
+    border-radius: unset
+}
+.wk-scope .field {
+    position: unset;
+    width: unset;
+    display: unset;
+    transition: unset
+}
+.wk-scope .customer .field {
+    display: unset
+}
+.wk-scope .field__input,
+.wk-scope .customer .field input {
+    flex-grow: unset;
+    text-align: unset;
+    padding: unset;
+    margin: unset;
+    transition: unset
+}
+.wk-scope .field__label,
+.wk-scope .customer .field label {
+    font-size: unset;
+    left: unset;
+    top: unset;
+    margin-bottom: unset;
+    pointer-events: unset;
+    position: unset;
+    transition: unset;
+    color: unset;
+    letter-spacing: unset;
+    line-height: unset
+}
+.wk-scope .field__input:focus ~ .field__label,
+.wk-scope .field__input:not(:placeholder-shown) ~ .field__label,
+.wk-scope .field__input:-webkit-autofill ~ .field__label,
+.wk-scope .customer .field input:focus ~ label,
+.wk-scope .customer .field input:not(:placeholder-shown) ~ label,
+.wk-scope .customer .field input:-webkit-autofill ~ label {
+    font-size: unset;
+    top: unset;
+    left: unset;
+    letter-spacing: unset
+}
+.wk-scope .field__input:focus,
+.wk-scope .field__input:not(:placeholder-shown),
+.wk-scope .field__input:-webkit-autofill,
+.wk-scope .customer .field input:focus,
+.wk-scope .customer .field input:not(:placeholder-shown),
+.wk-scope .customer .field input:-webkit-autofill {
+    padding: unset;
+    margin: unset
+}
+.wk-scope .field__input::-webkit-search-cancel-button,
+.wk-scope .customer .field input::-webkit-search-cancel-button {
+    display: unset
+}
+.wk-scope .field__input::placeholder,
+.wk-scope .customer .field input::placeholder {
+    opacity: unset
+}
+.wk-scope .field__button {
+    align-items: unset;
+    background-color: unset;
+    border: unset;
+    color: unset;
+    cursor: unset;
+    display: unset;
+    height: unset;
+    justify-content: unset;
+    overflow: unset;
+    padding: unset;
+    position: unset;
+    right: unset;
+    top: unset;
+    width: unset
+}
+.wk-scope .field__button > .svg-wrapper {
+    height: unset;
+    width: unset
+}
+.wk-scope .field__input:-webkit-autofill ~ .field__button,
+.wk-scope .field__input:-webkit-autofill ~ .field__label,
+.wk-scope .customer .field input:-webkit-autofill ~ label {
+    color: unset
+}
+.wk-scope .customer .field .form__message {
+    font-size: unset;
+    text-align: unset
+}
+.wk-scope .customer .field .form__message .svg-wrapper {
+    align-self: unset
+}
+.wk-scope .form-status-list .link::first-letter {
+    text-transform: unset
+}
+.wk-scope .modal__close-button.link {
+    display: unset;
+    justify-content: unset;
+    align-items: unset;
+    padding: unset;
+    height: unset;
+    width: unset;
+    background-color: unset
+}
+.wk-scope .cart-count-bubble:empty {
+    display: unset
+}
+.wk-scope .cart-count-bubble {
+    position: unset;
+    background-color: unset;
+    color: unset;
+    height: unset;
+    width: unset;
+    border-radius: unset;
+    display: unset;
+    justify-content: unset;
+    align-items: unset;
+    font-size: unset;
+    bottom: unset;
+    left: unset;
+    line-height: unset
+}
+.wk-scope .utility-bar .localization-wrapper .disclosure__link {
+    font-size: unset
+}
+@media screen and (min-width: 990px) {
+    .wk-scope body:has(.section-header .header:not(.drawer-menu)) .utility-bar .page-width {
+        padding-left: unset;
+        padding-right: unset
+    }
+}
+.wk-scope .header {
+    display: unset;
+    grid-template-areas: unset;
+    grid-template-columns: unset;
+    align-items: unset
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header {
+        grid-template-columns: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header--middle-center a.header__heading-link {
+        text-align: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header:not(.header--middle-left, .header--middle-center) .header__inline-menu {
+        margin-top: unset
+    }
+}
+.wk-scope .header *[tabindex='-1']:focus {
+    outline: unset
+}
+.wk-scope .header__heading {
+    margin: unset;
+    line-height: unset
+}
+.wk-scope .header > .header__heading-link {
+    line-height: unset
+}
+.wk-scope .header__heading,
+.wk-scope .header__heading-link {
+    grid-area: unset;
+    justify-self: unset
+}
+.wk-scope .header__heading-link {
+    display: unset;
+    padding: unset;
+    text-decoration: unset;
+    word-break: unset
+}
+.wk-scope .header__heading-link:hover .h2 {
+    color: unset
+}
+.wk-scope .header__heading-link .h2 {
+    line-height: unset;
+    color: unset
+}
+.wk-scope .header__heading-logo {
+    height: unset;
+    max-width: unset
+}
+@media screen and (max-width: 989px) {
+    .wk-scope .header__heading,
+.wk-scope .header__heading-link {
+        text-align: unset
+    }
+}
+@media screen and (max-width: 989px) {
+    .wk-scope .header--mobile-left .header__heading,
+.wk-scope .header--mobile-left .header__heading-link {
+        text-align: unset;
+        justify-self: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header--middle-left .header__heading-link,
+.wk-scope .header--top-left .header__heading-link {
+        margin-left: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header__heading,
+.wk-scope .header__heading-link {
+        justify-self: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header--middle-center .header__heading-link,
+.wk-scope .header--middle-center .header__heading {
+        justify-self: unset;
+        text-align: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header--top-center .header__heading-link,
+.wk-scope .header--top-center .header__heading {
+        justify-self: unset;
+        text-align: unset
+    }
+}
+.wk-scope .header__icons {
+    display: unset;
+    grid-area: unset;
+    justify-self: unset;
+    padding-right: unset
+}
+.wk-scope .header__icons .shopify-app-block {
+    max-width: unset;
+    max-height: unset;
+    overflow: unset
+}
+.wk-scope .header > .header__search {
+    grid-area: unset;
+    justify-self: unset
+}
+.wk-scope .header:not(.header--has-menu) * > .header__search {
+    display: unset
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header:not(.header--top-center) * > .header__search {
+        display: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header:not(.header--top-center) > .header__search {
+        display: unset
+    }
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header--has-account .header__icons > .header__search {
+        display: unset
+    }
+}
+@media screen and (max-width: 989px) {
+    .wk-scope .header--has-account.header--has-menu:not(.header--mobile-left):not(.header--has-app)
+    .header__icons
+    > .header__search {
+        display: unset
+    }
+}
+.wk-scope .header--top-center .header__heading-link {
+    margin-left: unset
+}
+@media screen and (min-width: 990px) {
+    .wk-scope .header--top-center .header__inline-menu > .list-menu--inline {
+        justify-content: unset
+    }
+}
+.wk-scope .header__submenu.list-menu {
+    padding: unset
+}
+@media (forced-colors: active) {
+    .wk-scope .field__input:focus,
+.wk-scope .customer .field input:focus {
+        outline: unset
+    }
+}
+.wk-scope .spinner {
+    animation: unset
+}
+.wk-scope .path {
+    stroke-dasharray: unset;
+    stroke-dashoffset: unset;
+    transform-origin: unset;
+    stroke: unset;
+    animation: unset
+}
+@media screen and (forced-colors: active) {
+    .wk-scope .path {
+        stroke: unset
+    }
+}

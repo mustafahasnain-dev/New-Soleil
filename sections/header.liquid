@@ -414,7 +414,8 @@
           </a>
           <div class="header__phone-panel">
             <ul class="list-unstyled header__phone-list">
-              {%- for phone in section.settings.phone_list | split: ',' -%}
+              {%- assign phone_list = section.settings.phone_list | split: ',' -%}
+              {%- for phone in phone_list -%}
                 {%- assign phone = phone | strip -%}
                 <li>
                   <a href="tel:{{ phone | remove: ' ' }}" class="link link--text">{{ phone_icon }}<span>T: {{ phone }}</span></a>

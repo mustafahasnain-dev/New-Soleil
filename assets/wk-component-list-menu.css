@@ -1,0 +1,83 @@
+#wk-scope .list-menu{
+  display: flex;
+  flex-wrap:wrap;
+}
+#wk-scope .list-menu li:not(.megamenu-container){position: relative;}
+#wk-scope .list-menu > ul > li:not(.megamenu-container){display: inline;}
+#wk-scope .list-menu__item,#wk-scope 
+.list-menu__item>span{
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap:5px;
+}
+#wk-scope .list-menu__item>span>*{
+  margin-left:0;
+}
+#wk-scope .list-menu .list-menu__item{
+  color: var(--color-menu-block, var(--color-base-section, var(--color-base)));
+}
+#wk-scope .list-menu__item svg path{
+  fill: var(--color-menu-block, var(--color-base-section, var(--color-base)));
+}
+#wk-scope .list-menu__item:before{
+  content: "";
+  position: absolute;
+  top:-5px;
+  left: calc(var(--column-gap) / -2);
+  width: calc(100% + var(--column-gap));
+  height: calc(100% + var(--row-gap));
+}
+#wk-scope nav a,#wk-scope nav a:hover{text-decoration: none;}
+#wk-scope .list-menu--hover:hover > .list-menu__item,#wk-scope 
+.list-menu--hover:has(+.megamenu-container:hover) > .list-menu__item,#wk-scope 
+.admin-select-menu-item.list-menu--hover > .list-menu__item,#wk-scope 
+.list-menu .list-menu__item--active{
+  color: var(--color-menu-block-hover, var(--color-accent-section, var(--color-accent)));
+}
+#wk-scope .list-menu--hover:hover > .list-menu__item svg path,#wk-scope 
+.list-menu--hover:has(+.megamenu-container:hover) > .list-menu__item svg path,#wk-scope 
+.admin-select-menu-item.list-menu--hover > .list-menu__item svg path,#wk-scope 
+.list-menu .list-menu__item--active svg path{
+  fill: var(--color-menu-block-hover, var(--color-accent-section, var(--color-accent)));
+}
+#wk-scope .list-menu__item svg{
+  transition: opacity var(--duration-medium) ease;
+  position: relative;
+  top: 1px;
+}
+#wk-scope .list-menu--hover:hover > .list-menu__item svg{
+  opacity: 1;
+}
+#wk-scope .list-menu--secondary{
+  --header__submenu__top-offset: 7px;
+}
+#wk-scope .list-menu--classic{
+  --header__submenu__top-offset: 13px;
+}
+#wk-scope .menu--animation-underline .list-menu__item>span{position: relative;}
+#wk-scope .menu--animation-underline .list-menu__item>span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  left: 0;
+  top: calc(100% + 1px);
+  background: var(--color-menu-block-hover, var(--color-accent-section, var(--color-accent)));
+  transition: width var(--duration-medium) ease;
+}
+#wk-scope .menu--animation-underline .list-menu__item.body2 > span:before{
+  height: 1px;
+}
+#wk-scope .menu--animation-underline li:has(+.megamenu-container:hover) > .list-menu__item > span:before,#wk-scope 
+.menu--animation-underline li:hover > .list-menu__item > span:before,#wk-scope 
+.menu--animation-underline li > .list-menu__item.list-menu__item--active > span:before,#wk-scope 
+.admin-select-menu-item > .list-menu__item > span:before{
+  width: 100%;
+}
+#wk-scope .desktop-main-menu .list-menu__item{
+  font-family: var(--font-mainmenu-family,var(--font-body-family));
+  font-style: var(--font-mainmenu-style,var(--font-body-style));
+  font-weight: 500;
+  font-size: calc(14px * var(--font-mainmenu_scale, var(--font-body-scale)));
+}

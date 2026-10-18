@@ -1,0 +1,87 @@
+{%- render 'wk-style-loader', array:'
+wk-component-dynamic-blocks.css,
+wk-section-banner.css,
+wk-section-blog-post.css,
+wk-section-banners-with-text-outside.css,
+wk-component-price.css,
+wk-component-product-card.css,
+wk-section-grid-of-products.css,
+wk-swiper-bundle.min.css,
+wk-component-swiper-slider.css,
+wk-component-media-video-button.css
+' -%}
+<style>
+#wk-scope{
+
+.megamenu__external-content__js{
+  display:none;
+}
+
+}
+</style>
+<wk-external-megamenucontent data-section-name="megamenu-modules">
+  {% content_for 'blocks' %}
+</wk-external-megamenucontent>
+{% schema %}
+  {
+    "name": "t:header.megamenu_modules",
+    "class": "megamenu__external-content__js",
+    "limit": 1,
+    "settings": [
+      {
+        "type": "select",
+        "id": "image_hover",
+        "options": [
+          {
+            "value": "default",
+            "label": "Basic theme settings"
+          },
+          {
+            "value": "image-hover-none",
+            "label": "Disable"
+          },
+          {
+            "value": "image-hover01",
+            "label": "Zoom in #1"
+          },
+          {
+            "value": "image-hover01 image-hover01-rotate",
+            "label": "Zoom in and rotate"
+          },
+          {
+            "value": "image-hover02",
+            "label": "Zoom in #2"
+          },
+          {
+            "value": "image-hover03",
+            "label": "Zoom out #1"
+          },
+          {
+            "value": "image-hover04",
+            "label": "Zoom out #2"
+          },
+          {
+            "value": "image-hover05",
+            "label": "Slide"
+          },
+          {
+            "value": "image-hover06",
+            "label": "Shine"
+          }
+        ],
+        "default": "default",
+        "label": "Image hover effect"
+      }
+    ],
+    "blocks": [{"type": "wk-megamenu-item"}],
+    "enabled_on": {
+      "groups": ["header"]
+    },
+    "presets": [
+      {
+        "name": "t:header.megamenu_modules",
+        "category": "t:categories.header_extensions"
+      }
+    ]
+  }
+{% endschema %}
