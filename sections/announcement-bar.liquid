@@ -40,10 +40,8 @@
             >
           {%- endif -%}
           <p class="announcement-bar__message h5">
+            <svg class="announcement-bar__diamond" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 21 8 9l4-6 4 6z"/></svg>
             <span>{{ section.blocks.first.settings.text | escape }}</span>
-            {%- if section.blocks.first.settings.link != blank -%}
-              {{- 'icon-arrow.svg' | inline_asset_content -}}
-            {%- endif -%}
           </p>
           {%- if section.blocks.first.settings.link != blank -%}
             </a>
@@ -160,7 +158,58 @@
       {%- endif -%}
     </div>
   </div>
+  <button type="button" class="announcement-bar__close" aria-label="{{ 'accessibility.close' | t }}">
+    <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2.2"><path d="M1 1l12 12M13 1 1 13"/></svg>
+  </button>
 </div>
+
+<style>
+  #shopify-section-{{ section.id }} .utility-bar {
+    position: relative;
+  }
+  #shopify-section-{{ section.id }} .announcement-bar__message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+    padding: 1rem 0;
+    letter-spacing: 0.02rem;
+  }
+  .announcement-bar__diamond {
+    flex-shrink: 0;
+  }
+  .announcement-bar__close {
+    position: absolute;
+    right: 1.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: 0;
+    padding: 0.6rem;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+  }
+  html.announcement-closed #shopify-section-{{ section.id }} {
+    display: none;
+  }
+</style>
+
+<script>
+  (function () {
+    try {
+      if (sessionStorage.getItem('announcementClosed')) document.documentElement.classList.add('announcement-closed');
+    } catch (e) {}
+    document.querySelector('#shopify-section-{{ section.id }} .announcement-bar__close').addEventListener('click', function () {
+      document.documentElement.classList.add('announcement-closed');
+      try {
+        sessionStorage.setItem('announcementClosed', '1');
+      } catch (e) {}
+    });
+  })();
+</script>
 
 {% schema %}
 {

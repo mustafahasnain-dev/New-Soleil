@@ -42,6 +42,11 @@
         "enable_language_selector": false,
         "mobile_logo_position": "center",
         "phone": "+971 50 866 4000",
+        "phone_list": "+971 50 866 4000, +971 50 866 4000",
+        "phone_hours": "Open daily from 08:00 to 19:00",
+        "whatsapp_url": "https://wa.me/971508664000",
+        "whatsapp_heading": "Support on WhatsApp",
+        "whatsapp_text": "Chat with a consultant",
         "margin_bottom": 0,
         "padding_top": 20,
         "padding_bottom": 12

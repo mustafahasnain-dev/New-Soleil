@@ -8,6 +8,8 @@
   onload="this.media='all'"
 >
 
+<link rel="stylesheet" href="{{ 'component-list-social.css' | asset_url }}" media="print" onload="this.media='all'">
+
 {%- if settings.predictive_search_enabled -%}
   <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
@@ -23,10 +25,120 @@
   }
 
   .header__phone {
+    position: relative;
     align-self: center;
-    margin-right: 1.2rem;
-    font-size: 1.4rem;
+    margin-right: 2rem;
+  }
+  .header__phone-main {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.9rem;
     white-space: nowrap;
+    padding: 1rem 0;
+    text-decoration: none;
+  }
+  .header__phone-main .svg-wrapper {
+    width: 1rem;
+    height: 1rem;
+  }
+  .header__phone-panel {
+    position: absolute;
+    top: 100%;
+    left: -9rem;
+    z-index: 10;
+    width: 30rem;
+    padding: 2rem;
+    background: rgb(var(--color-background));
+    box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.6rem);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  }
+  .header__phone:hover .header__phone-panel,
+  .header__phone:focus-within .header__phone-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .header__phone-list a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.3rem 0;
+    font-size: 1.4rem;
+    text-decoration: none;
+  }
+  .header__phone-hours {
+    margin: 0.6rem 0 0;
+    font-size: 1.2rem;
+    color: rgba(var(--color-foreground), 0.65);
+  }
+  .header__phone-panel hr {
+    margin: 2rem 0;
+  }
+  .header__phone-whatsapp {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+  }
+  .header__phone-whatsapp strong {
+    display: block;
+    font-weight: 400;
+    font-size: 1.5rem;
+  }
+  .header__phone-whatsapp small {
+    font-size: 1.2rem;
+    color: rgba(var(--color-foreground), 0.65);
+  }
+  .header__phone-panel .list-social {
+    justify-content: flex-start;
+  }
+  .header__phone-panel .list-social__link {
+    padding: 0 1.6rem 0 0;
+  }
+
+  @media screen and (min-width: 990px) {
+    .header--top-center > .header__search {
+      display: none;
+    }
+    .header__search-inline {
+      grid-area: left-icons;
+      justify-self: start;
+      display: flex;
+      align-items: center;
+      width: 20rem;
+      height: 4rem;
+      padding: 0 1rem 0 1.5rem;
+      background: rgba(var(--color-foreground), 0.04);
+    }
+    .header__search-inline input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      font-size: 1.4rem;
+      color: rgb(var(--color-foreground));
+      outline: none;
+    }
+    .header__search-inline input::placeholder {
+      color: rgb(var(--color-foreground));
+    }
+    .header__search-inline button {
+      display: flex;
+      border: 0;
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      color: rgb(var(--color-foreground));
+    }
+    .header__search-inline .svg-wrapper {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
   }
 
   .header--top-center .header__inline-menu .list-menu--inline {
@@ -34,7 +146,8 @@
   }
 
   .header__inline-menu .header__menu-item {
-    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1.5rem;
     letter-spacing: 0.04rem;
   }
 
@@ -196,6 +309,23 @@
       endif
     -%}
 
+    {%- if section.settings.logo_position == 'top-center' -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="header__search-inline small-hide medium-hide">
+        <input type="hidden" name="options[prefix]" value="last">
+        <label class="visually-hidden" for="Search-Inline">{{ 'general.search.search' | t }}</label>
+        <input
+          id="Search-Inline"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'general.search.search' | t }}"
+        >
+        <button type="submit" aria-label="{{ 'general.search.search' | t }}">
+          <span class="svg-wrapper">{{- 'icon-search.svg' | inline_asset_content -}}</span>
+        </button>
+      </form>
+    {%- endif -%}
+
     {%- if section.settings.logo_position != 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
@@ -274,12 +404,40 @@
 
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
       {%- if section.settings.phone != blank -%}
-        <a
-          href="tel:{{ section.settings.phone | remove: ' ' }}"
-          class="header__phone link link--text small-hide medium-hide"
-        >
-          T: {{ section.settings.phone }}
-        </a>
+        {%- capture phone_icon -%}
+          <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+        {%- endcapture -%}
+        <div class="header__phone small-hide medium-hide">
+          <a href="tel:{{ section.settings.phone | remove: ' ' }}" class="header__phone-main link link--text">
+            T: {{ section.settings.phone }}
+            <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+          </a>
+          <div class="header__phone-panel">
+            <ul class="list-unstyled header__phone-list">
+              {%- for phone in section.settings.phone_list | split: ',' -%}
+                {%- assign phone = phone | strip -%}
+                <li>
+                  <a href="tel:{{ phone | remove: ' ' }}" class="link link--text">{{ phone_icon }}<span>T: {{ phone }}</span></a>
+                </li>
+              {%- endfor -%}
+            </ul>
+            {%- if section.settings.phone_hours != blank -%}
+              <p class="header__phone-hours">{{ section.settings.phone_hours }}</p>
+            {%- endif -%}
+            {%- if section.settings.whatsapp_url != blank -%}
+              <hr>
+              <a href="{{ section.settings.whatsapp_url }}" class="header__phone-whatsapp link link--text" target="_blank" rel="noopener">
+                <svg aria-hidden="true" focusable="false" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+                <span>
+                  <strong>{{ section.settings.whatsapp_heading }}</strong>
+                  <small>{{ section.settings.whatsapp_text }}</small>
+                </span>
+              </a>
+            {%- endif -%}
+            <hr>
+            {%- render 'social-icons' -%}
+          </div>
+        </div>
       {%- endif -%}
       <div class="desktop-localization-wrapper">
         {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
@@ -579,6 +737,34 @@
       "type": "text",
       "id": "phone",
       "label": "Phone number"
+    },
+    {
+      "type": "text",
+      "id": "phone_list",
+      "label": "Dropdown phone numbers",
+      "info": "Separate numbers with commas"
+    },
+    {
+      "type": "text",
+      "id": "phone_hours",
+      "label": "Opening hours"
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_url",
+      "label": "WhatsApp link"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_heading",
+      "default": "Support on WhatsApp",
+      "label": "WhatsApp heading"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_text",
+      "default": "Chat with a consultant",
+      "label": "WhatsApp text"
     },
     {
       "type": "select",
