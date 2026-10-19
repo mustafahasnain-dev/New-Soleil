@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,7 +15,7 @@
         "slide_PtLp6R": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Jory_Glow_new_arrival_7e73aa1b-e21f-4e91-97b5-172dc1bfdfee.png",
+            "image": "shopify://shop_images/Jory_Glow_new_arrival.png",
             "image_mobile": "shopify://shop_images/m1.webp",
             "url": "",
             "link_title": ""
@@ -15,8 +24,17 @@
         "slide_nxHLFm": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/AL_7ob_bf9eb87f-911e-4c7e-905a-2205d49f7ed7.png",
+            "image": "shopify://shop_images/AL_7ob.png",
             "image_mobile": "shopify://shop_images/m3.webp",
+            "url": "",
+            "link_title": ""
+          }
+        },
+        "slide_DhrijP": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Jadeel.png",
+            "image_mobile": "shopify://shop_images/m2.webp",
             "url": "",
             "link_title": ""
           }
@@ -24,10 +42,10 @@
       },
       "block_order": [
         "slide_PtLp6R",
-        "slide_nxHLFm"
+        "slide_nxHLFm",
+        "slide_DhrijP"
       ],
       "settings": {
-        "image": "shopify://shop_images/Jory_Glow_new_arrival.png",
         "url": "",
         "link_title": "",
         "autoplay": true,
@@ -57,6 +75,7 @@
         "grid": 4,
         "mobile_grid": "2",
         "image_ratio": "portrait",
+        "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": true,
         "link_name": "View all",
@@ -64,39 +83,69 @@
         "color_thumb": "#ffffff",
         "color_active_text": "#000000",
         "color_inactive_text": "#a3a3ad",
-        "top_spacing": "normal"
+        "top_spacing": "normal",
+        "width": "default"
       }
     },
     "best_sellers": {
       "type": "featured-collection",
       "settings": {
-        "title": "Best Sellers",
         "collection": "best-sellers",
         "products_to_show": 8,
+        "title": "Best Sellers",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
         "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
         "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
         "image_ratio": "portrait",
+        "image_shape": "default",
         "show_secondary_image": true,
-        "columns_mobile": "2"
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "new_arrivals": {
       "type": "featured-collection",
       "settings": {
-        "title": "New Arrivals",
         "collection": "new-arrivals",
         "products_to_show": 8,
+        "title": "New Arrivals",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
         "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
         "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
         "image_ratio": "portrait",
+        "image_shape": "default",
         "show_secondary_image": true,
-        "columns_mobile": "2"
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "about": {
       "type": "custom-aboutus",
       "settings": {
-        "image": "shopify://shop_images/Soleil_Gold_Jewelry_in_Sunlight_6dca5306-844f-4275-a34f-d7ce547f35b9.webp",
         "mobile_ratio": "4 / 3",
         "mobile_focus": "25%",
         "subheading": "Jewellery with a story",
