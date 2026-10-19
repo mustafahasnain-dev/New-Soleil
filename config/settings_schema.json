@@ -1817,6 +1817,39 @@
         "label": "Buttons font uppercase"
       },
       {
+        "type": "collection",
+        "id": "wk_cart_drawer_collection",
+        "label": "Collection"
+      },
+      {
+        "type": "select",
+        "id": "wk_cart_drawer_image_ratio",
+        "options": [
+          {
+            "value": "auto",
+            "label": "Auto"
+          },
+          {
+            "value": "0.75",
+            "label": "Portrait (3:4)"
+          },
+          {
+            "value": "1.333333",
+            "label": "Landscape (4:3)"
+          },
+          {
+            "value": "1",
+            "label": "Square (1:1)"
+          },
+          {
+            "value": "1.00",
+            "label": "Round (1:1)"
+          }
+        ],
+        "default": "1",
+        "label": "Image ratio"
+      },
+      {
         "type": "select",
         "id": "wk_cart_icon",
         "options": [
@@ -2699,6 +2732,14 @@
       {
         "visible_if": "{{ settings.wk_enable_rating == true }}",
         "type": "checkbox",
+        "id": "wk_enable_rating_drawer",
+        "default": true,
+        "label": "Enable review stars",
+        "info": "Visible when product suggestions enabled. An app is required for product ratings."
+      },
+      {
+        "visible_if": "{{ settings.wk_enable_rating == true }}",
+        "type": "checkbox",
         "id": "wk_enable_rating_product_card",
         "default": true,
         "label": "Enable review stars"
@@ -2722,6 +2763,12 @@
         "default": true,
         "label": "Transparent header",
         "info": "Works on the home page"
+      },
+      {
+        "type": "text",
+        "id": "wk_free_delivery_price",
+        "label": "Free shipping amount (Goal)",
+        "default": "100"
       },
       {
         "visible_if": "{{ settings.wk_body_font_type == 'google' }}",
@@ -3734,6 +3781,19 @@
       },
       {
         "type": "checkbox",
+        "id": "wk_show_accelerated_checkout_buttons",
+        "label": "Accelerated checkout buttons",
+        "info": "Allows buyers to check out faster and can improve conversion. [Learn more](https://help.shopify.com/manual/online-store/dynamic-checkout)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "wk_show_add_discount_code",
+        "label": "Enable discounts in cart",
+        "default": false
+      },
+      {
+        "type": "checkbox",
         "id": "wk_show_badge_feature_product_card",
         "default": true,
         "label": "Show badge \"Feature\""
@@ -3749,6 +3809,18 @@
         "id": "wk_show_badge_sold_out_product_card",
         "default": true,
         "label": "Show badge \"Sold Out\""
+      },
+      {
+        "type": "checkbox",
+        "id": "wk_show_cart_note",
+        "default": true,
+        "label": "Enable cart note"
+      },
+      {
+        "type": "checkbox",
+        "id": "wk_show_checkout_button",
+        "default": true,
+        "label": "Enable checkout button"
       },
       {
         "type": "checkbox",
@@ -3787,6 +3859,12 @@
         "id": "wk_show_free_delivery",
         "default": true,
         "label": "Enable"
+      },
+      {
+        "type": "checkbox",
+        "id": "wk_show_installments",
+        "default": false,
+        "label": "Installments"
       },
       {
         "visible_if": "{{ settings.wk_enable_rating == true }}",
@@ -3838,6 +3916,12 @@
         "id": "wk_show_type_product_card",
         "default": true,
         "label": "Show type"
+      },
+      {
+        "type": "checkbox",
+        "id": "wk_show_vendor",
+        "label": "Show vendor",
+        "default": false
       },
       {
         "type": "checkbox",
@@ -3979,6 +4063,13 @@
         ],
         "default": ".svg",
         "label": "System icon thickness"
+      },
+      {
+        "type": "checkbox",
+        "id": "wk_terms_and_condition_checkbox",
+        "default": false,
+        "label": "Enable the accept terms checkbox",
+        "info": "Works with the checkout button. You can find the text in the language editor under the \"General\" tab."
       },
       {
         "type": "select",

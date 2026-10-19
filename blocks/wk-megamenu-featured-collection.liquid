@@ -81,7 +81,7 @@
   
   <div class="swiper-no-mask-mobile mt16">
     {%- assign data_grid = "1,1," | append: block.settings.grid | append:"," | append: block.settings.grid | append:"," | append: block.settings.grid -%}
-    <swiper-slider class="swiper swiper__custom-mask swiper__no-padding-bottom"
+    <wk-swiper-slider class="swiper swiper__custom-mask swiper__no-padding-bottom"
                    data-swiper-desktop-grid="{{ block.settings.grid }}"
                    data-swiper-desktop-lg-grid="{{ block.settings.grid }}"
                    data-swiper-desktop-md-grid="{{ block.settings.grid }}"
@@ -96,11 +96,11 @@
       <div class="swiper-wrapper swiper-wrapper--max-height">
         {{ content }}
       </div>
-    </swiper-slider>
+    </wk-swiper-slider>
     <div class="swiper-control-container swiper-control-container--small-offset{% if block.settings.text_align == "text-center" %} justify-content-center{% endif %}">
-      <div class="custom-swiper-button-prev{% unless block.settings.desktop_navigation contains "arrows" %} hide-desktop{% endunless %}">{{- 'icon-arrow-left' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
+      <div class="custom-swiper-button-prev{% unless block.settings.desktop_navigation contains "arrows" %} hide-desktop{% endunless %}">{{- 'wk-icon-arrow-left' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
       <div class="swiper-pagination{% unless block.settings.desktop_navigation contains "dots" %} hide-desktop{% endunless %}"></div>
-      <div class="custom-swiper-button-next{% unless block.settings.desktop_navigation contains "arrows" %} hide-desktop{% endunless %}">  {{- 'icon-arrow-right' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
+      <div class="custom-swiper-button-next{% unless block.settings.desktop_navigation contains "arrows" %} hide-desktop{% endunless %}">  {{- 'wk-icon-arrow-right' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
     </div>
   </div>
   {%- capture block_styles -%}

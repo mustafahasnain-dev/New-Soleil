@@ -23,7 +23,7 @@
             {%- endif -%}
             <span>{{ link.title | escape }}</span>
             {%- render "wk-menu-badge" item_name:link.title -%}
-            {{- 'icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+            {{- 'wk-icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
           </div>
         </summary>        
         <div class="menu-drawer__submenu">
@@ -31,7 +31,7 @@
             <ul class="unstyle-ul menu-drawer__submenu-content">
               <li>
                 <button class="menu-drawer__back-button menu-drawer__menu-item link">
-                  {{- 'icon-arrow-left-2' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+                  {{- 'wk-icon-arrow-left-2' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
                 </button>
               </li>
               <li>
@@ -45,7 +45,7 @@
                 <details>
                   <summary>
                     <div class="menu-drawer__menu-item{% if type == "main-menu" %} h5{% else %} body2{% endif %}{% if childlink.current or childlink.child_active %} menu-drawer__menu-item--active{% endif %}">
-                      <span>{{ childlink.title | escape }}</span>{%- render "wk-menu-badge" item_name:childlink.title -%} {{- 'icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+                      <span>{{ childlink.title | escape }}</span>{%- render "wk-menu-badge" item_name:childlink.title -%} {{- 'wk-icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
                     </div>
                   </summary>
 
@@ -54,7 +54,7 @@
                       <ul class="unstyle-ul menu-drawer__submenu-content">
                         <li>
                           <button class="menu-drawer__back-button menu-drawer__menu-item link">
-                            {{- 'icon-arrow-left-2' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+                            {{- 'wk-icon-arrow-left-2' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
                           </button>
                         </li>
                         <li>

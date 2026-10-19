@@ -6,7 +6,7 @@
     <li class="submenu-container">
       <a href="{{ childlink.url }}" class="submenu__item {{ size }}">
         <span><span class="submenu__item_text">{{ childlink.title | escape }}</span>{%- render "wk-menu-badge" item_name:childlink.title, show_inline:true -%}</span>
-        {{- 'icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+        {{- 'wk-icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
       </a>
 
       <div class="submenu-design__simple">

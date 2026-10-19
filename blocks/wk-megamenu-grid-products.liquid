@@ -139,14 +139,14 @@
   <div class="mt16 display-inline-flex">
     <a href="{{ block.settings.collection.url }}" class="link link-hover-span body3">
       <span>{{ block.settings.link_name }}</span>
-      {{- 'icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+      {{- 'wk-icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
     </a>
   </div>
   {%- elsif f_collection == blank -%}
   <div class="mt16 display-inline-flex">
     <div class="link link-hover-span body3">
       <span>{{ block.settings.link_name }}</span>
-      {{- 'icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+      {{- 'wk-icon-arrow-right-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
     </div>
   </div>
   {%- endif -%}

@@ -29,7 +29,7 @@
     {%- if link.links != blank or megamenu_item != "" -%}
     <li class="list-menu--hover{% if megamenu_item != '' %} submenu--megamenu{% endif %} submenu-container submenu--to-left{% if megamenu_item != '' %} enable-scrollbar-megamenu-js{% endif %}{% if request.design_mode and megamenu_block.settings.admin_open_megamenu %} admin-select-menu-item{% endif %}">
       <a href="{{ link.url }}" class="body2 list-menu__item{% if link.current %} list-menu__item--active{% endif %} {{ menu_font_weight }}">
-        <span>{{ link.title | escape }}{%- render "wk-menu-badge" item_name:link.title, show_inline:true -%}{{- 'icon-arrow-down-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</span>
+        <span>{{ link.title | escape }}{%- render "wk-menu-badge" item_name:link.title, show_inline:true -%}{{- 'wk-icon-arrow-down-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</span>
       </a>
 
       {%- liquid

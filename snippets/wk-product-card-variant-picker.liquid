@@ -13,7 +13,7 @@
 {% endcomment %}
 {%- unless product.has_only_default_variant -%}
   {%- assign picker_type_custom = picker_type_custom | default: false, allow_false: true -%}
-  <card-variant-selects
+  <wk-card-variant-selects
     {% if settings.wk_hide_soldout_variants %}
     class="hide_soldout_variants"
     {% if product.available == false %}data-hide-variants="true"{% endif %}
@@ -269,7 +269,7 @@
           </select>
           <label class="field__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
           <div class="field__icon field__icon--select">
-            {{- 'icon-arrow-down-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+            {{- 'wk-icon-arrow-down-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
           </div>
         </div>
       </div>
@@ -279,5 +279,5 @@
   <script type="application/json">
   {{ product.variants | json }}
   </script>
-  </card-variant-selects>
+  </wk-card-variant-selects>
 {%- endunless -%}

@@ -3,7 +3,7 @@
   <div class="popup-modal__overlay" onclick="this.closest('.popup-modal').close()"></div>
   <div class="popup-modal__content">
     <button class="popup-modal__toggle modal-close-animation" type="button" onclick="this.closest('.popup-modal').close()" aria-label="{{ 'accessibility.close' | t }}">
-      {{- 'icon-close' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+      {{- 'wk-icon-close' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
     </button>
     <div class="popup-modal__search" role="dialog" aria-modal="true">
       <div class="popup-modal__search__heading">
@@ -38,10 +38,10 @@
               
               <button type="submit" class="search__button field__button btn__transition-text" aria-label="{{ 'general.search.search' | t }}">
                 <span class="btn__top-text is-visible">
-				  {{- 'icon-search' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+				  {{- 'wk-icon-search' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
                 </span>
                 <span class="btn__bottom-text is-hidden">
-				  {{- 'icon-search' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+				  {{- 'wk-icon-search' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
                 </span>
               </button>
             </div>

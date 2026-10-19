@@ -58,7 +58,7 @@
           -%}
         </div>
         {%- else -%}
-        <swiper-slider class="swiper swiper__no-padding-bottom swiper-nested swiper__animated-arrows swiper-no-pad swiper-no-marg swiper-slide__with-bg{% if image_ratio_value == '1.00' %} image-hover-box--circle{% endif %}"
+        <wk-swiper-slider class="swiper swiper__no-padding-bottom swiper-nested swiper__animated-arrows swiper-no-pad swiper-no-marg swiper-slide__with-bg{% if image_ratio_value == '1.00' %} image-hover-box--circle{% endif %}"
                        data-swiper-desktop-grid="1"
                        data-swiper-desktop-lg-grid="1"
                        data-swiper-desktop-md-grid="1"
@@ -86,11 +86,11 @@
             </div>
             {%- endfor -%}
           </div>
-        </swiper-slider>
+        </wk-swiper-slider>
         <div class="swiper-control-container swiper-control-container__absolute">
-          <div class="internal-swiper-button-prev">{{- 'icon-arrow-left' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
+          <div class="internal-swiper-button-prev">{{- 'wk-icon-arrow-left' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
           <div class="swiper-pagination hide-desktop"></div>
-          <div class="internal-swiper-button-next">{{- 'icon-arrow-right' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
+          <div class="internal-swiper-button-next">{{- 'wk-icon-arrow-right' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
         </div>
         {%- endif -%}
       </div>
@@ -142,9 +142,9 @@
            class="product-card__form"
         >
         {%- if show_quantity -%}
-        <quantity-input class="field quantity product-card__quantity">
+        <wk-quantity-input class="field quantity product-card__quantity">
           <button class="quantity__button no-js-hidden" name="minus" type="button">
-			{{- 'icon-minus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+			{{- 'wk-icon-minus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
           </button>
           <input class="field__input quantity__input"
                 type="number"
@@ -154,9 +154,9 @@
                 value="1"
                 >
           <button class="quantity__button no-js-hidden" name="plus" type="button">
-			    {{- 'icon-plus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+			    {{- 'wk-icon-plus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
           </button>
-        </quantity-input>
+        </wk-quantity-input>
         {%- endif -%}
         <button type="submit"
                 name="add"

@@ -159,7 +159,7 @@
 {%- capture media_buttons -%}
 {%- if settings.wk_enable_wishlist and remove_from_wishlist == empty? -%}
 {%- if show_wishlist or show_wishlist_mobile -%}
-<wishlist-button
+<wk-wishlist-button
    class="product-card__media-buttons__item{% if show_wishlist == false %} hide-lg hide-st{% endif %}{% if show_wishlist_mobile == false %} hide-sp{% endif %}"
    data-text="{{ 'wishlist.product.wishlist' | t }}"
    data-text-active="{{ 'wishlist.product.wishlist-remove' | t }}"
@@ -168,20 +168,20 @@
   >
   {%- render "wk-icon-wishlist" icon_type:"normal" -%}
   {%- render "wk-icon-wishlist" icon_type:"added" -%}
-</wishlist-button>
+</wk-wishlist-button>
 {%- endif -%}
 {%- endif -%}
 {%- if settings.wk_enable_compare and remove_from_compare == empty? -%}
 {%- if show_compare or show_compare_mobile -%}
-<compare-button
+<wk-compare-button
    class="product-card__media-buttons__item{% if show_compare == false %} hide-lg hide-st{% endif %}{% if show_compare_mobile == false %} hide-sp{% endif %}"
    data-text="{{ 'compare.product.compare' | t }}"
    data-text-active="{{ 'compare.product.compare-remove' | t }}"
    data-id="{{ current_variant.id }}"
    data-product-handle="{{ product_card_product.handle }}"
   >
-  {{- 'icon-compare' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
-</compare-button>
+  {{- 'wk-icon-compare' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+</wk-compare-button>
 {%- endif -%}
 {%- endif -%}
 {%- if show_quick_view or show_quick_view_mobile -%}
@@ -193,21 +193,21 @@
           data-text="{{ 'products.product.quick-view' | t }}"
           aria-label="{{ 'products.product.quick-view' | t }}"
     >
-	{{- 'icon-eye' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+	{{- 'wk-icon-eye' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
   </button>
 </wk-modal-opener>
 {%- endif -%}
 
 {%- if settings.wk_enable_wishlist and remove_from_wishlist -%}
-<wishlist-button
+<wk-wishlist-button
    class="product-card__media-buttons__item delete-item-button"
    data-text="{{ 'wishlist.product.wishlist-remove' | t }}"
    data-text-active="{{ 'wishlist.product.wishlist-remove' | t }}"
    data-id="{{ product_card_product.id }}"
    aria-label="{{ 'wishlist.product.wishlist-remove' | t }}"
   >
-  {{- 'icon-remove' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
-</wishlist-button>
+  {{- 'wk-icon-remove' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+</wk-wishlist-button>
 {%- endif -%}
   
 {%- endcapture -%}
@@ -233,7 +233,7 @@
           -%}
         </div>
         {%- else -%}
-        <swiper-slider class="swiper swiper__no-padding-bottom swiper-nested swiper__animated-arrows swiper-no-pad swiper-no-marg swiper-slide__with-bg{% if image_ratio_value == '1.00' %} image-hover-box--circle{% endif %}"
+        <wk-swiper-slider class="swiper swiper__no-padding-bottom swiper-nested swiper__animated-arrows swiper-no-pad swiper-no-marg swiper-slide__with-bg{% if image_ratio_value == '1.00' %} image-hover-box--circle{% endif %}"
                        data-swiper-desktop-grid="1"
                        data-swiper-desktop-lg-grid="1"
                        data-swiper-desktop-md-grid="1"
@@ -272,11 +272,11 @@
             {%- endif -%}
             {%- endfor -%}
           </div>
-        </swiper-slider>
+        </wk-swiper-slider>
         <div class="swiper-control-container swiper-control-container__absolute">
-          <div class="internal-swiper-button-prev">{{- 'icon-arrow-left' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
+          <div class="internal-swiper-button-prev">{{- 'wk-icon-arrow-left' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
           <div class="swiper-pagination hide-desktop"></div>
-          <div class="internal-swiper-button-next">{{- 'icon-arrow-right' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
+          <div class="internal-swiper-button-next">{{- 'wk-icon-arrow-right' | append: settings.wk_system_icon_thickness | inline_asset_content -}}</div>
         </div>
         {%- endif -%}
       </a>
@@ -351,10 +351,10 @@
         >
         {%- if show_quantity -%}
         {%- assign inv_man = current_variant.inventory_management -%}{%- assign inv_qua = current_variant.inventory_quantity | plus: 0 -%}{%- unless inv_man -%}{%- assign inv_qua = 100000 -%}{%- endunless -%}{%- if current_variant.inventory_policy == "continue" -%}{%- assign inv_qua = 100000 -%}{%- endif -%}
-        <quantity-input class="field quantity product-card__quantity">
+        <wk-quantity-input class="field quantity product-card__quantity">
           <button class="quantity__button no-js-hidden" name="minus" type="button">
             <span class="visually-hidden">{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}</span>
-            {{- 'icon-minus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+            {{- 'wk-icon-minus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
           </button>
           <input class="field__input quantity__input"
                 type="number"
@@ -367,9 +367,9 @@
                 >
           <button class="quantity__button no-js-hidden" name="plus" type="button">
             <span class="visually-hidden">{{ 'products.product.quantity.increase' | t: product: product.title | escape }}</span>
-			    {{- 'icon-plus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+			    {{- 'wk-icon-plus' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
           </button>
-        </quantity-input>
+        </wk-quantity-input>
         {%- endif -%}
         <input type="hidden" name="id" value="{{ current_variant.id }}">
         <button type="submit"

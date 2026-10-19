@@ -130,7 +130,7 @@
   {%- if section.settings.icons_text_mobile == 'show_only_text' -%} 
   <span>{{ 'compare.header.icon_compare' | t }}: <wk-compare-bubble><span class="menu-drawer__bubble-count">0</span></wk-compare-bubble></span>
   {%- else -%}
-  {{- 'icon-compare' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+  {{- 'wk-icon-compare' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
   <span>{{ 'compare.header.icon_compare' | t }}</span>
   <wk-compare-bubble class="menu-drawer__button-bubble">
     <span class="menu-drawer__bubble-count"></span>
@@ -154,7 +154,7 @@
 {%- if shop.customer_accounts_enabled -%}
 {%- if routes.account_login_url contains "/account/login" -%}
 <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__button body2">
-  {%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}
+  {%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'wk-icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}
   <span>
     {%- liquid
       if customer
@@ -166,11 +166,11 @@
   </span>
 </a>
 {%- else -%}
-<a href="{{ routes.account_url }}" class="header__button body2">{%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'icon-account-orders' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}{{ 'customer.account_orders' | t }}</a>
-<a href="{{ routes.account_addresses_url }}" class="header__button body2">{%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}{{ 'customer.account_profile' | t }}</a>
+<a href="{{ routes.account_url }}" class="header__button body2">{%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'wk-icon-account-orders' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}{{ 'customer.account_orders' | t }}</a>
+<a href="{{ routes.account_addresses_url }}" class="header__button body2">{%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'wk-icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}{{ 'customer.account_profile' | t }}</a>
 {% unless customer %}
 <a href="{% if request.design_mode %}{{ routes.account_url }}{% else %}{{ routes.storefront_login_url }}{% endif %}" class="header__button body2">
-  {%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'icon-account-sign-in' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}
+  {%- if section.settings.icons_text_mobile != 'show_only_text' -%}{{- 'wk-icon-account-sign-in' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{%- endif -%}
   <span class="account-actions__sign-in-text">{{ 'customer.sign_in_options' | t }}</span>
   <span class="account-actions__fallback-text">{{ 'customer.log_in' | t }}</span>
 </a>
@@ -192,15 +192,15 @@
               {%- if section.settings.icons_text_mobile == 'show_only_text' -%}
               <span class="body3 header__button__bubble__text">{{ 'sections.header.main_menu' | t }}</span>
               {%- else -%}      
-              {{- 'icon-hamburger' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+              {{- 'wk-icon-hamburger' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
               {%- endif -%}
             </div>
           </summary>
           <div class="popup-modal popup-modal__left">
-            <div class="popup-modal__overlay" onclick="this.closest('menu-drawer').closeMenuDrawer('custom')"></div>
+            <div class="popup-modal__overlay" onclick="this.closest('wk-menu-drawer').closeMenuDrawer('custom')"></div>
             <div class="popup-modal__content popup-modal__content__f-height">
               <button class="popup-modal__toggle" type="button" aria-label="{{ 'accessibility.close' | t }}">
-				      {{- 'icon-close' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+				      {{- 'wk-icon-close' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
               </button>
               <div class="popup-modal__content__data custom__scrollbar" role="dialog" aria-modal="true" tabindex="-1">
                 {%- render "wk-menu-drawer", linklist:section.settings.menu.links, show_icon:true, type:"main-menu", svg_icons:svg_icons -%}
@@ -276,7 +276,7 @@
             {%- if section.settings.icons_text_mobile == 'show_only_text' -%}
             <span class="body3-st header__button__bubble__text">{{ 'sections.header.icon_search' | t }}</span>
             {%- else -%}      
-		        {{- 'icon-search' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+		        {{- 'wk-icon-search' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
             {%- endif -%}
           </a>
         </wk-modal-opener>
@@ -284,11 +284,11 @@
       {%- endif -%}
       {%- if settings.wk_cart_type != "catalog_mode" -%}
       {%- if section.settings.icons_text_mobile == 'show_only_text' -%}
-      <a href="{{ routes.cart_url }}" class="header__button" id="cart-icon-bubble--mobile-short" aria-label="{{ 'sections.header.icon_cart' | t }}">
+      <a href="{{ routes.cart_url }}" class="header__button" id="wk-cart-icon-bubble--mobile-short" aria-label="{{ 'sections.header.icon_cart' | t }}">
         {%- render 'wk-cart-icon-bubble-short' -%}
       </a>
       {%- else -%}
-      <a href="{{ routes.cart_url }}" class="header__button" id="cart-icon-bubble--mobile" aria-label="{{ 'sections.header.icon_cart' | t }}">
+      <a href="{{ routes.cart_url }}" class="header__button" id="wk-cart-icon-bubble--mobile" aria-label="{{ 'sections.header.icon_cart' | t }}">
         {%- render 'wk-cart-icon-bubble' -%}
       </a>
       {%- endif -%}

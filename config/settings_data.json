@@ -442,7 +442,14 @@
       "wk_variants_names": "Color",
       "wk_variants_image_ratio_product_card": "auto",
       "wk_image_hover_picker_product_card": "image-hover-none",
-      "wk_image_hover_picker": "image-hover-none"
+      "wk_image_hover_picker": "image-hover-none",
+      "wk_cart_drawer_collection": "most-loved-products",
+      "wk_cart_drawer_image_ratio": "auto",
+      "wk_show_vendor": true,
+      "wk_show_cart_note": true,
+      "wk_show_add_discount_code": true,
+      "wk_terms_and_condition_checkbox": true,
+      "wk_free_delivery_price": "50"
     }
   }
 }

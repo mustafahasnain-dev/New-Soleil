@@ -395,7 +395,7 @@ svg.theme-icon rect{
 #wk-scope .image-hover-box>*{
   pointer-events:none;
 }
-#wk-scope .change-to__small-radius .product-card swiper-slider,#wk-scope 
+#wk-scope .change-to__small-radius .product-card wk-swiper-slider,#wk-scope 
 .change-to__small-radius .image-hover-box,#wk-scope 
 .image-hover-box__small-radius{
   border-radius: var(--radius-image);
@@ -1195,11 +1195,11 @@ table td:not(:last-child){
   }
 }
 
-#wk-scope terms-and-condition-checkbox{
+#wk-scope wk-terms-and-condition-checkbox{
   display:block;
 }
-#wk-scope terms-and-condition-checkbox:not(.checked)+*,#wk-scope 
-terms-and-condition-checkbox:not(.checked)~.cart__dynamic-checkout-buttons {
+#wk-scope wk-terms-and-condition-checkbox:not(.checked)+*,#wk-scope 
+wk-terms-and-condition-checkbox:not(.checked)~.cart__dynamic-checkout-buttons {
   pointer-events: none;
   opacity: .3;
 }

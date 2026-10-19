@@ -34,7 +34,7 @@
   <div class="header-phone-number__desktop__container enable-scrollbar-js" id="header-contacts-{{ block.id }}">
     <div class="header-phone-number__desktop__main{% if block.settings.open_on == "click" %} header-phone-number__desktop__on-click{% endif %}">
       {{ phone_content_button }}
-      {{- 'icon-arrow-down-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+      {{- 'wk-icon-arrow-down-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
     </div>
     <div class="header-phone-number__desktop_submenu">
       <div class="header-phone-number__desktop_submenu__container scrollbar-height-js custom__scrollbar">
@@ -66,7 +66,7 @@
     {%- if routes.account_login_url contains "/account/login" -%}
     <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__button{% if section.settings.icons_text != 'show_only_text' %} move-icon-up{% endif %} global__tooltip--hover">
       {%- if section.settings.icons_text != 'show_only_text' -%}
-      {{- 'icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+      {{- 'wk-icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
       {%- endif -%}
       <span class="body2 header__button__bubble__text">
         {%- liquid
@@ -95,7 +95,7 @@
     <div class="header-customer-accounts">
       <div class="header__button{% if section.settings.icons_text != 'show_only_text' %} move-icon-up{% endif %} global__tooltip--hover">
         {%- if section.settings.icons_text != 'show_only_text' -%}
-        {{- 'icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+        {{- 'wk-icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
         {%- endif -%}
         <span class="body2 header__button__bubble__text">
           {%- liquid
@@ -148,14 +148,14 @@
           <div class="header-customer-accounts__nav">
             <a href="{{ routes.account_url }}" class="btn btn--border btn__transition-text w-full">
               <div class="btn__texts">
-                <span class="btn__top-text is-visible">{% if section.settings.icons_text != 'show_only_text' %}{{- 'icon-account-orders' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_orders' | t }}</span>
-                <span class="btn__bottom-text is-hidden">{% if section.settings.icons_text != 'show_only_text' %}{{- 'icon-account-orders' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_orders' | t }}</span>
+                <span class="btn__top-text is-visible">{% if section.settings.icons_text != 'show_only_text' %}{{- 'wk-icon-account-orders' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_orders' | t }}</span>
+                <span class="btn__bottom-text is-hidden">{% if section.settings.icons_text != 'show_only_text' %}{{- 'wk-icon-account-orders' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_orders' | t }}</span>
               </div>
             </a>
             <a href="{{ routes.account_addresses_url }}" class="btn btn--border btn__transition-text w-full">
               <div class="btn__texts">
-                <span class="btn__top-text is-visible">{% if section.settings.icons_text != 'show_only_text' %}{{- 'icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_profile' | t }}</span>
-                <span class="btn__bottom-text is-hidden">{% if section.settings.icons_text != 'show_only_text' %}{{- 'icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_profile' | t }}</span>
+                <span class="btn__top-text is-visible">{% if section.settings.icons_text != 'show_only_text' %}{{- 'wk-icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_profile' | t }}</span>
+                <span class="btn__bottom-text is-hidden">{% if section.settings.icons_text != 'show_only_text' %}{{- 'wk-icon-account' | append: settings.wk_system_icon_thickness | inline_asset_content -}}{% endif %}{{ 'customer.account_profile' | t }}</span>
               </div>
             </a>
           </div>
@@ -170,7 +170,7 @@
       {%- if section.settings.icons_text == 'show_only_text' -%}
       <span class="body2 header__button__bubble__text">{{ 'compare.header.icon_compare' | t }}: <wk-compare-bubble><span class="header__button__bubble__count">0</span></wk-compare-bubble></span>
       {%- else -%}
-	    {{- 'icon-compare' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
+	    {{- 'wk-icon-compare' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
       <span class="body2 header__button__bubble__text">{{ 'compare.header.icon_compare' | t }}</span>
       <wk-compare-bubble class="header__button__bubble">
         <span class="body3-no-scale header__button__bubble__count"></span>
@@ -203,11 +203,11 @@
     {%- endif -%}
     {%- if settings.wk_cart_type != "catalog_mode" -%}
     {%- if section.settings.icons_text == 'show_only_text' -%}
-    <a href="{{ routes.cart_url }}" class="header__button global__tooltip--hover" id="cart-icon-bubble-short">
+    <a href="{{ routes.cart_url }}" class="header__button global__tooltip--hover" id="wk-cart-icon-bubble-short">
       {%- render 'wk-cart-icon-bubble-short' -%}
     </a>
     {%- else -%}
-    <a href="{{ routes.cart_url }}" class="header__button move-icon-up global__tooltip--hover" id="cart-icon-bubble">
+    <a href="{{ routes.cart_url }}" class="header__button move-icon-up global__tooltip--hover" id="wk-cart-icon-bubble">
       {%- render 'wk-cart-icon-bubble' -%}
       {%- if section.settings.icons_text == 'tooltip' -%}
       <wk-global-tooltip class="global__tooltip global__tooltip__static">
