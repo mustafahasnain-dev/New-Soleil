@@ -56,6 +56,25 @@
     }
   }
   {%- endif -%}
+  {%- if section.settings.desktop_image_fit == 'contain' -%}
+  @media (min-width:1025px){
+    {%- if section.settings.height_type == 'fixed' -%}
+    #theme-section-{{ section.id }} .hero-image img,
+    #theme-section-{{ section.id }} .hero-image video{
+      object-fit:contain;
+    }
+    {%- else -%}
+    #theme-section-{{ section.id }} .hero-slider__track{ align-items:flex-start; }
+    #theme-section-{{ section.id }} .hero-image,
+    #theme-section-{{ section.id }} .hero-image > div{ height:auto; }
+    #theme-section-{{ section.id }} .hero-image img,
+    #theme-section-{{ section.id }} .hero-image video{
+      height:auto;
+      object-fit:fill;
+    }
+    {%- endif -%}
+  }
+  {%- endif -%}
   #theme-section-{{ section.id }} .hero-image__mobile{ display:none; }
   #theme-section-{{ section.id }} .hero-image--has-mobile .hero-image__mobile{ display:block; }
   #theme-section-{{ section.id }} .hero-image--has-mobile .hero-image__desktop{ display:none; }
@@ -307,6 +326,22 @@
       ],
       "default": "center",
       "label": "Image / video position"
+    },
+    {
+      "type": "select",
+      "id": "desktop_image_fit",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Show full image"
+        },
+        {
+          "value": "cover",
+          "label": "Fill (may crop)"
+        }
+      ],
+      "default": "contain",
+      "label": "Image fit on desktop"
     },
     {
       "type": "range",
