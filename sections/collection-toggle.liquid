@@ -149,14 +149,23 @@
 if (!customElements.get('collection-toggle')) {
   customElements.define('collection-toggle', class extends HTMLElement {
     connectedCallback() {
+      // A second toggle on the page is created while the HTML is still being parsed,
+      // before its buttons exist; wait for the document to finish parsing first.
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.init(), { once: true });
+      } else {
+        this.init();
+      }
+    }
+    init() {
       // the theme editor can re-insert a section; only wire it up once
       if (this.initialized) return;
-      this.initialized = true;
       this.switchEl = this.querySelector('.collection-toggle__switch');
+      if (!this.switchEl) return;
+      this.initialized = true;
       this.remember = this.dataset.remember === 'true';
       // one saved choice per section, so duplicated toggles don't override each other
       this.storageKey = this.dataset.storageKey || 'collection-toggle';
-      if (!this.switchEl) return;
       this.switchEl.addEventListener('click', (event) => {
         const btn = event.target.closest('[data-toggle]');
         if (btn && this.switchEl.contains(btn)) this.select(btn.dataset.toggle, true);
