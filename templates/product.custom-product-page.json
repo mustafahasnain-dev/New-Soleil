@@ -83,7 +83,7 @@
           "type": "gift_wrap",
           "settings": {
             "text": "Complimentary gift wrapping",
-            "image": "shopify://shop_images/Pack.webp",
+            "image": "shopify://shop_images/giftee.webp",
             "property_name": "Gift wrapping",
             "property_value": "Yes"
           }
