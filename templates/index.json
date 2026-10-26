@@ -433,6 +433,7 @@
         "question_14",
         "question_15"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Frequently asked questions",
         "intro": "",
