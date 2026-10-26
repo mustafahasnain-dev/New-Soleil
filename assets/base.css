@@ -3637,7 +3637,7 @@ details-disclosure > details {
 }
 
 @media screen and (max-width:500px){
-  .promo-header__block__text{
+  .promo-header__block__text a{
     font-size:12px !important;
   }
 }
