@@ -217,9 +217,9 @@
       "type": "collection-toggle",
       "settings": {
         "label_1": "New Arrivals",
-        "collection_1": "amara",
+        "collection_1": "new-arrivals",
         "label_2": "Best Sellers",
-        "collection_2": "al-7ob",
+        "collection_2": "new-arrivals",
         "default_tab": "1",
         "remember": true,
         "heading": "",
