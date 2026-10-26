@@ -3638,6 +3638,6 @@ details-disclosure > details {
 
 @media screen and (max-width:500px){
   .promo-header__block__text{
-    font-size:13px !important;
+    font-size:12px !important;
   }
 }
