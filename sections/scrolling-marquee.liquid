@@ -1,0 +1,264 @@
+{%- comment -%}
+  Scrolling marquee: a continuous, CSS-only ticker of short promo messages.
+  The message list is rendered twice so the loop is seamless (track moves by -50%).
+{%- endcomment -%}
+{%- liquid
+  assign separator = section.settings.separator
+  if separator == 'diamond'
+    assign separator_text = '◆'
+  elsif separator == 'star'
+    assign separator_text = '✦'
+  elsif separator == 'dot'
+    assign separator_text = '•'
+  else
+    assign separator_text = ''
+  endif
+-%}
+<style>
+  #shopify-section-{{ section.id }} .scrolling-marquee{
+    --marquee-bg: {{ section.settings.color_background }};
+    --marquee-text: {{ section.settings.color_text }};
+    --marquee-duration: {{ section.settings.speed }}s;
+    --marquee-gap: {{ section.settings.gap }}px;
+    overflow:hidden;
+    background:var(--marquee-bg);
+    color:var(--marquee-text);
+    padding:{{ section.settings.padding }}px 0;
+    margin-top:{{ section.settings.margin_top }}px;
+    margin-bottom:{{ section.settings.margin_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .scrolling-marquee__track{
+    display:flex;
+    width:max-content;
+    animation:scrolling-marquee-{{ section.id }} var(--marquee-duration) linear infinite;
+    {%- if section.settings.direction == 'right' -%}animation-direction:reverse;{%- endif -%}
+  }
+  {%- if section.settings.pause_on_hover -%}
+  #shopify-section-{{ section.id }} .scrolling-marquee:hover .scrolling-marquee__track{ animation-play-state:paused; }
+  {%- endif -%}
+  #shopify-section-{{ section.id }} .scrolling-marquee__group{
+    display:flex;
+    flex-shrink:0;
+    align-items:center;
+    gap:var(--marquee-gap);
+    padding-right:var(--marquee-gap);
+    margin:0;
+    list-style:none;
+  }
+  #shopify-section-{{ section.id }} .scrolling-marquee__item{
+    display:flex;
+    align-items:center;
+    gap:var(--marquee-gap);
+    white-space:nowrap;
+    font-family:var(--font-heading-family);
+    font-size:{{ section.settings.font_size }}px;
+    letter-spacing:.12em;
+    text-transform:{% if section.settings.uppercase %}uppercase{% else %}none{% endif %};
+    line-height:1.2;
+  }
+  #shopify-section-{{ section.id }} .scrolling-marquee__item a{
+    color:inherit;
+    text-decoration:none;
+  }
+  #shopify-section-{{ section.id }} .scrolling-marquee__item a:hover{
+    text-decoration:underline;
+    text-underline-offset:4px;
+  }
+  #shopify-section-{{ section.id }} .scrolling-marquee__sep{
+    font-size:.7em;
+    opacity:.8;
+  }
+  @keyframes scrolling-marquee-{{ section.id }}{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  @media screen and (max-width:749px){
+    #shopify-section-{{ section.id }} .scrolling-marquee__item{ font-size:{{ section.settings.font_size | times: 0.85 | round }}px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #shopify-section-{{ section.id }} .scrolling-marquee__track{ animation:none; }
+  }
+</style>
+
+{%- if section.blocks.size > 0 -%}
+  <div class="scrolling-marquee" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
+    <div class="scrolling-marquee__track">
+      {%- for copy in (1..2) -%}
+        <ul class="scrolling-marquee__group"{% if copy == 2 %} aria-hidden="true"{% endif %}>
+          {%- comment -%} repeat short lists so one group is always wider than the screen {%- endcomment -%}
+          {%- for repeat in (1..section.settings.repeat) -%}
+            {%- for block in section.blocks -%}
+              <li class="scrolling-marquee__item" {{ block.shopify_attributes }}>
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}"{% if copy == 2 or repeat > 1 %} tabindex="-1"{% endif %}>{{ block.settings.text | escape }}</a>
+                {%- else -%}
+                  <span>{{ block.settings.text | escape }}</span>
+                {%- endif -%}
+                {%- if separator_text != blank -%}
+                  <span class="scrolling-marquee__sep" aria-hidden="true">{{ separator_text }}</span>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          {%- endfor -%}
+        </ul>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Scrolling marquee",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "Background color",
+      "default": "#202259"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 120,
+      "step": 5,
+      "unit": "s",
+      "label": "Loop duration",
+      "info": "Lower is faster",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        { "value": "left", "label": "Right to left" },
+        { "value": "right", "label": "Left to right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Separator",
+      "options": [
+        { "value": "diamond", "label": "Diamond" },
+        { "value": "star", "label": "Star" },
+        { "value": "dot", "label": "Dot" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "diamond"
+    },
+    {
+      "type": "range",
+      "id": "repeat",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Repeat messages",
+      "info": "Increase if there's empty space on wide screens",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 11,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 15
+    },
+    {
+      "type": "checkbox",
+      "id": "uppercase",
+      "label": "Uppercase text",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between messages",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top margin",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping across the UAE"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling marquee",
+      "blocks": [
+        { "type": "message", "settings": { "text": "Free shipping across the UAE" } },
+        { "type": "message", "settings": { "text": "21K gold plated finish" } },
+        { "type": "message", "settings": { "text": "1 year warranty" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -169,10 +169,73 @@
         "color_button": "#202259",
         "color_button_text": "#ffffff"
       }
+    },
+    "promo_marquee": {
+      "type": "scrolling-marquee",
+      "blocks": {
+        "message_1": {
+          "type": "message",
+          "settings": {
+            "text": "Save 5% on Diamond Rings Today",
+            "link": "shopify://collections/rings"
+          }
+        },
+        "message_2": {
+          "type": "message",
+          "settings": {
+            "text": "New collections just landed",
+            "link": ""
+          }
+        },
+        "message_3": {
+          "type": "message",
+          "settings": {
+            "text": "21K gold plated · Hypoallergenic",
+            "link": ""
+          }
+        },
+        "message_4": {
+          "type": "message",
+          "settings": {
+            "text": "Free shipping across the UAE",
+            "link": ""
+          }
+        },
+        "message_5": {
+          "type": "message",
+          "settings": {
+            "text": "1 year warranty on every piece",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "message_1",
+        "message_2",
+        "message_3",
+        "message_4",
+        "message_5"
+      ],
+      "settings": {
+        "color_background": "#202259",
+        "color_text": "#ffffff",
+        "speed": 40,
+        "direction": "left",
+        "pause_on_hover": true,
+        "separator": "diamond",
+        "repeat": 3,
+        "font_size": 15,
+        "uppercase": true,
+        "gap": 36,
+        "padding": 14,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
     }
   },
   "order": [
     "hero",
+    "promo_marquee",
     "toggle",
     "best_sellers",
     "new_arrivals",
