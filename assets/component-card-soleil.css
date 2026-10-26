@@ -118,6 +118,9 @@
 }
 @media screen and (max-width: 576px) {
   .soleil-card__price {
-    font-size: 21px;
+    font-size: 15px;
+  }
+  .soleil-card__title{
+    font-size: 13px;
   }
 }
