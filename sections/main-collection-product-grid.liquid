@@ -1,6 +1,9 @@
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.card_style == 'minimal' -%}
+  {{ 'template-collection-minimal.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
@@ -40,7 +43,7 @@
   view-event-payload="{{ collection | standard_event_data: 'view' | escape }}"
   data-collection-id="{{ collection.id }}"
 >
-  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}{% if section.settings.card_style == 'minimal' %} collection-minimal{% endif %}">
     {%- paginate collection.products by section.settings.products_per_page -%}
       {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
       {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -144,7 +147,7 @@
             </div>
           {%- else -%}
             <div
-              class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+              class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}{% if section.settings.full_width %} collection-minimal__full{% endif %}"
             >
               <div class="loading-overlay gradient"></div>
               <ul
@@ -169,6 +172,14 @@
                       style="--animation-order: {{ forloop.index }};"
                     {% endif %}
                   >
+                    {%- if section.settings.card_style == 'minimal' -%}
+                      {% render 'card-product-minimal',
+                        card_product: product,
+                        show_secondary_image: section.settings.show_secondary_image,
+                        lazy_load: lazy_load,
+                        new_days: section.settings.new_badge_days
+                      %}
+                    {%- else -%}
                     {% render 'card-product',
                       card_product: product,
                       media_aspect_ratio: section.settings.image_ratio,
@@ -182,6 +193,7 @@
                       section_id: section.id,
                       product_view_context: 'collection'
                     %}
+                    {%- endif -%}
                   </li>
                   {%- assign skip_card_product_styles = true -%}
                 {%- endfor -%}
@@ -206,6 +218,33 @@
   "name": "t:sections.main-collection-product-grid.name",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Card style",
+      "options": [
+        { "value": "minimal", "label": "Minimal (square, name and price)" },
+        { "value": "dawn", "label": "Dawn default" }
+      ],
+      "default": "dawn"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full-width grid",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "new_badge_days",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "d",
+      "label": "Show New badge for products added in the last",
+      "info": "Minimal card only. 0 turns the badge off.",
+      "default": 30
+    },
     {
       "type": "range",
       "id": "products_per_page",

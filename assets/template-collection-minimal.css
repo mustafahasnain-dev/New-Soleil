@@ -1,0 +1,272 @@
+/* Collection page styled after minimalist.ae/collections — scoped to .collection-minimal */
+
+/* ---------- Toolbar (Dawn "drawer" facets) ---------- */
+.collection-minimal .facets-wrapper.page-width {
+  max-width: none;
+  padding: 0;
+}
+.collection-minimal .facets-container-drawer {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-end;
+  min-height: 54px;
+  margin: 0 0 15px;
+  padding: 0;
+  border-top: 1px solid rgba(var(--color-foreground), 0.12);
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+  background: rgb(var(--color-background));
+}
+.collection-minimal .facets-container-drawer .product-count {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 54px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.collection-minimal .facets-container-drawer .product-count__text {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.65);
+}
+/* sort then filter, as on the reference */
+.collection-minimal .facets-container-drawer > facet-filters-form.facets:not(.facets-pill) {
+  order: 1;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: stretch;
+  margin: 0 0 0 auto;
+  border-left: 1px solid rgba(var(--color-foreground), 0.12);
+}
+.collection-minimal .facets-container-drawer .mobile-facets__wrapper {
+  order: 2;
+  display: flex;
+  flex: 0 0 auto;
+  width: auto;
+  align-items: stretch;
+  margin: 0;
+  border-left: 1px solid rgba(var(--color-foreground), 0.12);
+}
+.collection-minimal .facets-container-drawer .facets-pill {
+  order: 3;
+  flex-basis: 100%;
+}
+.collection-minimal .facets__form,
+.collection-minimal .facet-filters.sorting,
+.collection-minimal .facet-filters__field {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.collection-minimal .facet-filters.sorting {
+  padding: 0 28px;
+  gap: 8px;
+}
+.collection-minimal .facet-filters__label {
+  margin: 0 6px 0 0;
+}
+.collection-minimal .facet-filters__label label,
+.collection-minimal .facet-filters__sort,
+.collection-minimal .mobile-facets__open-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+.collection-minimal .facet-filters__sort {
+  height: auto;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 0 22px 0 0;
+}
+.collection-minimal .facet-filters__sort:focus-visible {
+  outline: 1px solid rgb(var(--color-foreground));
+}
+.collection-minimal .facet-filters .select .svg-wrapper {
+  right: 0;
+}
+.collection-minimal .mobile-facets__open-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.collection-minimal .mobile-facets__open {
+  padding: 0 46px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.collection-minimal .mobile-facets__open .svg-wrapper {
+  display: none;
+}
+.collection-minimal .active-facets-desktop {
+  padding: 10px 15px 0;
+}
+
+/* ---------- Grid ---------- */
+.collection-minimal .collection.collection-minimal__full {
+  max-width: none;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.collection-minimal .product-grid.grid {
+  column-gap: 15px;
+  row-gap: 34px;
+}
+.collection-minimal .product-grid .grid__item {
+  width: auto;
+  max-width: none;
+}
+@media screen and (min-width: 990px) {
+  .collection-minimal .product-grid.grid--4-col-desktop {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .collection-minimal .product-grid.grid--3-col-desktop {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .collection-minimal .product-grid.grid--5-col-desktop {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .collection-minimal .product-grid.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media screen and (max-width: 749px) {
+  .collection-minimal .product-grid.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 10px;
+    row-gap: 26px;
+  }
+  .collection-minimal .product-grid.grid--1-col-tablet-down {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .collection-minimal .collection.collection-minimal__full {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .collection-minimal .facets-container-drawer .product-count {
+    display: none;
+  }
+  .collection-minimal .facets-container-drawer {
+    justify-content: stretch;
+  }
+  .collection-minimal .facets-container-drawer .mobile-facets__wrapper {
+    flex: 1;
+    justify-content: center;
+    border-left: 0;
+  }
+  .collection-minimal .mobile-facets__open {
+    padding: 0 20px;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* ---------- Card ---------- */
+.mcard__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.mcard__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+.mcard__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mcard__img--second {
+  opacity: 0;
+}
+@media (hover: hover) and (min-width: 990px) {
+  .mcard__img {
+    transition: opacity 0.45s ease;
+  }
+  .mcard__link:hover .mcard__img--main:not(:only-of-type) {
+    opacity: 0;
+  }
+  .mcard__link:hover .mcard__img--second {
+    opacity: 1;
+  }
+}
+.mcard__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  padding: 7px 12px 6px;
+  border: 1px solid #c9c9c9;
+  border-radius: 999px;
+  background: #fff;
+  color: #161616;
+  font-size: 9.5px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.mcard__name {
+  margin: 12px 0 0;
+  font-family: var(--font-body-family);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #000;
+}
+.mcard__link:hover .mcard__name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.mcard__price {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 2px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #7b8487;
+}
+.mcard__price-now--sale {
+  color: #b3261e;
+}
+.mcard__price-was {
+  opacity: 0.8;
+}
+@media screen and (max-width: 749px) {
+  .mcard__badge {
+    top: 10px;
+    left: 10px;
+  }
+  .mcard__name {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .mcard__price {
+    font-size: 13px;
+  }
+}

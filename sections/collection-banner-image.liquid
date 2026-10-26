@@ -1,0 +1,113 @@
+{%- comment -%}
+  Full-width collection banner (as on minimalist.ae): separate desktop and mobile images.
+  Falls back to the collection image, then to the collection title when there is no image.
+{%- endcomment -%}
+{%- liquid
+  assign desktop_image = section.settings.image_desktop | default: collection.image
+  assign mobile_image = section.settings.image_mobile | default: desktop_image
+-%}
+<style>
+  #shopify-section-{{ section.id }} .collection-banner-image{ position:relative; }
+  #shopify-section-{{ section.id }} .collection-banner-image img{ display:block; width:100%; height:auto; }
+  #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:none; }
+  @media screen and (max-width:749px){
+    #shopify-section-{{ section.id }} .collection-banner-image__desktop{ display:none; }
+    #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:block; }
+  }
+  #shopify-section-{{ section.id }} .collection-banner-image__title{
+    margin:0;
+    padding:{{ section.settings.title_padding }}px 20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:400;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+  #shopify-section-{{ section.id }} .collection-banner-image__description{
+    max-width:720px;
+    margin:-{{ section.settings.title_padding | divided_by: 2 }}px auto 0;
+    padding:0 20px {{ section.settings.title_padding }}px;
+    text-align:center;
+    color:rgba(var(--color-foreground), .75);
+  }
+</style>
+
+<div class="collection-banner-image">
+  {%- if desktop_image != blank -%}
+    {{
+      desktop_image
+      | image_url: width: 2800
+      | image_tag:
+        class: 'collection-banner-image__desktop',
+        loading: 'eager',
+        fetchpriority: 'high',
+        widths: '1000, 1400, 1800, 2400, 2800',
+        sizes: '100vw',
+        alt: collection.title
+    }}
+    {{
+      mobile_image
+      | image_url: width: 1200
+      | image_tag:
+        class: 'collection-banner-image__mobile',
+        loading: 'eager',
+        widths: '500, 750, 1000, 1200',
+        sizes: '100vw',
+        alt: collection.title
+    }}
+    <h1 class="visually-hidden">{{ collection.title | escape }}</h1>
+    {%- if section.settings.show_title_with_image -%}
+      <p class="collection-banner-image__title" aria-hidden="true">{{ collection.title | escape }}</p>
+    {%- endif -%}
+  {%- else -%}
+    <h1 class="collection-banner-image__title">{{ collection.title | escape }}</h1>
+    {%- if section.settings.show_description and collection.description != blank -%}
+      <div class="collection-banner-image__description rte">{{ collection.description }}</div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collection banner image",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": { "templates": ["collection"] },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop banner",
+      "info": "Optional. Defaults to the collection image. Wide images (about 4:1) work best."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile banner",
+      "info": "Optional. Defaults to the desktop banner."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title_with_image",
+      "label": "Show title under the image",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description when there's no image",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "title_padding",
+      "min": 8,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Title spacing",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

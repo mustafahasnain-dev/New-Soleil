@@ -1,0 +1,78 @@
+{%- comment -%}
+  Collection card modelled on minimalist.ae: square image on a light grey tile with a pill badge,
+  second image on hover (dots on touch screens), then a left-aligned uppercase name and grey price.
+  Accepts: card_product, show_secondary_image, lazy_load, new_days (badge "New" for products newer than this)
+  Styles: assets/template-collection-minimal.css
+{%- endcomment -%}
+{%- liquid
+  assign main_media = card_product.featured_media
+  assign second_media = null
+  if show_secondary_image and card_product.media.size > 1
+    assign second_media = card_product.media[1]
+  endif
+  assign loading = 'eager'
+  if lazy_load
+    assign loading = 'lazy'
+  endif
+
+  assign badge = ''
+  if card_product.available == false
+    assign badge = 'products.product.sold_out' | t
+  elsif card_product.compare_at_price > card_product.price
+    assign badge = 'products.product.on_sale' | t
+  elsif new_days > 0
+    assign now_seconds = 'now' | date: '%s' | plus: 0
+    assign created_seconds = card_product.created_at | date: '%s' | plus: 0
+    assign age_seconds = now_seconds | minus: created_seconds
+    assign new_seconds = new_days | times: 86400
+    if age_seconds < new_seconds
+      assign badge = 'New'
+    endif
+  endif
+-%}
+<div class="mcard">
+  <a href="{{ card_product.url }}" class="mcard__link">
+    <div class="mcard__media">
+      {%- if badge != blank -%}
+        <span class="mcard__badge">{{ badge }}</span>
+      {%- endif -%}
+      {%- if main_media -%}
+        {{
+          main_media
+          | image_url: width: 900
+          | image_tag:
+            class: 'mcard__img mcard__img--main',
+            loading: loading,
+            widths: '300, 400, 500, 700, 900',
+            sizes: '(min-width: 1101px) 24vw, (min-width: 768px) 31vw, 47vw',
+            alt: main_media.alt
+        }}
+        {%- if second_media -%}
+          {{
+            second_media
+            | image_url: width: 900
+            | image_tag:
+              class: 'mcard__img mcard__img--second',
+              loading: 'lazy',
+              widths: '300, 400, 500, 700, 900',
+              sizes: '(min-width: 1101px) 24vw, (min-width: 768px) 31vw, 47vw',
+              alt: ''
+          }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'mcard__img mcard__placeholder' }}
+      {%- endif -%}
+    </div>
+    <h3 class="mcard__name">{{ card_product.title | escape }}</h3>
+    <p class="mcard__price">
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <span class="mcard__price-now mcard__price-now--sale">{{ card_product.price | money }}</span>
+        <s class="mcard__price-was">{{ card_product.compare_at_price | money }}</s>
+      {%- elsif card_product.price_varies -%}
+        {{ 'products.product.price.from_price_html' | t: price: card_product.price_min | money }}
+      {%- else -%}
+        <span class="mcard__price-now">{{ card_product.price | money }}</span>
+      {%- endif -%}
+    </p>
+  </a>
+</div>
