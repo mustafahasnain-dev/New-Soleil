@@ -3635,3 +3635,9 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+@media screen and (max-width:500px){
+  .promo-header__block__text{
+    font-size:13px !important;
+  }
+}
