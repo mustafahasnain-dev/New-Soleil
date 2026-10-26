@@ -264,6 +264,188 @@
         "color_button": "#202259",
         "color_button_text": "#ffffff"
       }
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "blocks": {
+        "category_1": {
+          "type": "category",
+          "settings": {
+            "title": "ORDERING"
+          }
+        },
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "How do I place an order?",
+            "answer": "<p>Browse our collections, choose your piece and select <strong>Add to cart</strong>. When you’re ready, open your cart, select <strong>Check out</strong> and enter your delivery and payment details. You’ll receive an order confirmation by email as soon as your order is placed.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Can I modify my order?",
+            "answer": "<p>If you need to change something, contact us as soon as possible with your order number. We’re happy to help with changes such as the item or delivery address as long as your order hasn’t been dispatched yet.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Can I cancel my order?",
+            "answer": "<p>Yes — orders can be cancelled before they are dispatched. Contact us with your order number and we’ll arrange the cancellation and refund to your original payment method. Once an order has shipped, please follow our returns process instead.</p>"
+          }
+        },
+        "category_2": {
+          "type": "category",
+          "settings": {
+            "title": "SHIPPING"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Where do you deliver?",
+            "answer": "<p>We deliver across the United Arab Emirates. Available delivery destinations are shown at checkout when you enter your address.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "<p>Delivery time depends on your location. You’ll see the estimated delivery time at checkout, and we’ll email you tracking details as soon as your order is on its way.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "What are the shipping charges?",
+            "answer": "<p>Shipping charges are calculated at checkout based on your delivery address and order. Any free-shipping offers that apply are shown in your cart and at checkout before you pay.</p>"
+          }
+        },
+        "category_3": {
+          "type": "category",
+          "settings": {
+            "title": "PRODUCTS"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "What materials are used?",
+            "answer": "<p>Our pieces are made from premium materials with a polished 21K gold-plated finish. Many designs are set with sparkling cubic zirconia stones, pearls or mother-of-pearl — the exact materials are listed in each product’s details.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "Are the pieces hypoallergenic?",
+            "answer": "<p>Yes. Our jewellery is hypoallergenic and designed to be comfortable for everyday wear, including for sensitive skin.</p>"
+          }
+        },
+        "question_9": {
+          "type": "question",
+          "settings": {
+            "question": "How should I care for my jewellery?",
+            "answer": "<p>To keep your pieces shining, avoid contact with water, perfume, lotions and household chemicals, and put your jewellery on last when getting ready. Wipe gently with a soft, dry cloth after wearing and store each piece separately in its pouch or box to prevent scratches.</p>"
+          }
+        },
+        "category_4": {
+          "type": "category",
+          "settings": {
+            "title": "RETURNS"
+          }
+        },
+        "question_10": {
+          "type": "question",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We want you to love your jewellery. If you’re not completely happy, eligible items can be returned or exchanged in their original, unworn condition with all packaging. Please see our Returns policy for full timeframes and conditions.</p>"
+          }
+        },
+        "question_11": {
+          "type": "question",
+          "settings": {
+            "question": "How do I request a return?",
+            "answer": "<p>Contact us with your order number and the item(s) you’d like to return or exchange. Our team will confirm eligibility and send you the next steps.</p>"
+          }
+        },
+        "category_5": {
+          "type": "category",
+          "settings": {
+            "title": "WARRANTY"
+          }
+        },
+        "question_12": {
+          "type": "question",
+          "settings": {
+            "question": "What does the 1-year warranty cover?",
+            "answer": "<p>Every SOLEIL piece comes with a 1-year warranty covering manufacturing defects, such as faulty clasps, settings or plating defects under normal wear. It doesn’t cover damage from accidents, misuse, loss or normal wear and tear.</p>"
+          }
+        },
+        "question_13": {
+          "type": "question",
+          "settings": {
+            "question": "How do I make a warranty claim?",
+            "answer": "<p>Contact us with your order number, a short description of the issue and a photo of the piece. Our team will review your claim and arrange a repair or replacement where it’s covered.</p>"
+          }
+        },
+        "category_6": {
+          "type": "category",
+          "settings": {
+            "title": "GIFTS"
+          }
+        },
+        "question_14": {
+          "type": "question",
+          "settings": {
+            "question": "Can I add a gift message?",
+            "answer": "<p>Yes — you can add a personal note in the order notes in your cart before checkout, and we’ll include your message with the order.</p>"
+          }
+        },
+        "question_15": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer gift packaging?",
+            "answer": "<p>Every order arrives in our premium SOLEIL packaging, ready to give. Gift boxes are also available to add to your order.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_1",
+        "question_1",
+        "question_2",
+        "question_3",
+        "category_2",
+        "question_4",
+        "question_5",
+        "question_6",
+        "category_3",
+        "question_7",
+        "question_8",
+        "question_9",
+        "category_4",
+        "question_10",
+        "question_11",
+        "category_5",
+        "question_12",
+        "question_13",
+        "category_6",
+        "question_14",
+        "question_15"
+      ],
+      "settings": {
+        "heading": "Frequently asked questions",
+        "intro": "",
+        "heading_size": 30,
+        "heading_align": "left",
+        "max_width": 830,
+        "one_open": false,
+        "open_first": false,
+        "add_schema": true,
+        "color_background": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
@@ -272,6 +454,7 @@
     "toggle",
     "curated_collections",
     "collection_toggle_mqmGqD",
-    "about"
+    "about",
+    "faq"
   ]
 }

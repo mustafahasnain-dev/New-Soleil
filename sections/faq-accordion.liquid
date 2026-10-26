@@ -1,0 +1,293 @@
+{%- comment -%}
+  FAQ accordion, laid out like minimalist.ae/pages/faq: one centred column, uppercase category
+  headings, and questions with a thin chevron on the left that open to an indented answer.
+  Blocks: "category" (a heading) and "question" (question + answer), in any order.
+{%- endcomment -%}
+<style>
+  #shopify-section-{{ section.id }} .faq-accordion{
+    padding-top:{{ section.settings.padding_top }}px;
+    padding-bottom:{{ section.settings.padding_bottom }}px;
+    {%- if section.settings.color_background != blank and section.settings.color_background != 'rgba(0,0,0,0)' -%}
+    background:{{ section.settings.color_background }};
+    {%- endif -%}
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__inner{
+    max-width:{{ section.settings.max_width }}px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__heading{
+    margin:0 0 10px;
+    font-size:{{ section.settings.heading_size }}px;
+    font-weight:500;
+    line-height:1.1;
+    letter-spacing:.2px;
+    text-transform:uppercase;
+    text-align:{{ section.settings.heading_align }};
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__intro{
+    margin:0 0 20px;
+    text-align:{{ section.settings.heading_align }};
+    color:rgba(var(--color-foreground), .75);
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__category{
+    margin:28px 0 8px;
+    font-size:18px;
+    font-weight:500;
+    line-height:1.1;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__item{
+    position:relative;
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__question{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    padding:10px 0;
+    cursor:pointer;
+    list-style:none;
+    font-size:14px;
+    font-weight:500;
+    line-height:1.1;
+    letter-spacing:.2px;
+    text-transform:uppercase;
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__question::-webkit-details-marker{ display:none; }
+  #shopify-section-{{ section.id }} .faq-accordion__question::marker{ content:''; }
+  #shopify-section-{{ section.id }} .faq-accordion__question:focus-visible{
+    outline:1px solid rgb(var(--color-foreground));
+    outline-offset:4px;
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__chevron{
+    flex:0 0 24px;
+    width:24px;
+    height:24px;
+    margin-top:-5px;
+    transition:transform .3s ease;
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__item[open] .faq-accordion__chevron{ transform:rotate(180deg); }
+  #shopify-section-{{ section.id }} .faq-accordion__question-text{ padding-top:1px; }
+  #shopify-section-{{ section.id }} .faq-accordion__answer{
+    margin:0 0 0 40px;
+    padding:0 0 20px;
+    font-size:16px;
+    line-height:25px;
+    color:rgb(var(--color-foreground));
+  }
+  #shopify-section-{{ section.id }} .faq-accordion__answer p{ margin:0 0 10px; }
+  #shopify-section-{{ section.id }} .faq-accordion__answer > :last-child{ margin-bottom:0; }
+  #shopify-section-{{ section.id }} .faq-accordion__item[open] .faq-accordion__answer{ animation:faq-accordion-in .3s ease; }
+  @keyframes faq-accordion-in{
+    from{ opacity:0; transform:translateY(-4px); }
+    to{ opacity:1; transform:none; }
+  }
+  @media screen and (max-width:749px){
+    #shopify-section-{{ section.id }} .faq-accordion__heading{ font-size:{{ section.settings.heading_size | times: 0.9 | round }}px; }
+    #shopify-section-{{ section.id }} .faq-accordion__category{ font-size:16px; }
+    #shopify-section-{{ section.id }} .faq-accordion__answer{ font-size:15px; line-height:23px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #shopify-section-{{ section.id }} .faq-accordion__chevron,
+    #shopify-section-{{ section.id }} .faq-accordion__item[open] .faq-accordion__answer{ transition:none; animation:none; }
+  }
+</style>
+
+<div class="faq-accordion">
+  <div class="faq-accordion__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="faq-accordion__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}
+      <div class="faq-accordion__intro rte">{{ section.settings.intro }}</div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'category' -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="faq-accordion__category" {{ block.shopify_attributes }}>{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+        {%- when 'question' -%}
+          {%- if block.settings.question != blank -%}
+            <details class="faq-accordion__item" {{ block.shopify_attributes }}{% if section.settings.open_first and forloop.first %} open{% endif %}>
+              <summary class="faq-accordion__question">
+                <svg class="faq-accordion__chevron" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <span class="faq-accordion__question-text">{{ block.settings.question | escape }}</span>
+              </summary>
+              <div class="faq-accordion__answer rte">{{ block.settings.answer }}</div>
+            </details>
+          {%- endif -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{%- if section.settings.one_open -%}
+<script>
+  (() => {
+    const root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root || root.dataset.faqBound) return;
+    root.dataset.faqBound = 'true';
+    // keep a single answer open at a time
+    root.addEventListener('toggle', (event) => {
+      const opened = event.target;
+      if (!opened.matches('.faq-accordion__item') || !opened.open) return;
+      root.querySelectorAll('.faq-accordion__item[open]').forEach((item) => {
+        if (item !== opened) item.open = false;
+      });
+    }, true);
+  })();
+</script>
+{%- endif -%}
+
+{%- if section.settings.add_schema -%}
+  {%- capture faq_entities -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'question' and block.settings.question != blank and block.settings.answer != blank -%}
+        {"@type":"Question","name":{{ block.settings.question | json }},"acceptedAnswer":{"@type":"Answer","text":{{ block.settings.answer | strip_html | json }}}},
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- assign faq_entities = faq_entities | strip | remove_last: ',' -%}
+  {%- if faq_entities != blank -%}
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{ faq_entities }}]}</script>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro text"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 10,
+      "unit": "px",
+      "label": "Content width",
+      "default": 830
+    },
+    {
+      "type": "checkbox",
+      "id": "one_open",
+      "label": "Keep only one answer open at a time",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first question",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "add_schema",
+      "label": "Add FAQ structured data for search engines",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category",
+          "default": "Ordering"
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How do I place an order?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Add your answer here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "category" },
+        { "type": "question" }
+      ]
+    }
+  ]
+}
+{% endschema %}
