@@ -1,0 +1,94 @@
+{%- comment -%}
+  Product card styled after the Wokiee "New Arrivals" card on the old store:
+  3:4 image with second-image fade on hover, centred vendor / type / title / rating / price / short description.
+  Accepts: card_product, show_secondary_image, show_vendor, show_type, show_rating, show_description
+  Styles live in assets/component-card-soleil.css
+{%- endcomment -%}
+{%- liquid
+  assign main_media = card_product.featured_media
+  assign second_media = null
+  if show_secondary_image and card_product.media.size > 1
+    assign second_media = card_product.media[1]
+  endif
+  assign on_sale = false
+  if card_product.compare_at_price > card_product.price
+    assign on_sale = true
+  endif
+-%}
+<div class="soleil-card">
+  <a href="{{ card_product.url }}" class="soleil-card__media" tabindex="-1" aria-hidden="true">
+    {%- if main_media -%}
+      {{
+        main_media
+        | image_url: width: 900
+        | image_tag:
+          class: 'soleil-card__img soleil-card__img--main',
+          loading: 'lazy',
+          widths: '300, 450, 600, 900',
+          sizes: '(min-width: 990px) 25vw, 50vw',
+          alt: main_media.alt
+      }}
+      {%- if second_media -%}
+        {{
+          second_media
+          | image_url: width: 900
+          | image_tag:
+            class: 'soleil-card__img soleil-card__img--second',
+            loading: 'lazy',
+            widths: '300, 450, 600, 900',
+            sizes: '(min-width: 990px) 25vw, 50vw',
+            alt: second_media.alt
+        }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'soleil-card__img soleil-card__placeholder' }}
+    {%- endif -%}
+    <span class="soleil-card__badges">
+      {%- if card_product.available == false -%}
+        <span class="soleil-card__badge soleil-card__badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+      {%- elsif on_sale -%}
+        <span class="soleil-card__badge soleil-card__badge--sale">{{ 'products.product.on_sale' | t }}</span>
+      {%- endif -%}
+    </span>
+  </a>
+
+  <div class="soleil-card__content">
+    {%- if show_vendor and card_product.vendor != blank -%}
+      <p class="soleil-card__meta">{{ card_product.vendor | escape }}</p>
+    {%- endif -%}
+    {%- if show_type and card_product.type != blank -%}
+      <p class="soleil-card__meta">{{ card_product.type | escape }}</p>
+    {%- endif -%}
+    <h3 class="soleil-card__title">
+      <a href="{{ card_product.url }}">{{ card_product.title | escape }}</a>
+    </h3>
+    {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
+      {%- liquid
+        assign rating_decimal = 0
+        assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
+        if decimal >= 0.3 and decimal <= 0.7
+          assign rating_decimal = 0.5
+        elsif decimal > 0.7
+          assign rating_decimal = 1
+        endif
+      -%}
+      <div class="rating soleil-card__rating" role="img" aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}">
+        <span aria-hidden="true" class="rating-star" style="--rating: {{ card_product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ card_product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"></span>
+      </div>
+    {%- endif -%}
+    <div class="soleil-card__price">
+      {%- if on_sale -%}
+        <span class="soleil-card__price-sale">{{ card_product.price | money }}</span>
+        <s class="soleil-card__price-old">{{ card_product.compare_at_price | money }}</s>
+      {%- else -%}
+        <span>{%- if card_product.price_varies -%}{{ 'products.product.price.from_price_html' | t: price: card_product.price_min | money }}{%- else -%}{{ card_product.price | money }}{%- endif -%}</span>
+      {%- endif -%}
+    </div>
+    {%- if show_description -%}
+      {%- assign short_description = card_product.metafields.wokiee.small_description | default: card_product.metafields.custom.small_description -%}
+      {%- if short_description != blank -%}
+        <div class="soleil-card__description">{{ short_description }}</div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>

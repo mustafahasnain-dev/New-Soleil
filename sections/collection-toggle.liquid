@@ -1,5 +1,5 @@
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-card-soleil.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
 {%- liquid
   assign collection_1 = section.settings.collection_1
   assign collection_2 = section.settings.collection_2
@@ -19,6 +19,8 @@
     --ct-active: {{ section.settings.color_active_text }};
     --ct-inactive: {{ section.settings.color_inactive_text }};
   }
+  {%- comment -%} custom elements are inline by default, which stopped page-width's max-width applying {%- endcomment -%}
+  #theme-section-{{ section.id }} collection-toggle{ display:block; }
   #theme-section-{{ section.id }} .collection-toggle__head{
     display:flex;
     flex-direction:column;
@@ -117,13 +119,13 @@
           <ul class="grid product-grid grid--{{ section.settings.mobile_grid }}-col-tablet-down grid--{{ section.settings.grid }}-col-desktop" role="list">
             {%- for product in panel_collection.products limit: section.settings.product_limit -%}
               <li class="grid__item">
-                {%- render 'card-product',
+                {%- render 'card-product-soleil',
                   card_product: product,
-                  media_aspect_ratio: section.settings.image_ratio,
                   show_secondary_image: section.settings.show_secondary_image,
                   show_vendor: section.settings.show_vendor,
+                  show_type: section.settings.show_type,
                   show_rating: section.settings.show_rating,
-                  section_id: section.id
+                  show_description: section.settings.show_description
                 -%}
               </li>
             {%- endfor -%}
@@ -311,26 +313,6 @@ if (!customElements.get('collection-toggle')) {
       "default": "2"
     },
     {
-      "type": "select",
-      "id": "image_ratio",
-      "label": "Image ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "Adapt to image"
-        },
-        {
-          "value": "portrait",
-          "label": "Portrait"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        }
-      ],
-      "default": "portrait"
-    },
-    {
       "type": "checkbox",
       "id": "show_secondary_image",
       "label": "Show second image on hover",
@@ -340,7 +322,20 @@ if (!customElements.get('collection-toggle')) {
       "type": "checkbox",
       "id": "show_vendor",
       "label": "Show vendor",
-      "default": false
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_type",
+      "label": "Show product type",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show short description",
+      "info": "Uses the product's small description metafield, when set",
+      "default": true
     },
     {
       "type": "checkbox",
