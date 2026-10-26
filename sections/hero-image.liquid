@@ -56,14 +56,21 @@
     }
   }
   {%- endif -%}
-  {%- if section.settings.desktop_image_fit == 'contain' -%}
+  {%- if section.settings.height_type == 'fixed' -%}
+  {%- comment -%} Fixed height: images and videos always fill the full width and height {%- endcomment -%}
+  #theme-section-{{ section.id }} .hero-image > div,
+  #theme-section-{{ section.id }} .hero-image img,
+  #theme-section-{{ section.id }} .hero-image video{
+    width:100%;
+    height:100%;
+  }
+  #theme-section-{{ section.id }} .hero-image img,
+  #theme-section-{{ section.id }} .hero-image video{
+    object-fit:cover;
+    object-position:{{ section.settings.image_position }};
+  }
+  {%- elsif section.settings.desktop_image_fit == 'contain' -%}
   @media (min-width:1025px){
-    {%- if section.settings.height_type == 'fixed' -%}
-    #theme-section-{{ section.id }} .hero-image img,
-    #theme-section-{{ section.id }} .hero-image video{
-      object-fit:contain;
-    }
-    {%- else -%}
     #theme-section-{{ section.id }} .hero-slider__track{ align-items:flex-start; }
     #theme-section-{{ section.id }} .hero-image,
     #theme-section-{{ section.id }} .hero-image > div{ height:auto; }
@@ -72,7 +79,6 @@
       height:auto;
       object-fit:fill;
     }
-    {%- endif -%}
   }
   {%- endif -%}
   #theme-section-{{ section.id }} .hero-image__mobile{ display:none; }
@@ -328,6 +334,7 @@
       "label": "Image / video position"
     },
     {
+      "visible_if": "{{ section.settings.height_type == 'adapt' }}",
       "type": "select",
       "id": "desktop_image_fit",
       "options": [
