@@ -94,7 +94,7 @@
 <div id="theme-section-{{ section.id }}"
      class="top-spacing-{{ section.settings.top_spacing }}"
      data-section-name="collection-toggle">
-  <collection-toggle class="{{ page_width }}" data-remember="{{ section.settings.remember }}">
+  <collection-toggle class="{{ page_width }}" data-remember="{{ section.settings.remember }}" data-storage-key="collection-toggle-{{ section.id }}">
     <div class="collection-toggle__head">
       {%- if section.settings.heading != blank -%}
         <h2 class="collection-toggle__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
@@ -149,34 +149,45 @@
 if (!customElements.get('collection-toggle')) {
   customElements.define('collection-toggle', class extends HTMLElement {
     connectedCallback() {
+      // the theme editor can re-insert a section; only wire it up once
+      if (this.initialized) return;
+      this.initialized = true;
       this.switchEl = this.querySelector('.collection-toggle__switch');
-      this.buttons = Array.from(this.querySelectorAll('[data-toggle]'));
-      this.panels = Array.from(this.querySelectorAll('[data-panel]'));
       this.remember = this.dataset.remember === 'true';
-      this.buttons.forEach((btn) => btn.addEventListener('click', () => this.select(btn.dataset.toggle, true)));
+      // one saved choice per section, so duplicated toggles don't override each other
+      this.storageKey = this.dataset.storageKey || 'collection-toggle';
+      if (!this.switchEl) return;
+      this.switchEl.addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-toggle]');
+        if (btn && this.switchEl.contains(btn)) this.select(btn.dataset.toggle, true);
+      });
       this.switchEl.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         const next = this.switchEl.dataset.active === '1' ? '2' : '1';
         this.select(next, true);
-        this.buttons.find((btn) => btn.dataset.toggle === next).focus();
+        const nextBtn = this.switchEl.querySelector('[data-toggle="' + next + '"]');
+        if (nextBtn) nextBtn.focus();
       });
       if (this.remember && !(window.Shopify && Shopify.designMode)) {
         try {
-          const saved = localStorage.getItem('collection-toggle');
+          const saved = localStorage.getItem(this.storageKey);
           if (saved === '1' || saved === '2') this.select(saved, false);
         } catch (e) {}
       }
     }
     select(value, save) {
       this.switchEl.dataset.active = value;
-      this.buttons.forEach((btn) => {
+      this.switchEl.querySelectorAll('[data-toggle]').forEach((btn) => {
         const on = btn.dataset.toggle === value;
         btn.setAttribute('aria-selected', on ? 'true' : 'false');
         btn.tabIndex = on ? 0 : -1;
       });
-      this.panels.forEach((panel) => { panel.hidden = panel.dataset.panel !== value; });
+      // only this section's panels (direct children), never a nested/duplicated toggle's
+      Array.from(this.children).filter((el) => el.matches('[data-panel]')).forEach((panel) => {
+        panel.hidden = panel.dataset.panel !== value;
+      });
       if (save && this.remember) {
-        try { localStorage.setItem('collection-toggle', value); } catch (e) {}
+        try { localStorage.setItem(this.storageKey, value); } catch (e) {}
       }
     }
   });
