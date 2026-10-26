@@ -149,7 +149,7 @@
         "color_thumb": "#ffffff",
         "color_active_text": "#000000",
         "color_inactive_text": "#a3a3ad",
-        "top_spacing": "normal",
+        "top_spacing": "small",
         "width": "default"
       }
     },
