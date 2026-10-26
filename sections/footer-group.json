@@ -1,11 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "custom_footer": {
+      "type": "custom-footer",
+      "settings": {
+        "logo": "shopify://shop_images/logo-small.png",
+        "logo_width": 95,
+        "tagline": "Timeless jewellery, thoughtfully designed for every moment.",
+        "description": "<p>We’re a community that celebrates beauty, confidence and meaningful pieces for everyday moments.</p>",
+        "show_social_brand": true,
+        "location_heading": "Our location",
+        "location_text": "<p>Yas Mall, Abu Dhabi</p>",
+        "menu_heading": "Quick links",
+        "menu": "footer",
+        "newsletter_heading": "Subscribe to our emails",
+        "newsletter_text": "<p>Subscribe to receive all our updates and offers, and get a 10% discount on your first purchase.</p>",
+        "show_newsletter": true,
+        "newsletter_placeholder": "Email",
+        "newsletter_success": "Thanks for subscribing!",
+        "newsletter_note": "<p>By subscribing you agree to the <a href=\"/policies/terms-of-service\">Terms of Use</a> & <a href=\"/policies/privacy-policy\">Privacy Policy</a>.</p>",
+        "show_social_newsletter": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "show_payments": true,
+        "copyright_text": "All rights reserved.",
+        "show_policies": true,
+        "width": "default",
+        "column_offset": 28,
+        "padding_top": 48,
+        "padding_top_mobile": 40,
+        "padding_bottom": 24,
+        "color_background": "#f4f5f9",
+        "color_heading": "#202259",
+        "color_text": "#202259",
+        "color_line": "#c9cbd6",
+        "color_input": "#ffffff"
+      }
+    },
     "footer": {
       "type": "footer",
-      "blocks": {},
-      "block_order": [],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "newsletter_enable": true,
@@ -19,17 +63,6 @@
         "margin_top": 0,
         "padding_top": 36,
         "padding_bottom": 36
-      },
-      "disabled": true
-    },
-    "custom_footer": {
-      "type": "custom-footer",
-      "settings": {
-        "tagline": "Timeless jewellery, thoughtfully designed for every moment.",
-        "location_heading": "Our location",
-        "location_text": "<p>Yas Mall, Abu Dhabi</p>",
-        "menu_heading": "Quick links",
-        "menu": "footer"
       }
     }
   },
