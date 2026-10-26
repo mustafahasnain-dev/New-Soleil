@@ -196,6 +196,7 @@
         "row_1": {
           "type": "row",
           "settings": {
+            "video": "shopify://files/videos/Lamis Collection Video 1.webm",
             "heading": "Inspired by crescent moons & starlit skies",
             "text": "<p>Drawing from the soft shimmer of stars and the delicate curve of the moon, the collection brings celestial beauty into everyday wear. Each piece captures a quiet glow, designed to reflect the stillness and sparkle of night.</p>",
             "bg_color": ""
@@ -204,6 +205,7 @@
         "row_2": {
           "type": "row",
           "settings": {
+            "image": "shopify://shop_images/amara_earnings.webp",
             "heading": "Lightweight & comfortable for daily wear",
             "text": "<p>Designed to feel light, effortless and radiant, each piece is crafted from hypoallergenic materials and finished with luminous crystals for lasting comfort. Whether you're getting ready for a quiet evening or a busy day, it moves with you.</p>",
             "bg_color": ""
@@ -212,6 +214,7 @@
         "row_3": {
           "type": "row",
           "settings": {
+            "image": "shopify://shop_images/Pack.webp",
             "heading": "Signature packaging, perfect for gifting",
             "text": "<p>Every piece arrives in our premium gift box, making it an unforgettable present for birthdays, graduations and other special occasions.</p>",
             "bg_color": ""
