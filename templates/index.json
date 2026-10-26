@@ -15,7 +15,7 @@
         "slide_PtLp6R": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/soleil-b1.webp",
+            "image": "shopify://shop_images/Jory_Glow_new_arrival.png",
             "image_mobile": "shopify://shop_images/soleil_b1-sm.webp",
             "url": "",
             "link_title": ""
@@ -33,7 +33,7 @@
         "slide_DhrijP": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/soleil-b3.webp",
+            "image": "shopify://shop_images/Jadeel.png",
             "image_mobile": "shopify://shop_images/m2.webp",
             "url": "",
             "link_title": ""
@@ -52,9 +52,11 @@
         "autoplay_time": 5,
         "show_arrows": true,
         "show_dots": true,
-        "height_type": "fixed",
+        "height_type": "viewport",
         "height_desktop": 500,
         "height_mobile": 500,
+        "height_desktop_vh": 90,
+        "height_mobile_vh": 70,
         "image_position": "center",
         "desktop_image_fit": "contain",
         "border_radius": 0,
