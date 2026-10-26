@@ -4,8 +4,12 @@
   if slide_blocks.size > 1
     assign is_slider = true
   endif
+  assign fixed_height = false
+  if section.settings.height_type == 'fixed' or section.settings.height_type == 'viewport'
+    assign fixed_height = true
+  endif
   assign cover = false
-  if is_slider or section.settings.height_type == 'fixed'
+  if is_slider or fixed_height
     assign cover = true
   endif
 -%}
@@ -55,9 +59,20 @@
       height:{{ section.settings.height_desktop }}px;
     }
   }
+  {%- elsif section.settings.height_type == 'viewport' -%}
+  #theme-section-{{ section.id }} .hero-image{
+    height:{{ section.settings.height_mobile_vh }}vh;
+    height:{{ section.settings.height_mobile_vh }}svh;
+  }
+  @media (min-width:1025px){
+    #theme-section-{{ section.id }} .hero-image{
+      height:{{ section.settings.height_desktop_vh }}vh;
+      height:{{ section.settings.height_desktop_vh }}svh;
+    }
+  }
   {%- endif -%}
-  {%- if section.settings.height_type == 'fixed' -%}
-  {%- comment -%} Fixed height: images and videos always fill the full width and height {%- endcomment -%}
+  {%- if fixed_height -%}
+  {%- comment -%} Fixed height (px or vh): images and videos always fill the full width and height {%- endcomment -%}
   #theme-section-{{ section.id }} .hero-image > div,
   #theme-section-{{ section.id }} .hero-image img,
   #theme-section-{{ section.id }} .hero-image video{
@@ -285,7 +300,11 @@
         },
         {
           "value": "fixed",
-          "label": "Fixed height"
+          "label": "Fixed height (px)"
+        },
+        {
+          "value": "viewport",
+          "label": "Screen height (vh)"
         }
       ],
       "default": "adapt",
@@ -311,6 +330,28 @@
       "step": 10,
       "unit": "px",
       "default": 500,
+      "label": "Height on mobile"
+    },
+    {
+      "visible_if": "{{ section.settings.height_type == 'viewport' }}",
+      "type": "range",
+      "id": "height_desktop_vh",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 80,
+      "label": "Height on desktop"
+    },
+    {
+      "visible_if": "{{ section.settings.height_type == 'viewport' }}",
+      "type": "range",
+      "id": "height_mobile_vh",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 70,
       "label": "Height on mobile"
     },
     {
