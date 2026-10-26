@@ -213,32 +213,32 @@
         "padding_bottom": 48
       }
     },
-    "best_sellers": {
-      "type": "featured-collection",
+    "collection_toggle_mqmGqD": {
+      "type": "collection-toggle",
       "settings": {
-        "collection": "best-sellers",
-        "products_to_show": 8,
-        "title": "Best Sellers",
-        "heading_size": "h1",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "",
-        "image_ratio": "portrait",
-        "image_shape": "default",
+        "label_1": "New Arrivals",
+        "collection_1": "amara",
+        "label_2": "Best Sellers",
+        "collection_2": "al-7ob",
+        "default_tab": "1",
+        "remember": true,
+        "heading": "",
+        "heading_size": "h3",
+        "product_limit": 4,
+        "grid": 4,
+        "mobile_grid": "2",
         "show_secondary_image": true,
         "show_vendor": false,
+        "show_type": false,
+        "show_description": false,
         "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "link_name": "View all",
+        "color_track": "#ececf1",
+        "color_thumb": "#ffffff",
+        "color_active_text": "#000000",
+        "color_inactive_text": "#a3a3ad",
+        "top_spacing": "small",
+        "width": "default"
       }
     },
     "new_arrivals": {
@@ -298,7 +298,7 @@
     "promo_marquee",
     "toggle",
     "curated_collections",
-    "best_sellers",
+    "collection_toggle_mqmGqD",
     "new_arrivals",
     "about"
   ]
