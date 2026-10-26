@@ -1,13 +1,5 @@
 {
   "sections": {
-    "banner": {
-      "type": "collection-banner-image",
-      "settings": {
-        "show_title_with_image": false,
-        "show_description": true,
-        "title_padding": 36
-      }
-    },
     "product-grid": {
       "type": "main-collection-product-grid",
       "settings": {
@@ -33,7 +25,6 @@
     }
   },
   "order": [
-    "banner",
     "product-grid"
   ]
 }
