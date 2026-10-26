@@ -219,7 +219,7 @@
         "label_1": "New Arrivals",
         "collection_1": "new-arrivals",
         "label_2": "Best Sellers",
-        "collection_2": "new-arrivals",
+        "collection_2": "best-sellers",
         "default_tab": "1",
         "remember": true,
         "heading": "",
