@@ -3638,6 +3638,10 @@ details-disclosure > details {
 
 @media screen and (max-width:500px){
   .promo-header__block__text a{
-    font-size:12px !important;
+    font-size:13px !important;
   }
+}
+
+#shopify-section-template--29610364502382__promo_marquee .scrolling-marquee__item{
+  letter-spacing: -0.01em !important; 
 }

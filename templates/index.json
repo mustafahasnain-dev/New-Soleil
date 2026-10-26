@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+
 {
   "sections": {
     "hero": {
@@ -63,6 +55,76 @@
         "top_spacing": "none"
       }
     },
+    "promo_marquee": {
+      "type": "scrolling-marquee",
+      "blocks": {
+        "message_4": {
+          "type": "message",
+          "settings": {
+            "text": "FAST DELIVERY",
+            "link": ""
+          }
+        },
+        "message_1": {
+          "type": "message",
+          "settings": {
+            "text": "PREMIUM MATERIALS",
+            "link": "shopify://collections/rings"
+          }
+        },
+        "message_2": {
+          "type": "message",
+          "settings": {
+            "text": "1 YEAR WARRANTY",
+            "link": ""
+          }
+        },
+        "message_3": {
+          "type": "message",
+          "settings": {
+            "text": "EASY RETURN & EXCHANGE",
+            "link": ""
+          }
+        },
+        "message_5": {
+          "type": "message",
+          "settings": {
+            "text": "PREMIUM PACKAGING",
+            "link": ""
+          }
+        },
+        "message_Nmf8Td": {
+          "type": "message",
+          "settings": {
+            "text": "DESIGNED IN UAE",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "message_4",
+        "message_1",
+        "message_2",
+        "message_3",
+        "message_5",
+        "message_Nmf8Td"
+      ],
+      "settings": {
+        "color_background": "#202259",
+        "color_text": "#ffffff",
+        "speed": 60,
+        "direction": "left",
+        "pause_on_hover": true,
+        "separator": "diamond",
+        "repeat": 3,
+        "font_size": 15,
+        "uppercase": true,
+        "gap": 36,
+        "padding": 14,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
     "toggle": {
       "type": "collection-toggle",
       "settings": {
@@ -87,7 +149,7 @@
         "color_thumb": "#ffffff",
         "color_active_text": "#000000",
         "color_inactive_text": "#a3a3ad",
-        "top_spacing": "normal",
+        "top_spacing": "small",
         "width": "default"
       }
     },
@@ -168,120 +230,6 @@
         "color_background": "#f6efe6",
         "color_button": "#202259",
         "color_button_text": "#ffffff"
-      }
-    },
-    "promo_marquee": {
-      "type": "scrolling-marquee",
-      "blocks": {
-        "message_1": {
-          "type": "message",
-          "settings": {
-            "text": "Save 5% on Diamond Rings Today",
-            "link": "shopify://collections/rings"
-          }
-        },
-        "message_2": {
-          "type": "message",
-          "settings": {
-            "text": "New collections just landed",
-            "link": ""
-          }
-        },
-        "message_3": {
-          "type": "message",
-          "settings": {
-            "text": "21K gold plated · Hypoallergenic",
-            "link": ""
-          }
-        },
-        "message_4": {
-          "type": "message",
-          "settings": {
-            "text": "Free shipping across the UAE",
-            "link": ""
-          }
-        },
-        "message_5": {
-          "type": "message",
-          "settings": {
-            "text": "1 year warranty on every piece",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "message_1",
-        "message_2",
-        "message_3",
-        "message_4",
-        "message_5"
-      ],
-      "settings": {
-        "color_background": "#202259",
-        "color_text": "#ffffff",
-        "speed": 40,
-        "direction": "left",
-        "pause_on_hover": true,
-        "separator": "diamond",
-        "repeat": 3,
-        "font_size": 15,
-        "uppercase": true,
-        "gap": 36,
-        "padding": 14,
-        "margin_top": 0,
-        "margin_bottom": 0
-      }
-    },
-    "curated_collections": {
-      "type": "curated-collections",
-      "blocks": {
-        "collection_1": {
-          "type": "collection",
-          "settings": {
-            "collection": "al-7ob",
-            "label": ""
-          }
-        },
-        "collection_2": {
-          "type": "collection",
-          "settings": {
-            "collection": "amara",
-            "label": ""
-          }
-        },
-        "collection_3": {
-          "type": "collection",
-          "settings": {
-            "collection": "flora",
-            "label": ""
-          }
-        },
-        "collection_4": {
-          "type": "collection",
-          "settings": {
-            "collection": "yara",
-            "label": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_1",
-        "collection_2",
-        "collection_3",
-        "collection_4"
-      ],
-      "settings": {
-        "heading": "Curated Collections",
-        "heading_size": 28,
-        "heading_gap": 32,
-        "columns_desktop": 4,
-        "image_ratio": "0.857",
-        "radius": 8,
-        "gap": 22,
-        "label_size": 16,
-        "mobile_layout": "grid",
-        "padding_top": 48,
-        "padding_bottom": 48
       }
     }
   },
