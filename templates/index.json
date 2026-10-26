@@ -56,7 +56,7 @@
         "height_desktop": 500,
         "height_mobile": 500,
         "height_desktop_vh": 90,
-        "height_mobile_vh": 70,
+        "height_mobile_vh": 90,
         "image_position": "center",
         "desktop_image_fit": "contain",
         "border_radius": 0,
