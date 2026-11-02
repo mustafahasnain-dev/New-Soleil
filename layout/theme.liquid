@@ -365,6 +365,15 @@
         /* the overlay group must span the whole page (as in Wokiee, where it sits on <body>) so the sticky header can follow the scroll */
         body:has(.fixed-header-group) { position: relative; }
         #wk-scope:has(.fixed-header-group) { position: static !important; }
+        /* white logo over the hero; the original colours return once the sticky header activates on scroll */
+        #wk-scope .fixed-header-group .header__heading img,
+        #wk-scope .fixed-header-group .header__heading .header__heading-logo--svg {
+          transition: filter .3s ease;
+        }
+        #wk-scope .fixed-header-group:not(:has(.sticky-activated)) .header__heading img,
+        #wk-scope .fixed-header-group:not(:has(.sticky-activated)) .header__heading .header__heading-logo--svg {
+          filter: brightness(0) invert(1);
+        }
       </style>
     {%- endif -%}
 
