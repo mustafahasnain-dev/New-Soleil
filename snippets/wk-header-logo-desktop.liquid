@@ -43,9 +43,17 @@
   
   {%- if template.name == "index" and settings.wk_fixed_header_on_index -%}
   <a href="{{ routes.root_url }}" class="header__heading-link__transparent header__heading-link logo-zoom-in clear-underline" aria-label="{{ shop.name }}">
-    {%- assign logo_svg = settings.wk_logo_svg_transparent -%}
-    {%- assign image_src = settings.wk_logo_transparent -%}
-    {%- assign logo_max_width = settings.wk_logo_max_width_transparent -%}
+    {%- comment -%} no transparent-header logo uploaded: fall back to the regular header logo {%- endcomment -%}
+    {%- liquid
+      assign logo_svg = settings.wk_logo_svg_transparent
+      assign image_src = settings.wk_logo_transparent
+      assign logo_max_width = settings.wk_logo_max_width_transparent
+      if logo_svg == blank and image_src == blank
+        assign logo_svg = section.settings.logo_svg
+        assign image_src = section.settings.logo
+        assign logo_max_width = section.settings.logo_max_width
+      endif
+    -%}
     {%- if logo_svg != blank -%}
     {%- assign width = logo_svg | split: 'width="' | last | split: '"' | first | times: 1.0 -%}
     {%- assign height = logo_svg | split: 'height="' | last | split: '"' | first | plus: 0 -%}
