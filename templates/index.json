@@ -12,15 +12,6 @@
     "hero": {
       "type": "hero-image",
       "blocks": {
-        "slide_PtLp6R": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Jory_Glow_new_arrival.png",
-            "image_mobile": "shopify://shop_images/soleil_b1-sm.webp",
-            "url": "",
-            "link_title": ""
-          }
-        },
         "slide_nxHLFm": {
           "type": "slide",
           "settings": {
@@ -29,21 +20,10 @@
             "url": "",
             "link_title": ""
           }
-        },
-        "slide_DhrijP": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Jadeel.png",
-            "image_mobile": "shopify://shop_images/m2.webp",
-            "url": "",
-            "link_title": ""
-          }
         }
       },
       "block_order": [
-        "slide_PtLp6R",
-        "slide_nxHLFm",
-        "slide_DhrijP"
+        "slide_nxHLFm"
       ],
       "settings": {
         "url": "",
@@ -55,8 +35,8 @@
         "height_type": "viewport",
         "height_desktop": 500,
         "height_mobile": 500,
-        "height_desktop_vh": 90,
-        "height_mobile_vh": 90,
+        "height_desktop_vh": 100,
+        "height_mobile_vh": 100,
         "image_position": "center",
         "desktop_image_fit": "contain",
         "border_radius": 0,

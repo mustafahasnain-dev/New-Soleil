@@ -343,8 +343,30 @@
       {%- if settings.cart_type == 'drawer' and template.name != 'cart' -%}
         {% section 'wk-cart-drawer' %}
       {%- endif -%}
-      {% sections 'header-group' %}
+      {%- liquid
+        assign transparent_header = false
+        if template.name == 'index'
+          if settings.wk_fixed_header_on_index or settings.wk_fixed_header_on_index_mobile
+            assign transparent_header = true
+          endif
+        endif
+      -%}
+      {%- if transparent_header -%}
+        {%- comment -%} Home page: header sits over the hero and turns solid once the sticky header activates {%- endcomment -%}
+        <wk-fixed-headergroup class="fixed-header-group"{% if settings.wk_fixed_header_on_index %} data-transparent-desktop="true"{% endif %}{% if settings.wk_fixed_header_on_index_mobile %} data-transparent-mobile="true"{% endif %}>
+          {% sections 'header-group' %}
+        </wk-fixed-headergroup>
+      {%- else -%}
+        {% sections 'header-group' %}
+      {%- endif -%}
     </div>
+    {%- if transparent_header -%}
+      <style>
+        /* the overlay group must span the whole page (as in Wokiee, where it sits on <body>) so the sticky header can follow the scroll */
+        body:has(.fixed-header-group) { position: relative; }
+        #wk-scope:has(.fixed-header-group) { position: static !important; }
+      </style>
+    {%- endif -%}
 
     <main
       id="MainContent"
