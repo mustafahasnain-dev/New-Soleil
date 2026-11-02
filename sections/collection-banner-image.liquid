@@ -1,39 +1,28 @@
 {%- comment -%}
-  Full-width collection banner (as on minimalist.ae): separate desktop and mobile images.
-  Falls back to the collection image, then to the collection title when there is no image.
+  Full-width collection banner, as on minimalist.ae/collections/perfumes: the image spans the page at its
+  natural proportions with no overlay. Uses the collection image (optional desktop/mobile overrides).
+  Renders nothing when the collection has no image, so the page starts at the toolbar.
+  The page h1 lives in the product grid section.
 {%- endcomment -%}
 {%- liquid
   assign desktop_image = section.settings.image_desktop | default: collection.image
   assign mobile_image = section.settings.image_mobile | default: desktop_image
 -%}
-<style>
-  #shopify-section-{{ section.id }} .collection-banner-image{ position:relative; }
-  #shopify-section-{{ section.id }} .collection-banner-image img{ display:block; width:100%; height:auto; }
-  #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:none; }
-  @media screen and (max-width:749px){
-    #shopify-section-{{ section.id }} .collection-banner-image__desktop{ display:none; }
-    #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:block; }
-  }
-  #shopify-section-{{ section.id }} .collection-banner-image__title{
-    margin:0;
-    padding:{{ section.settings.title_padding }}px 20px;
-    text-align:center;
-    font-size:28px;
-    font-weight:400;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-  }
-  #shopify-section-{{ section.id }} .collection-banner-image__description{
-    max-width:720px;
-    margin:-{{ section.settings.title_padding | divided_by: 2 }}px auto 0;
-    padding:0 20px {{ section.settings.title_padding }}px;
-    text-align:center;
-    color:rgba(var(--color-foreground), .75);
-  }
-</style>
+{%- if desktop_image != blank -%}
+  <style>
+    #shopify-section-{{ section.id }} .collection-banner-image{ position:relative; margin-bottom:{{ section.settings.margin_bottom }}px; }
+    #shopify-section-{{ section.id }} .collection-banner-image img{ display:block; width:100%; height:auto; }
+    #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:none; }
+    {%- if section.settings.max_height > 0 -%}
+    #shopify-section-{{ section.id }} .collection-banner-image img{ max-height:{{ section.settings.max_height }}px; object-fit:cover; }
+    {%- endif -%}
+    @media screen and (max-width:640px){
+      #shopify-section-{{ section.id }} .collection-banner-image__desktop{ display:none; }
+      #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:block; }
+    }
+  </style>
 
-<div class="collection-banner-image">
-  {%- if desktop_image != blank -%}
+  <div class="collection-banner-image">
     {{
       desktop_image
       | image_url: width: 2800
@@ -41,7 +30,7 @@
         class: 'collection-banner-image__desktop',
         loading: 'eager',
         fetchpriority: 'high',
-        widths: '1000, 1400, 1800, 2400, 2800',
+        widths: '832, 1200, 1920, 2400, 2800',
         sizes: '100vw',
         alt: collection.title
     }}
@@ -55,17 +44,8 @@
         sizes: '100vw',
         alt: collection.title
     }}
-    <h1 class="visually-hidden">{{ collection.title | escape }}</h1>
-    {%- if section.settings.show_title_with_image -%}
-      <p class="collection-banner-image__title" aria-hidden="true">{{ collection.title | escape }}</p>
-    {%- endif -%}
-  {%- else -%}
-    <h1 class="collection-banner-image__title">{{ collection.title | escape }}</h1>
-    {%- if section.settings.show_description and collection.description != blank -%}
-      <div class="collection-banner-image__description rte">{{ collection.description }}</div>
-    {%- endif -%}
-  {%- endif -%}
-</div>
+  </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -75,38 +55,41 @@
   "enabled_on": { "templates": ["collection"] },
   "settings": [
     {
+      "type": "paragraph",
+      "content": "Shows the collection's image full width. Collections without an image show no banner."
+    },
+    {
       "type": "image_picker",
       "id": "image_desktop",
-      "label": "Desktop banner",
-      "info": "Optional. Defaults to the collection image. Wide images (about 4:1) work best."
+      "label": "Desktop banner override",
+      "info": "Optional. Leave empty to use each collection's own image."
     },
     {
       "type": "image_picker",
       "id": "image_mobile",
-      "label": "Mobile banner",
-      "info": "Optional. Defaults to the desktop banner."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_title_with_image",
-      "label": "Show title under the image",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_description",
-      "label": "Show description when there's no image",
-      "default": true
+      "label": "Mobile banner override",
+      "info": "Optional. Defaults to the desktop image."
     },
     {
       "type": "range",
-      "id": "title_padding",
-      "min": 8,
+      "id": "max_height",
+      "min": 0,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "label": "Maximum height",
+      "info": "0 shows the full image at its natural size.",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
       "max": 80,
       "step": 4,
       "unit": "px",
-      "label": "Title spacing",
-      "default": 36
+      "label": "Space below banner",
+      "default": 0
     }
   ]
 }

@@ -22,9 +22,17 @@
         "full_width": true,
         "new_badge_days": 30
       }
+    },
+    "banner": {
+      "type": "collection-banner-image",
+      "settings": {
+        "max_height": 0,
+        "margin_bottom": 0
+      }
     }
   },
   "order": [
+    "banner",
     "product-grid"
   ]
 }
