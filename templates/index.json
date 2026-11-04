@@ -12,6 +12,14 @@
     "hero": {
       "type": "hero-image",
       "blocks": {
+        "slide_AY3wzY": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/BFS_01.webp",
+            "url": "",
+            "link_title": ""
+          }
+        },
         "slide_nxHLFm": {
           "type": "slide",
           "settings": {
@@ -23,6 +31,7 @@
         }
       },
       "block_order": [
+        "slide_AY3wzY",
         "slide_nxHLFm"
       ],
       "settings": {
@@ -112,14 +121,13 @@
         "separator": "none",
         "repeat": 3,
         "font_size": 15,
+        "icon_size": 20,
+        "icon_gap": 10,
         "uppercase": true,
         "gap": 36,
         "padding": 14,
         "margin_top": 0,
-        "margin_bottom": 0,
-        "icon_size": 20,
-        "icon_gap": 10,
-        "text_offset": 14
+        "margin_bottom": 0
       }
     },
     "toggle": {
