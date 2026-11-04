@@ -17,34 +17,22 @@
   {%- if disable_phones_block != "disable" -%}
   {% assign phone = section.blocks | where: "type", "phone" %}
   {%- for block in phone -%}
-  {%- capture phone_content_button -%}
-  <div class="header-phone-number__desktop" id="header-contacts-heading-{{ block.id }}">
-    {%- if block.settings.phone__0 != blank or block.settings.phone_icon__0 != blank -%}
-      {%- if block.settings.phone_as_link__0 -%}
-      <a href="tel:{{ block.settings.phone__0 | replace:" ", "" }}" class="mt0 h5 clear-underline header-phone-number__icon">{%- render 'wk-icons-list' icon_name: block.settings.phone_icon__0 -%}{{ block.settings.phone__0 }}</a>
-      {%- else -%}
-      <p class="mt0 h5 header-phone-number__icon">{%- render 'wk-icons-list' icon_name: block.settings.phone_icon__0 -%}{{ block.settings.phone__0 }}</p>
-      {%- endif -%}
+  {%- comment -%} Phone number + contacts dropdown replaced by a WhatsApp icon link {%- endcomment -%}
+  {%- liquid
+    assign whatsapp_url = block.settings.url__3
+    if whatsapp_url == blank or whatsapp_url == '#'
+      assign whatsapp_number = block.settings.phone__0 | remove: 'T:' | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | strip
+      assign whatsapp_url = 'https://wa.me/' | append: whatsapp_number
+    endif
+  -%}
+  <a href="{{ whatsapp_url }}" class="header__button header__whatsapp{% if section.settings.icons_text != 'show_only_text' %} move-icon-up{% endif %} global__tooltip--hover" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg class="header__whatsapp-icon" aria-hidden="true" focusable="false" width="22" height="22" style="width:22px;height:22px;stroke:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, currentColor)))" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.6 8.6 0 1 1 8 19.5z"/><path d="M9.2 7.8c.2-.4.5-.4.8-.4h.5c.2 0 .4.1.5.4l.7 1.7c.1.2 0 .4-.1.6l-.5.6c-.1.1-.2.3 0 .5.3.6 1.4 2 2.9 2.6.2.1.4 0 .5-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.3.3.5 0 .4-.2 1.1-.8 1.5-.6.4-1.5.5-2.6.1-1.4-.5-3.4-2-4.5-3.8-.7-1.1-.9-2.2-.4-3.2z"/></svg>
+    {%- if section.settings.icons_text == 'tooltip' -%}
+    <wk-global-tooltip class="global__tooltip global__tooltip__static">
+      <div class="global__tooltip__content">WhatsApp</div>
+    </wk-global-tooltip>
     {%- endif -%}
-    {%- if block.settings.text__0 != blank -%}<p class="mt0 body3 phone-slogan">{{ block.settings.text__0 }}</p>{%- endif -%}
-  </div>
-  {%- endcapture -%}
-  {%- capture phone_content -%}{%- render "wk-header-contacts", block:block -%}{%- endcapture -%}
-  {%- if phone_content != blank -%}
-  <div class="header-phone-number__desktop__container enable-scrollbar-js" id="header-contacts-{{ block.id }}">
-    <div class="header-phone-number__desktop__main{% if block.settings.open_on == "click" %} header-phone-number__desktop__on-click{% endif %}">
-      {{ phone_content_button }}
-      {{- 'wk-icon-arrow-down-small' | append: settings.wk_system_icon_thickness | inline_asset_content -}}
-    </div>
-    <div class="header-phone-number__desktop_submenu">
-      <div class="header-phone-number__desktop_submenu__container scrollbar-height-js custom__scrollbar">
-        {{ phone_content }}
-      </div>
-    </div>
-  </div>
-  {%- else -%}
-  {{ phone_content_button }}
-  {%- endif -%}
+  </a>
   {%- endfor -%}
   {%- endif -%}
 
