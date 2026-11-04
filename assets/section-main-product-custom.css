@@ -882,3 +882,13 @@
 .mpc .loading__spinner { width: auto; height: auto; left: auto; top: auto; }
 .mpc legend { width: auto; }
 .mpc summary { position: relative; }
+
+/* Text & image block (e.g. secure checkout payment graphic under Add to bag) */
+.mpc-text-image { padding: 16px 18px; border-radius: 6px; background: var(--mpc-ti-bg); color: var(--mpc-ti-text); }
+.mpc-text-image--center { text-align: center; }
+.mpc-text-image__heading { margin: 0 0 12px; font-size: 15px; font-weight: 500; color: inherit; }
+.mpc-text-image__text { margin-bottom: 12px; font-size: 13px; color: inherit; }
+.mpc-text-image__text > :last-child { margin-bottom: 0; }
+.mpc-text-image__link { display: inline-block; }
+.mpc-text-image__img { display: block; width: 100%; max-width: var(--mpc-ti-width); height: auto; }
+.mpc-text-image--center .mpc-text-image__img { margin: 0 auto; }

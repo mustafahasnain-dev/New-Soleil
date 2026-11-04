@@ -155,6 +155,10 @@
             "content": "<p>Every piece is covered by a 24 month warranty against manufacturing defects. Keep your order number handy and contact our team for assistance.</p>",
             "page": ""
           }
+        },
+        "text_image": {
+          "type": "text_image",
+          "settings": { "heading": "Secure Checkout with" }
         }
       },
       "block_order": [
@@ -167,6 +171,7 @@
         "features",
         "gift_wrap",
         "buy_buttons",
+        "text_image",
         "complete_the_look",
         "trust_badges",
         "tab_specs",

@@ -1,0 +1,9 @@
+{%- comment -%} Text & image block for main-product-custom (heading, rich text, image). Accepts: block {%- endcomment -%}
+<div class="mpc-block mpc-text-image mpc-text-image--{{ block.settings.alignment }}" style="--mpc-ti-bg: {{ block.settings.bg_color }}; --mpc-ti-text: {{ block.settings.text_color }}; --mpc-ti-width: {{ block.settings.image_width }}px;" {{ block.shopify_attributes }}>
+  {%- if block.settings.heading != blank -%}<p class="mpc-text-image__heading">{{ block.settings.heading | escape }}</p>{%- endif -%}
+  {%- if block.settings.text != blank -%}<div class="mpc-text-image__text mpc-rte">{{ block.settings.text }}</div>{%- endif -%}
+  {%- if block.settings.image != blank -%}
+    {%- capture ti_img -%}{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'mpc-text-image__img', widths: '400, 800, 1200', sizes: '(min-width: 750px) 600px, 100vw', alt: block.settings.image.alt }}{%- endcapture -%}
+    {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" class="mpc-text-image__link">{{ ti_img }}</a>{%- else -%}{{ ti_img }}{%- endif -%}
+  {%- endif -%}
+</div>
