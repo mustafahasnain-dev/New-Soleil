@@ -114,7 +114,7 @@
           "settings": {
             "bg_color": "#f2f2f2",
             "icon_1": "shield",
-            "text_1": "24 Months Warranty",
+            "text_1": "12 Months Warranty",
             "icon_2": "check",
             "text_2": "Easy Exchanges",
             "icon_3": "truck",
@@ -141,14 +141,14 @@
             "open": false,
             "metafield_key": "",
             "use_description": false,
-            "content": "<ul><li>Express delivery within 1–3 business days.</li><li>Free shipping on eligible orders.</li><li>Easy exchanges within 7 days of delivery.</li></ul>",
+            "content": "<ul><li>Express delivery within 1–3 business days.</li><li>Exchange is within 3 days.</li></ul>",
             "page": ""
           }
         },
         "tab_warranty": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "24 months warranty",
+            "heading": "12 months warranty",
             "open": false,
             "metafield_key": "",
             "use_description": false,
