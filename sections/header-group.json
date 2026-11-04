@@ -135,7 +135,7 @@
           "settings": {
             "admin_open_megamenu": false,
             "mega_menu_item_name": "Jewellery",
-            "layout": "grid",
+            "layout": "preview",
             "preview_button_label": "Shop",
             "grid": "2",
             "submenu_size": "default",
@@ -175,7 +175,7 @@
           "settings": {
             "admin_open_megamenu": false,
             "mega_menu_item_name": "Leather goods",
-            "layout": "grid",
+            "layout": "preview",
             "preview_button_label": "Shop",
             "grid": "2",
             "submenu_size": "default",
@@ -215,7 +215,7 @@
           "settings": {
             "admin_open_megamenu": false,
             "mega_menu_item_name": "Watches",
-            "layout": "grid",
+            "layout": "preview",
             "preview_button_label": "Shop",
             "grid": "2",
             "submenu_size": "default",
@@ -255,7 +255,7 @@
           "settings": {
             "admin_open_megamenu": false,
             "mega_menu_item_name": "Gifts",
-            "layout": "grid",
+            "layout": "preview",
             "preview_button_label": "Shop",
             "grid": "2",
             "submenu_size": "default",
