@@ -1,0 +1,186 @@
+/* Mega menu "Preview" layout (snippets/wk-menu-megamenu-preview.liquid), modelled on minimalist.ae */
+#wk-scope .mmp {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  grid-template-areas: 'nav panel';
+  column-gap: 36px;
+  align-items: start;
+  padding: 24px 0 28px;
+  text-align: left;
+}
+#wk-scope .mmp__nav {
+  grid-area: nav;
+}
+#wk-scope .mmp__heading {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid currentColor;
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #000;
+  text-decoration: none;
+}
+#wk-scope .mmp__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#wk-scope .mmp__item + .mmp__item {
+  margin-top: 14px;
+}
+#wk-scope .mmp__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #000;
+  text-decoration: none;
+  transition: padding-left 0.2s ease;
+}
+#wk-scope .mmp__caret {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #000;
+  opacity: 0;
+  transform: translate(-4px, -50%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+#wk-scope .mmp__link.is-active {
+  padding-left: 14px;
+}
+#wk-scope .mmp__link.is-active .mmp__caret {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+#wk-scope .mmp__link:hover .mmp__link-text,
+#wk-scope .mmp__sublink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* NEW-style badges from the header's badge blocks */
+#wk-scope .mmp__link .badges-item__menu {
+  margin-left: 2px;
+  padding: 2px 5px;
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+#wk-scope .mmp__sublist {
+  margin: 8px 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+#wk-scope .mmp__sublist li + li {
+  margin-top: 6px;
+}
+#wk-scope .mmp__sublink {
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.65);
+  text-decoration: none;
+}
+
+#wk-scope .mmp__panels {
+  grid-area: panel;
+  display: grid;
+}
+#wk-scope .mmp__panel {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  column-gap: 32px;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+#wk-scope .mmp__panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
+}
+#wk-scope .mmp__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f4f1ec;
+}
+#wk-scope .mmp__media img,
+#wk-scope .mmp__media svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#wk-scope .mmp__title {
+  margin: 0 0 14px;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #000;
+}
+#wk-scope .mmp__line {
+  margin: 0 0 26px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #000;
+}
+#wk-scope .mmp__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 230px;
+  min-height: 37px;
+  padding: 10px 28px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+#wk-scope .mmp__button:hover {
+  background: #202259;
+  color: #fff;
+}
+@media (max-width: 1199px) {
+  #wk-scope .mmp {
+    grid-template-columns: 190px minmax(0, 1fr);
+    column-gap: 28px;
+  }
+  #wk-scope .mmp__panel {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  #wk-scope .mmp__title {
+    font-size: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #wk-scope .mmp__panel,
+  #wk-scope .mmp__link,
+  #wk-scope .mmp__caret {
+    transition: none;
+  }
+}

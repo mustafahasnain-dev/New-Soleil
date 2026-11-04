@@ -1,0 +1,120 @@
+{%- comment -%}
+  Mega menu "Preview" layout, modelled on minimalist.ae: a list of the menu item's links on the left;
+  hovering (or focusing) a link shows that link's image, title, a short line and a shop button on the right.
+  Third-level links are listed indented under their parent link.
+
+  Image: the linked collection's image, else the collection's first product image, else the linked product image,
+         else the block's fallback image.
+  Line:  the collection's description (first few words), else "<menu item> <link>".
+  Styles: assets/wk-megamenu-preview.css. Badges come from the header's "badges" blocks (wk-menu-badge).
+
+  Accepts: link, megamenu_block, section
+{%- endcomment -%}
+{%- assign button_label = megamenu_block.settings.preview_button_label | default: 'Shop' -%}
+<div class="mmp" data-mm-preview>
+  <div class="mmp__nav">
+    <a href="{{ link.url }}" class="mmp__heading">{{ link.title | escape }}</a>
+    <ul class="mmp__list unstyle-ul" role="list">
+      {%- for childlink in link.links -%}
+        <li class="mmp__item">
+          <a
+            href="{{ childlink.url }}"
+            class="mmp__link{% if forloop.first %} is-active{% endif %}"
+            data-mm-target="{{ forloop.index }}"
+          >
+            <span class="mmp__caret" aria-hidden="true"></span>
+            <span class="mmp__link-text">{{ childlink.title | escape }}</span>
+            {%- render 'wk-menu-badge', item_name: childlink.title, show_inline: true, section: section -%}
+          </a>
+          {%- if childlink.links != blank -%}
+            <ul class="mmp__sublist unstyle-ul" role="list">
+              {%- for grandchildlink in childlink.links -%}
+                <li>
+                  <a href="{{ grandchildlink.url }}" class="mmp__sublink" data-mm-target="{{ forloop.parentloop.index }}">
+                    {{- grandchildlink.title | escape -}}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  <div class="mmp__panels">
+    {%- for childlink in link.links -%}
+      {%- liquid
+        assign preview_image = blank
+        assign preview_line = blank
+        case childlink.type
+          when 'collection_link'
+            assign preview_image = childlink.object.image | default: childlink.object.featured_image
+            if preview_image == blank and childlink.object.products.size > 0
+              assign preview_image = childlink.object.products.first.featured_image
+            endif
+            if childlink.object.description != blank
+              assign preview_line = childlink.object.description | strip_html | truncatewords: 8
+            endif
+          when 'product_link'
+            assign preview_image = childlink.object.featured_image
+          when 'catalog_link'
+            assign preview_image = collections.all.products.first.featured_image
+        endcase
+        if preview_image == blank
+          assign preview_image = megamenu_block.settings.preview_fallback_image
+        endif
+        if preview_line == blank
+          assign preview_line = link.title | append: ' ' | append: childlink.title
+        endif
+      -%}
+      <div class="mmp__panel{% if forloop.first %} is-active{% endif %}" data-mm-panel="{{ forloop.index }}"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
+        <a href="{{ childlink.url }}" class="mmp__media" tabindex="-1" aria-hidden="true">
+          {%- if preview_image != blank -%}
+            {{
+              preview_image
+              | image_url: width: 700
+              | image_tag:
+                loading: 'lazy',
+                widths: '350, 520, 700',
+                sizes: '260px',
+                alt: childlink.title
+            }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'mmp__placeholder' }}
+          {%- endif -%}
+        </a>
+        <div class="mmp__info">
+          <p class="mmp__title">{{ childlink.title | escape }}</p>
+          <p class="mmp__line">{{ preview_line | escape }}</p>
+          <a href="{{ childlink.url }}" class="mmp__button"{% unless forloop.first %} tabindex="-1"{% endunless %}>{{ button_label | escape }} {{ childlink.title | escape }}</a>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+  (() => {
+    if (window.__mmPreviewBound) return;
+    window.__mmPreviewBound = true;
+    // one delegated handler for every preview mega menu on the page
+    const activate = (event) => {
+      const trigger = event.target.closest && event.target.closest('[data-mm-target]');
+      if (!trigger) return;
+      const root = trigger.closest('[data-mm-preview]');
+      if (!root) return;
+      const target = trigger.dataset.mmTarget;
+      root.querySelectorAll('.mmp__link').forEach((a) => a.classList.toggle('is-active', a.dataset.mmTarget === target));
+      root.querySelectorAll('[data-mm-panel]').forEach((panel) => {
+        const on = panel.dataset.mmPanel === target;
+        panel.classList.toggle('is-active', on);
+        panel.setAttribute('aria-hidden', on ? 'false' : 'true');
+        const btn = panel.querySelector('.mmp__button');
+        if (btn) btn.tabIndex = on ? 0 : -1;
+      });
+    };
+    document.addEventListener('mouseover', activate);
+    document.addEventListener('focusin', activate);
+  })();
+</script>

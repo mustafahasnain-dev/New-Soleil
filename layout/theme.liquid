@@ -70,6 +70,7 @@
     {%- render 'wk-style-grid' -%}
     {{ 'wk-dawn-reset.css' | asset_url | stylesheet_tag }}
     {{ 'wk-base.css' | asset_url | stylesheet_tag }}
+    {{ 'wk-megamenu-preview.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'wk-header.js' | asset_url }}" defer="defer"></script>
     {%- if settings.predictive_search_enabled -%}
       <link rel="stylesheet" href="{{ 'wk-component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">

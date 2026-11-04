@@ -12,6 +12,9 @@
 {% endcomment %}
 
 {%- assign megamenu_block = section.blocks[megamenu_item] -%}
+{%- if megamenu_block.settings.layout == 'preview' -%}
+{%- capture megamenu_content -%}{%- render 'wk-menu-megamenu-preview', link: link, megamenu_block: megamenu_block, section: section -%}{%- endcapture -%}
+{%- else -%}
 {%- capture megamenu_content -%}
 <div class="megamenu-container_content__html page-grid-{{ megamenu_block.settings.grid }}{% if megamenu_block.settings.text_aligment == "center" %} megamenu-items--text-center{% endif %}" data-parent-megamenu="{{ link.title | handleize  }}"
      style="--megamenu-vertical:{{ megamenu_block.settings.vertical_spacing }}px;">
@@ -115,6 +118,7 @@
   {%- endfor -%}
 </div>
 {%- endcapture -%}
+{%- endif -%}
 
 {%- if vertical_menu == true -%}
 <div id="{{ megamenu_block.id }}" class="submenu-container megamenu-container" {{ megamenu_block.shopify_attributes }}>

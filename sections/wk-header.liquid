@@ -1730,6 +1730,30 @@ customElements.define('wk-menuwith-logo', MenuwithLogo);
         },
         {
           "type": "select",
+          "id": "layout",
+          "label": "Layout",
+          "options": [
+            { "value": "grid", "label": "Grid (Wokiee default)" },
+            { "value": "preview", "label": "Preview (links + image + shop button)" }
+          ],
+          "default": "grid",
+          "info": "Preview: hovering a link shows its collection image, title and a shop button."
+        },
+        {
+          "type": "image_picker",
+          "id": "preview_fallback_image",
+          "label": "Preview fallback image",
+          "info": "Preview layout. Used for links without a collection or product image."
+        },
+        {
+          "type": "text",
+          "id": "preview_button_label",
+          "label": "Preview button label",
+          "default": "Shop",
+          "info": "Preview layout. Followed by the link name, e.g. Shop Watches."
+        },
+        {
+          "type": "select",
           "id": "grid",
           "options": [
             {
