@@ -56,6 +56,18 @@
     text-transform:{% if section.settings.uppercase %}uppercase{% else %}none{% endif %};
     line-height:1.2;
   }
+  #shopify-section-{{ section.id }} .scrolling-marquee__content{
+    display:inline-flex;
+    align-items:center;
+    gap:{{ section.settings.icon_gap }}px;
+  }
+  #shopify-section-{{ section.id }} .scrolling-marquee__icon{
+    flex:0 0 auto;
+    width:{{ section.settings.icon_size }}px;
+    height:{{ section.settings.icon_size }}px;
+    display:block;
+  }
+  #shopify-section-{{ section.id }} .scrolling-marquee__icon--image{ object-fit:contain; }
   #shopify-section-{{ section.id }} .scrolling-marquee__item a{
     color:inherit;
     text-decoration:none;
@@ -88,11 +100,31 @@
           {%- comment -%} repeat short lists so one group is always wider than the screen {%- endcomment -%}
           {%- for repeat in (1..section.settings.repeat) -%}
             {%- for block in section.blocks -%}
+              {%- capture item_icon -%}
+                {%- if block.settings.icon_image != blank -%}
+                  {{ block.settings.icon_image | image_url: width: 96 | image_tag: class: 'scrolling-marquee__icon scrolling-marquee__icon--image', alt: '', loading: 'lazy' }}
+                {%- else -%}
+                  {%- case block.settings.icon -%}
+                    {%- when 'truck' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 6.5h12v9h-12z"/><path d="M13.5 9.5h4.2l3.3 3.3v2.7h-7.5"/><circle cx="6" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>
+                    {%- when 'diamond' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11l4 5.5-10 11.5L1.5 9z"/><path d="M1.5 9h20M11.5 20.5 8 9l3.5-5.5L15 9z"/></svg>
+                    {%- when 'shield' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4 5.5v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10v-6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+                    {%- when 'return' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4.5V11h-6.5"/></svg>
+                    {%- when 'gift' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5h17v4h-17zM5 12.5h14v8.5H5zM12 8.5V21"/><path d="M12 8.5C10.5 5 7 4.5 6.5 6.5S9.5 8.5 12 8.5c2.5 0 5-0.5 5.5-2S13.5 5 12 8.5z"/></svg>
+                    {%- when 'heart' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-8.5-5.2-8.5-11A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 2.9c0 5.8-8.5 11-8.5 11z"/></svg>
+                    {%- when 'star' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg>
+                    {%- when 'lock' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10.5" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+                    {%- when 'clock' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+                    {%- when 'location' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s-7-6.2-7-11.5a7 7 0 0 1 14 0c0 5.3-7 11.5-7 11.5z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                    {%- when 'leaf' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 15"/><path d="M5 19 13 11"/></svg>
+                    {%- when 'chat' -%}<svg class="scrolling-marquee__icon" aria-hidden="true" focusable="false" viewBox="0 0 23 23" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5h17v11h-9l-5 4v-4h-3z"/></svg>
+                  {%- endcase -%}
+                {%- endif -%}
+              {%- endcapture -%}
               <li class="scrolling-marquee__item" {{ block.shopify_attributes }}>
                 {%- if block.settings.link != blank -%}
-                  <a href="{{ block.settings.link }}"{% if copy == 2 or repeat > 1 %} tabindex="-1"{% endif %}>{{ block.settings.text | escape }}</a>
+                  <a class="scrolling-marquee__content" href="{{ block.settings.link }}"{% if copy == 2 or repeat > 1 %} tabindex="-1"{% endif %}>{{ item_icon }}<span>{{ block.settings.text | escape }}</span></a>
                 {%- else -%}
-                  <span>{{ block.settings.text | escape }}</span>
+                  <span class="scrolling-marquee__content">{{ item_icon }}<span>{{ block.settings.text | escape }}</span></span>
                 {%- endif -%}
                 {%- if separator_text != blank -%}
                   <span class="scrolling-marquee__sep" aria-hidden="true">{{ separator_text }}</span>
@@ -185,6 +217,26 @@
       "default": 15
     },
     {
+      "type": "range",
+      "id": "icon_size",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "icon_gap",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Space between icon and text",
+      "default": 10
+    },
+    {
       "type": "checkbox",
       "id": "uppercase",
       "label": "Uppercase text",
@@ -246,6 +298,33 @@
           "type": "url",
           "id": "link",
           "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "truck", "label": "Truck (delivery)" },
+            { "value": "diamond", "label": "Diamond" },
+            { "value": "shield", "label": "Shield (warranty)" },
+            { "value": "return", "label": "Return / exchange" },
+            { "value": "gift", "label": "Gift (packaging)" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" },
+            { "value": "lock", "label": "Lock (secure payment)" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "location", "label": "Location" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "chat", "label": "Chat" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon image",
+          "info": "Optional. Replaces the icon above. Square PNG or SVG works best."
         }
       ]
     }
