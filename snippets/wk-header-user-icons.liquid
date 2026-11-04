@@ -25,14 +25,16 @@
       assign whatsapp_url = 'https://wa.me/' | append: whatsapp_number
     endif
   -%}
+  {%- capture whatsapp_html -%}
   <a href="{{ whatsapp_url }}" class="header__button header__whatsapp{% if section.settings.icons_text != 'show_only_text' %} move-icon-up{% endif %} global__tooltip--hover" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <svg class="header__whatsapp-icon" aria-hidden="true" focusable="false" width="22" height="22" style="width:22px;height:22px;stroke:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, currentColor)))" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.6 8.6 0 1 1 8 19.5z"/><path d="M9.2 7.8c.2-.4.5-.4.8-.4h.5c.2 0 .4.1.5.4l.7 1.7c.1.2 0 .4-.1.6l-.5.6c-.1.1-.2.3 0 .5.3.6 1.4 2 2.9 2.6.2.1.4 0 .5-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.3.3.5 0 .4-.2 1.1-.8 1.5-.6.4-1.5.5-2.6.1-1.4-.5-3.4-2-4.5-3.8-.7-1.1-.9-2.2-.4-3.2z"/></svg>
+    <svg class="header__whatsapp-icon" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, currentColor)))"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9l-5.05.9"/><path d="M9 10a.5.5 0 0 0 1 0v-1a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
     {%- if section.settings.icons_text == 'tooltip' -%}
     <wk-global-tooltip class="global__tooltip global__tooltip__static">
       <div class="global__tooltip__content">WhatsApp</div>
     </wk-global-tooltip>
     {%- endif -%}
   </a>
+  {%- endcapture -%}
   {%- endfor -%}
   {%- endif -%}
 
@@ -43,6 +45,8 @@
   {%- endunless -%}
   
   <div class="header__icons__customer__icons{% if section.settings.icons_text == 'show' %} gap-20{% endif %}">
+    {%- comment -%} WhatsApp sits in the same icon group as account / compare / wishlist / cart {%- endcomment -%}
+    {{ whatsapp_html }}
     {%- if section.settings.show_search == "closed" -%}
     {%- unless section.settings.classic_menu_position contains "bottom-menu-to" and section.settings.logo_position == 'logo-to-center' -%}
     {%- unless hide_search_opened -%}
