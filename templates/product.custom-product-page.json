@@ -101,7 +101,7 @@
         "text_image": {
           "type": "text_image",
           "settings": {
-            "heading": "Secure Checkout with",
+            "heading": "",
             "text": "",
             "image": "shopify://shop_images/chart_1.png",
             "image_width": 420,
