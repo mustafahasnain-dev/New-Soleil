@@ -93,7 +93,7 @@
           "settings": {
             "admin_open_megamenu": false,
             "mega_menu_item_name": "Men",
-            "layout": "preview",
+            "layout": "grid",
             "preview_fallback_image": "shopify://shop_images/Skeleton.jpg",
             "preview_button_label": "Shop",
             "grid": "2",
