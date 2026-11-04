@@ -294,6 +294,47 @@
             "color_hover_image": "rgba(0,0,0,0)"
           }
         },
+        "mega_menu_jG3G9j": {
+          "type": "mega_menu",
+          "settings": {
+            "admin_open_megamenu": false,
+            "mega_menu_item_name": "Contact us",
+            "layout": "preview",
+            "preview_fallback_image": "shopify://shop_images/Ritaj.png",
+            "preview_button_label": "Shop",
+            "grid": "2",
+            "submenu_size": "default",
+            "group_items": false,
+            "text_aligment": "left",
+            "vertical_spacing": 20,
+            "image_hover": "default",
+            "image_ratio": "auto",
+            "mm_list1": "",
+            "mm_list2": "",
+            "mm_list3": "",
+            "mm_list4": "",
+            "mm_list5": "",
+            "mm_list6": "",
+            "mm_list7": "",
+            "mm_list8": "",
+            "mm_list9": "",
+            "mm_list10": "",
+            "mm_list11": "",
+            "mm_list12": "",
+            "mm_list13": "",
+            "mm_list14": "",
+            "mm_list15": "",
+            "mm_list16": "",
+            "color_heading": "rgba(0,0,0,0)",
+            "color_heading_hover": "rgba(0,0,0,0)",
+            "color_link": "rgba(0,0,0,0)",
+            "color_link_hover": "rgba(0,0,0,0)",
+            "color_background": "rgba(0,0,0,0)",
+            "color_shadow": "rgba(0,0,0,0)",
+            "hover_image_shadow": true,
+            "color_hover_image": "rgba(0,0,0,0)"
+          }
+        },
         "phone_6ft6jf": {
           "type": "phone",
           "settings": {
@@ -356,6 +397,7 @@
         "mega_menu_dQ4e4r",
         "mega_menu_xPaJhX",
         "mega_menu_gifts",
+        "mega_menu_jG3G9j",
         "phone_6ft6jf"
       ],
       "name": "t:header.header_classic",
