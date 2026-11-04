@@ -123,6 +123,7 @@
         "font_size": 15,
         "icon_size": 20,
         "icon_gap": 10,
+        "text_offset": 14,
         "uppercase": true,
         "gap": 36,
         "padding": 14,

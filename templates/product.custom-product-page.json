@@ -98,6 +98,19 @@
             "sticky_label": "Selected:"
           }
         },
+        "text_image": {
+          "type": "text_image",
+          "settings": {
+            "heading": "Secure Checkout with",
+            "text": "",
+            "image": "shopify://shop_images/chart_1.png",
+            "image_width": 420,
+            "link": "",
+            "alignment": "left",
+            "bg_color": "#f2f2f2",
+            "text_color": "#202259"
+          }
+        },
         "complete_the_look": {
           "type": "complete_the_look",
           "settings": {
@@ -152,13 +165,9 @@
             "open": false,
             "metafield_key": "",
             "use_description": false,
-            "content": "<p>Every piece is covered by a 24 month warranty against manufacturing defects. Keep your order number handy and contact our team for assistance.</p>",
+            "content": "<p>Every piece is covered by a 12 month warranty against manufacturing defects. Keep your order number handy and contact our team for assistance.</p>",
             "page": ""
           }
-        },
-        "text_image": {
-          "type": "text_image",
-          "settings": { "heading": "Secure Checkout with" }
         }
       },
       "block_order": [
