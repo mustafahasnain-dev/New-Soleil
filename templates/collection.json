@@ -13,7 +13,7 @@
       "type": "collection-banner-image",
       "settings": {
         "max_height": 0,
-        "max_height_mobile": 200,
+        "max_height_mobile": 0,
         "margin_bottom": 0
       }
     },
