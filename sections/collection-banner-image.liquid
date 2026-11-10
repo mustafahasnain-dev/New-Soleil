@@ -1,51 +1,25 @@
 {%- comment -%}
   Full-width collection banner, as on minimalist.ae/collections/perfumes: the image spans the page at its
-  natural proportions with no overlay. Image priority: the collection metafield custom.bg-image (file, image),
-  then the section override, then the collection image.
-  Renders nothing when the collection has no image, so the page starts at the toolbar.
+  natural proportions with no overlay. The image comes only from the collection metafield custom.bg-image
+  (file, image). Renders nothing when the metafield is empty, so the page starts at the toolbar.
   The page h1 lives in the product grid section.
 {%- endcomment -%}
-{%- liquid
-  assign meta_image = collection.metafields.custom['bg-image'].value | default: collection.metafields.custom.bg_image.value
-  assign desktop_image = meta_image | default: section.settings.image_desktop | default: collection.image
-  assign mobile_image = desktop_image
-  if meta_image == blank and section.settings.image_mobile != blank
-    assign mobile_image = section.settings.image_mobile
-  endif
--%}
-{%- if desktop_image != blank -%}
+{%- assign banner_image = collection.metafields.custom['bg-image'].value -%}
+{%- if banner_image != blank -%}
   <style>
     #shopify-section-{{ section.id }} .collection-banner-image{ position:relative; margin-bottom:{{ section.settings.margin_bottom }}px; }
-    #shopify-section-{{ section.id }} .collection-banner-image img{ display:block; width:100%; height:auto; }
-    #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:none; }
-    {%- if section.settings.max_height > 0 -%}
-    #shopify-section-{{ section.id }} .collection-banner-image img{ max-height:{{ section.settings.max_height }}px; object-fit:cover; }
-    {%- endif -%}
-    @media screen and (max-width:640px){
-      #shopify-section-{{ section.id }} .collection-banner-image__desktop{ display:none; }
-      #shopify-section-{{ section.id }} .collection-banner-image__mobile{ display:block; }
-    }
+    #shopify-section-{{ section.id }} .collection-banner-image__img{ display:block; width:100%; height:auto;{% if section.settings.max_height > 0 %} max-height:{{ section.settings.max_height }}px; object-fit:cover;{% endif %} }
   </style>
 
   <div class="collection-banner-image">
     {{
-      desktop_image
+      banner_image
       | image_url: width: 2800
       | image_tag:
-        class: 'collection-banner-image__desktop',
+        class: 'collection-banner-image__img',
         loading: 'eager',
         fetchpriority: 'high',
-        widths: '832, 1200, 1920, 2400, 2800',
-        sizes: '100vw',
-        alt: collection.title
-    }}
-    {{
-      mobile_image
-      | image_url: width: 1200
-      | image_tag:
-        class: 'collection-banner-image__mobile',
-        loading: 'eager',
-        widths: '500, 750, 1000, 1200',
+        widths: '500, 750, 1000, 1200, 1920, 2400, 2800',
         sizes: '100vw',
         alt: collection.title
     }}
@@ -61,19 +35,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Shows each collection's banner full width: the collection metafield custom.bg-image if set, otherwise the collection image. Collections without either show no banner."
-    },
-    {
-      "type": "image_picker",
-      "id": "image_desktop",
-      "label": "Desktop banner override",
-      "info": "Optional. Used when a collection has no bg-image metafield. Leave empty to use each collection's own image."
-    },
-    {
-      "type": "image_picker",
-      "id": "image_mobile",
-      "label": "Mobile banner override",
-      "info": "Optional. Defaults to the desktop image."
+      "content": "Shows the image from each collection's bg-image metafield (custom.bg-image) full width. Collections without it show no banner."
     },
     {
       "type": "range",
