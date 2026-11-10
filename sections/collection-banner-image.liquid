@@ -1,12 +1,17 @@
 {%- comment -%}
   Full-width collection banner, as on minimalist.ae/collections/perfumes: the image spans the page at its
-  natural proportions with no overlay. Uses the collection image (optional desktop/mobile overrides).
+  natural proportions with no overlay. Image priority: the collection metafield custom.bg-image (file, image),
+  then the section override, then the collection image.
   Renders nothing when the collection has no image, so the page starts at the toolbar.
   The page h1 lives in the product grid section.
 {%- endcomment -%}
 {%- liquid
-  assign desktop_image = section.settings.image_desktop | default: collection.image
-  assign mobile_image = section.settings.image_mobile | default: desktop_image
+  assign meta_image = collection.metafields.custom['bg-image'].value | default: collection.metafields.custom.bg_image.value
+  assign desktop_image = meta_image | default: section.settings.image_desktop | default: collection.image
+  assign mobile_image = desktop_image
+  if meta_image == blank and section.settings.image_mobile != blank
+    assign mobile_image = section.settings.image_mobile
+  endif
 -%}
 {%- if desktop_image != blank -%}
   <style>
@@ -56,13 +61,13 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Shows the collection's image full width. Collections without an image show no banner."
+      "content": "Shows each collection's banner full width: the collection metafield custom.bg-image if set, otherwise the collection image. Collections without either show no banner."
     },
     {
       "type": "image_picker",
       "id": "image_desktop",
       "label": "Desktop banner override",
-      "info": "Optional. Leave empty to use each collection's own image."
+      "info": "Optional. Used when a collection has no bg-image metafield. Leave empty to use each collection's own image."
     },
     {
       "type": "image_picker",
