@@ -15,15 +15,15 @@
         "slide_AY3wzY": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/BFS_01.webp",
-            "url": "",
+            "image": "shopify://shop_images/Jory_Glow_new_arrival_487cdef9-c01c-41fe-a711-ec2aac124cd2.png",
+            "url": "shopify://collections/jory-glow",
             "link_title": ""
           }
         },
         "slide_nxHLFm": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/Layali.mp4",
+            "video": "shopify://files/videos/Hero video.mp4",
             "video_mobile": "shopify://files/videos/Lamis Collection Video 1.webm",
             "url": "",
             "link_title": ""
@@ -125,7 +125,7 @@
         "icon_gap": 10,
         "text_offset": 14,
         "uppercase": true,
-        "gap": 36,
+        "gap": 38,
         "padding": 14,
         "margin_top": 0,
         "margin_bottom": 0
@@ -134,9 +134,9 @@
     "toggle": {
       "type": "collection-toggle",
       "settings": {
-        "label_1": "Womens",
+        "label_1": "Women",
         "collection_1": "amara",
-        "label_2": "Mens",
+        "label_2": "Men",
         "collection_2": "al-7ob",
         "default_tab": "1",
         "remember": true,
@@ -280,7 +280,7 @@
         "btn_bg": "#e3dfda",
         "btn_text": "#1e1e1e",
         "full_width": true,
-        "min_height": 760,
+        "min_height": 640,
         "mobile_ratio": "4 / 5"
       }
     },
