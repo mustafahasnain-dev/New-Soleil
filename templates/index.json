@@ -253,7 +253,7 @@
         "text_position": "right",
         "content_offset": 61,
         "content_width": 29,
-        "min_height": 460,
+        "min_height": 500,
         "width": "full",
         "border_radius": 0,
         "top_spacing": "normal",
@@ -266,10 +266,10 @@
     "gift_split": {
       "type": "gift-split",
       "settings": {
-        "image": "shopify://shop_images/9a4c0a64-ee7b-4a67-bf84-dbde9d9dce42.png",
+        "image": "shopify://shop_images/ba5c5679-b2f3-4d12-96e6-da981c0ea42b.png",
         "image_position": "left",
         "eyebrow": "Luxury gift box sets",
-        "heading": "Give the perfect gift, every time",
+        "heading": "Give the perfect gift",
         "text": "<p>Premium packaging, timeless elegance, and handcrafted pieces all wrapped in a signature gift box.</p>",
         "button_label_1": "Shop gifts",
         "button_link_1": "",
@@ -280,7 +280,7 @@
         "btn_bg": "#e3dfda",
         "btn_text": "#1e1e1e",
         "full_width": true,
-        "min_height": 640,
+        "min_height": 660,
         "mobile_ratio": "4 / 5"
       }
     },
