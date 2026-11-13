@@ -114,7 +114,7 @@
       ],
       "settings": {
         "color_background": "#202259",
-        "color_text": "#F5F5FA",
+        "color_text": "#f5f5fa",
         "speed": 60,
         "direction": "left",
         "pause_on_hover": true,
@@ -275,10 +275,10 @@
         "button_link_1": "",
         "button_label_2": "",
         "button_link_2": "",
-        "bg_color": "#F5F5FA",
-        "text_color": "#202259",
-        "btn_bg": "#202259",
-        "btn_text": "#F5F5FA",
+        "bg_color": "#202259",
+        "text_color": "#F5F5FA",
+        "btn_bg": "#F5F5FA",
+        "btn_text": "#202259",
         "full_width": true,
         "min_height": 560,
         "mobile_ratio": "4 / 5"
