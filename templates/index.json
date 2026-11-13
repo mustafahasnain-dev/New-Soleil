@@ -266,7 +266,7 @@
     "gift_split": {
       "type": "gift-split",
       "settings": {
-        "image": "shopify://shop_images/hxxbuch.png",
+        "image": "shopify://shop_images/MG_0887.jpg",
         "image_position": "left",
         "eyebrow": "Luxury gift box sets",
         "heading": "Give the perfect gift",
@@ -275,12 +275,12 @@
         "button_link_1": "",
         "button_label_2": "",
         "button_link_2": "",
-        "bg_color": "#202259",
-        "text_color": "#ffffff",
-        "btn_bg": "#e3dfda",
-        "btn_text": "#1e1e1e",
+        "bg_color": "#F5F5FA",
+        "text_color": "#202259",
+        "btn_bg": "#202259",
+        "btn_text": "#F5F5FA",
         "full_width": true,
-        "min_height": 660,
+        "min_height": 560,
         "mobile_ratio": "4 / 5"
       }
     },
