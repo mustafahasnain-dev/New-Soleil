@@ -24,8 +24,8 @@
           "type": "slide",
           "settings": {
             "video": "shopify://files/videos/Hero video.mp4",
-            "video_mobile": "shopify://files/videos/Lamis Collection Video 1.webm",
-            "url": "",
+            "video_mobile": "shopify://files/videos/Hero video.mp4",
+            "url": "shopify://collections/layali",
             "link_title": ""
           }
         }
