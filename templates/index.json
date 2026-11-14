@@ -174,20 +174,23 @@
           "type": "collection",
           "settings": {
             "collection": "amara",
-            "label": "Bracelets"
+            "image": "shopify://shop_images/1153883b-7188-42a0-82e4-99e0b8cc417e.png",
+            "label": "Earrings"
           }
         },
         "collection_3": {
           "type": "collection",
           "settings": {
             "collection": "flora",
-            "label": "Earrings"
+            "image": "shopify://shop_images/217ec8ee-b748-43af-82e1-0255c968384b.png",
+            "label": "Bracelets"
           }
         },
         "collection_4": {
           "type": "collection",
           "settings": {
             "collection": "yara",
+            "image": "shopify://shop_images/2c281aa3-259f-4104-91d9-d42a500dca7d.png",
             "label": "Necklaces"
           }
         }
