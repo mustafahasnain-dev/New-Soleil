@@ -166,6 +166,7 @@
           "type": "collection",
           "settings": {
             "collection": "al-7ob",
+            "image": "shopify://shop_images/a2024bb0-6c46-4cc5-9d1c-722b9ef28399.png",
             "label": "Rings"
           }
         },
@@ -276,8 +277,8 @@
         "button_label_2": "",
         "button_link_2": "",
         "bg_color": "#202259",
-        "text_color": "#F5F5FA",
-        "btn_bg": "#F5F5FA",
+        "text_color": "#f5f5fa",
+        "btn_bg": "#f5f5fa",
         "btn_text": "#202259",
         "full_width": true,
         "min_height": 560,
