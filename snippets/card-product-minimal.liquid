@@ -30,7 +30,8 @@
     endif
   endif
 -%}
-<div class="mcard">
+<div class="mcard card-actions-host">
+  {%- render 'card-actions', card_product: card_product -%}
   <a href="{{ card_product.url }}" class="mcard__link">
     <div class="mcard__media">
       {%- if badge != blank -%}

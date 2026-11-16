@@ -72,6 +72,11 @@
     {{ 'wk-base.css' | asset_url | stylesheet_tag }}
     {{ 'wk-megamenu-preview.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'wk-header.js' | asset_url }}" defer="defer"></script>
+    {{ 'card-actions.css' | asset_url | stylesheet_tag }}
+    <script>
+      window.cardActionPages = { wishlist: {{ settings.wk_page_wishlist.url | json }}, compare: {{ settings.wk_page_compare.url | json }} };
+    </script>
+    <script src="{{ 'card-actions.js' | asset_url }}" defer="defer"></script>
     {%- if settings.predictive_search_enabled -%}
       <link rel="stylesheet" href="{{ 'wk-component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
       <script src="{{ 'wk-predictive-search.js' | asset_url }}" defer="defer"></script>

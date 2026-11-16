@@ -470,6 +470,62 @@
         "padding_top": 48,
         "padding_bottom": 48
       }
+    },
+    "customer_reviews": {
+      "type": "customer-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -480,6 +536,7 @@
     "collection_toggle_mqmGqD",
     "about",
     "gift_split",
+    "customer_reviews",
     "faq"
   ]
 }

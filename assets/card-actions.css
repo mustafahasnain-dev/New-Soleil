@@ -1,0 +1,106 @@
+/* Product card hover actions (snippets/card-actions.liquid) */
+.card-actions-host {
+  position: relative;
+}
+.card-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card-actions__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.25s ease, transform 0.25s ease;
+}
+.card-actions__btn:hover,
+.card-actions__btn.active {
+  background: #202259;
+  color: #fff;
+}
+.card-actions__btn.active svg path {
+  fill: currentColor;
+}
+.card-actions__btn[data-card-action='compare'].active svg path,
+.card-actions__btn[data-card-action='cart'] svg path {
+  fill: none;
+}
+.card-actions__btn.is-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+@media (hover: hover) and (min-width: 990px) {
+  .card-actions__btn {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  .card-actions-host:hover .card-actions__btn,
+  .card-actions-host:focus-within .card-actions__btn {
+    opacity: 1;
+    transform: none;
+  }
+  .card-actions-host:hover .card-actions__btn:nth-child(2) { transition-delay: 0.05s; }
+  .card-actions-host:hover .card-actions__btn:nth-child(3) { transition-delay: 0.1s; }
+}
+@media (max-width: 749px) {
+  .card-actions {
+    top: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+  .card-actions__btn {
+    width: 32px;
+    height: 32px;
+  }
+  .card-actions__btn svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* small toast after add-to-cart / wishlist / compare */
+.card-actions-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 1000;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #202259;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.card-actions-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.card-actions-toast a {
+  color: inherit;
+  text-decoration: underline;
+  margin-left: 6px;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-actions__btn,
+  .card-actions-toast {
+    transition: none;
+  }
+}

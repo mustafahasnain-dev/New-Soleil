@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "saved-products",
+      "settings": {
+        "list_type": "compare",
+        "heading": "Compare",
+        "empty_text": "No products to compare yet"
+      }
+    }
+  },
+  "order": ["main"]
+}

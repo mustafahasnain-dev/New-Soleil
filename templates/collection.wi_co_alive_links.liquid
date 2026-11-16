@@ -1,0 +1,10 @@
+{%- layout none -%}
+{%- comment -%}
+  Used by the header wishlist / compare counters (assets/wk-header.js initBubble): they request
+  /collections/all?view=wi_co_alive_links&sort_by=handle1||handle2||... and drop any saved handle that
+  appears in this response. Outputs only the handles of products that no longer exist; empty when all are fine.
+{%- endcomment -%}
+{%- assign saved_handles = collection.sort_by | split: '||' -%}
+{%- for saved_handle in saved_handles limit: 20 -%}
+  {%- if saved_handle != blank and all_products[saved_handle].id == blank -%}{{ saved_handle }}||{%- endif -%}
+{%- endfor -%}

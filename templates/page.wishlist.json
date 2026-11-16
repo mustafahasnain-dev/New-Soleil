@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "saved-products",
+      "settings": {
+        "list_type": "wishlist",
+        "heading": "Wishlist",
+        "empty_text": "Your wishlist is empty"
+      }
+    }
+  },
+  "order": ["main"]
+}

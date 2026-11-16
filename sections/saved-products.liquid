@@ -1,0 +1,187 @@
+{%- comment -%}
+  Wishlist / compare page. Reads the saved products from localStorage (productDataWishlist /
+  productDataCompare, filled by the card hover actions and header counters) and renders them in the browser
+  from /products/<handle>.js: a product grid for the wishlist, a side-by-side table for compare.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign sid = '#shopify-section-' | append: section.id
+  if s.list_type == 'compare'
+    assign storage_key = 'productDataCompare'
+    assign update_event = 'compareUpdated'
+  else
+    assign storage_key = 'productDataWishlist'
+    assign update_event = 'wishlistUpdated'
+  endif
+-%}
+<style>
+  {{ sid }} .saved{ max-width:1620px; margin:0 auto; padding:{{ s.padding_top }}px 20px {{ s.padding_bottom }}px; }
+  {{ sid }} .saved__title{ margin:0 0 8px; text-align:center; font-size:clamp(24px,2.4vw,34px); font-weight:400; letter-spacing:.04em; text-transform:uppercase; }
+  {{ sid }} .saved__count{ margin:0 0 36px; text-align:center; font-size:13px; letter-spacing:.06em; text-transform:uppercase; opacity:.7; }
+  {{ sid }} .saved__empty{ padding:40px 0; text-align:center; }
+  {{ sid }} .saved__empty p{ margin:0 0 24px; font-size:14px; letter-spacing:.04em; text-transform:uppercase; }
+  {{ sid }} .saved__btn{ display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:10px 28px; border:1px solid #000; border-radius:999px; background:#000; color:#fff; font-size:12px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; cursor:pointer; }
+  {{ sid }} .saved__btn--outline{ background:transparent; color:#000; }
+  {{ sid }} .saved__btn:disabled{ opacity:.45; cursor:default; }
+  {{ sid }} .saved__grid{ display:grid; grid-template-columns:repeat({{ s.columns }},minmax(0,1fr)); gap:32px 20px; }
+  {{ sid }} .saved__card{ position:relative; text-align:center; }
+  {{ sid }} .saved__media{ display:block; aspect-ratio:3/4; overflow:hidden; background:#f8f8f8; }
+  {{ sid }} .saved__media img{ width:100%; height:100%; object-fit:cover; display:block; }
+  {{ sid }} .saved__name{ display:block; margin:14px 0 6px; font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:inherit; text-decoration:none; }
+  {{ sid }} .saved__price{ margin:0 0 14px; font-size:13px; }
+  {{ sid }} .saved__price s{ margin-left:8px; opacity:.55; }
+  {{ sid }} .saved__remove{ position:absolute; top:10px; right:10px; z-index:2; display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; padding:0; border:0; border-radius:50%; background:#fff; color:#000; box-shadow:0 2px 8px rgba(0,0,0,.12); cursor:pointer; }
+  {{ sid }} .saved__remove:hover{ background:#000; color:#fff; }
+  {{ sid }} .saved__table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  {{ sid }} .saved__table{ width:100%; min-width:640px; border-collapse:collapse; table-layout:fixed; }
+  {{ sid }} .saved__table th, {{ sid }} .saved__table td{ padding:16px 14px; border-bottom:1px solid rgba(0,0,0,.1); vertical-align:top; text-align:center; font-size:13px; }
+  {{ sid }} .saved__table th{ width:160px; text-align:left; font-weight:500; letter-spacing:.06em; text-transform:uppercase; font-size:12px; }
+  {{ sid }} .saved__table .saved__card{ max-width:240px; margin:0 auto; }
+  {{ sid }} .saved__desc{ text-align:left; line-height:1.6; }
+  {{ sid }} .saved__stock--in{ color:#1d7a3a; }
+  {{ sid }} .saved__stock--out{ color:#b3261e; }
+  {{ sid }} .saved__clear{ margin-top:32px; text-align:center; }
+  @media screen and (max-width:989px){ {{ sid }} .saved__grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+  @media screen and (max-width:749px){ {{ sid }} .saved__grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px 12px; } {{ sid }} .saved__table th{ width:110px; } }
+</style>
+
+<div class="saved" data-saved data-key="{{ storage_key }}" data-event="{{ update_event }}" data-type="{{ s.list_type }}">
+  <h1 class="saved__title">{{ s.heading | default: page.title | escape }}</h1>
+  <p class="saved__count" data-saved-count></p>
+  <div data-saved-body>
+    <div class="saved__empty"><p>Loading…</p></div>
+  </div>
+  <template data-saved-empty>
+    <div class="saved__empty">
+      <p>{{ s.empty_text | escape }}</p>
+      <a href="{{ s.empty_link | default: routes.all_products_collection_url }}" class="saved__btn">{{ s.empty_button | escape }}</a>
+    </div>
+  </template>
+</div>
+
+<script>
+  (() => {
+    const root = document.querySelector('{{ sid }} [data-saved]');
+    if (!root) return;
+    const key = root.dataset.key;
+    const type = root.dataset.type;
+    const body = root.querySelector('[data-saved-body]');
+    const countEl = root.querySelector('[data-saved-count]');
+    const moneyFormat = {{ shop.money_format | json }};
+    const root_url = {{ routes.root_url | json }}.replace(/\/$/, '');
+
+    const esc = (str) => String(str == null ? '' : str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const money = (cents) => {
+      const value = (cents / 100).toFixed(2);
+      const [whole, dec] = value.split('.');
+      const withCommas = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return moneyFormat
+        .replace(/\{\{\s*amount_no_decimals\s*\}\}/, withCommas)
+        .replace(/\{\{\s*amount_with_comma_separator\s*\}\}/, `${whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${dec}`)
+        .replace(/\{\{\s*amount\s*\}\}/, `${withCommas}.${dec}`)
+        .replace(/\{\{\s*[a-z_]+\s*\}\}/, `${withCommas}.${dec}`);
+    };
+    const read = () => { try { return JSON.parse(localStorage.getItem(key)) || {}; } catch (e) { return {}; } };
+    const write = (map) => {
+      try { Object.keys(map).length ? localStorage.setItem(key, JSON.stringify(map)) : localStorage.removeItem(key); } catch (e) {}
+      window.dispatchEvent(new Event(root.dataset.event));
+    };
+    const img = (p, w) => {
+      const src = p.featured_image;
+      if (!src) return '';
+      const url = `${src}${src.includes('?') ? '&' : '?'}width=${w}`;
+      return `<img src="${esc(url)}" alt="${esc(p.title)}" loading="lazy" width="${w}">`;
+    };
+    const priceHtml = (p) => `${esc(money(p.price))}${p.compare_at_price > p.price ? `<s>${esc(money(p.compare_at_price))}</s>` : ''}`;
+    const card = (id, p) => `
+      <div class="saved__card">
+        <button type="button" class="saved__remove" data-remove="${esc(id)}" aria-label="Remove ${esc(p.title)}">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+        <a href="${esc(p.url)}" class="saved__media">${img(p, 600)}</a>
+        <a href="${esc(p.url)}" class="saved__name">${esc(p.title)}</a>
+        <p class="saved__price">${priceHtml(p)}</p>
+        ${addButton(p)}
+      </div>`;
+    const addButton = (p) => {
+      if (!p.available) return `<button type="button" class="saved__btn saved__btn--outline" disabled>Sold out</button>`;
+      if (p.variants.length > 1) return `<a href="${esc(p.url)}" class="saved__btn saved__btn--outline">Choose options</a>`;
+      return `<button type="button" class="saved__btn" data-card-action="cart" data-single="true" data-variant-id="${p.variants[0].id}" data-url="${esc(p.url)}">Add to cart</button>`;
+    };
+    const strip = (html, words) => {
+      const text = new DOMParser().parseFromString(html || '', 'text/html').body.textContent.trim().split(/\s+/);
+      return text.slice(0, words).join(' ') + (text.length > words ? '…' : '');
+    };
+
+    const render = (items) => {
+      countEl.textContent = items.length ? `${items.length} item${items.length === 1 ? '' : 's'}` : '';
+      if (!items.length) {
+        body.innerHTML = root.querySelector('[data-saved-empty]').innerHTML;
+        return;
+      }
+      if (type === 'compare') {
+        const row = (label, fn) => `<tr><th scope="row">${label}</th>${items.map(([id, p]) => `<td>${fn(p, id)}</td>`).join('')}</tr>`;
+        body.innerHTML = `
+          <div class="saved__table-wrap"><table class="saved__table">
+            <tr><th scope="row">Product</th>${items.map(([id, p]) => `<td>${card(id, p)}</td>`).join('')}</tr>
+            ${row('Brand', (p) => esc(p.vendor) || '—')}
+            ${row('Type', (p) => esc(p.type) || '—')}
+            ${row('Availability', (p) => p.available ? '<span class="saved__stock--in">In stock</span>' : '<span class="saved__stock--out">Sold out</span>')}
+            ${row('Options', (p) => p.options && p.options.length && !(p.options.length === 1 && p.variants.length === 1) ? p.options.map((o) => `${esc(o.name)}: ${esc(o.values.join(', '))}`).join('<br>') : '—')}
+            ${row('Description', (p) => `<div class="saved__desc">${esc(strip(p.description, 40))}</div>`)}
+          </table></div>
+          <div class="saved__clear"><button type="button" class="saved__btn saved__btn--outline" data-clear>Clear all</button></div>`;
+      } else {
+        body.innerHTML = `<div class="saved__grid">${items.map(([id, p]) => card(id, p)).join('')}</div>`;
+      }
+    };
+
+    const load = () => {
+      const map = read();
+      const entries = Object.entries(map);
+      if (!entries.length) return render([]);
+      Promise.all(entries.map(([id, handle]) =>
+        fetch(`${root_url}/products/${encodeURIComponent(handle)}.js`).then((r) => (r.ok ? r.json() : null)).catch(() => null).then((p) => [id, p])
+      )).then((results) => {
+        const alive = results.filter(([, p]) => p);
+        if (alive.length !== entries.length) {
+          const cleaned = {};
+          alive.forEach(([id]) => { cleaned[id] = map[id]; });
+          write(cleaned);
+        }
+        render(alive);
+      });
+    };
+
+    root.addEventListener('click', (event) => {
+      const remove = event.target.closest('[data-remove]');
+      const clear = event.target.closest('[data-clear]');
+      if (!remove && !clear) return;
+      const map = clear ? {} : read();
+      if (remove) delete map[remove.dataset.remove];
+      write(map);
+      load();
+    });
+    window.addEventListener('storage', (e) => { if (e.key === key) load(); });
+    load();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Wishlist / compare",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": { "templates": ["page"] },
+  "settings": [
+    { "type": "select", "id": "list_type", "label": "List", "default": "wishlist", "options": [ { "value": "wishlist", "label": "Wishlist" }, { "value": "compare", "label": "Compare" } ] },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Leave empty to use the page title." },
+    { "type": "range", "id": "columns", "label": "Wishlist columns (desktop)", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "text", "id": "empty_text", "label": "Empty message", "default": "Your list is empty" },
+    { "type": "text", "id": "empty_button", "label": "Empty button label", "default": "Continue shopping" },
+    { "type": "url", "id": "empty_link", "label": "Empty button link" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 }
+  ]
+}
+{% endschema %}

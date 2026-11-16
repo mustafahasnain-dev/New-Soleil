@@ -15,7 +15,8 @@
     assign on_sale = true
   endif
 -%}
-<div class="soleil-card">
+<div class="soleil-card card-actions-host">
+  {%- render 'card-actions', card_product: card_product -%}
   <a href="{{ card_product.url }}" class="soleil-card__media" tabindex="-1" aria-hidden="true">
     {%- if main_media -%}
       {{
