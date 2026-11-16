@@ -135,7 +135,7 @@
       "type": "collection-toggle",
       "settings": {
         "label_1": "Women",
-        "collection_1": "amara",
+        "collection_1": "flora",
         "label_2": "Men",
         "collection_2": "al-7ob",
         "default_tab": "1",
@@ -286,6 +286,80 @@
         "full_width": true,
         "min_height": 560,
         "mobile_ratio": "4 / 5"
+      }
+    },
+    "customer_reviews": {
+      "type": "customer-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "product": "",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "product": "",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "product": "",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "",
+            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
+            "name": "Customer name",
+            "location": "",
+            "product": "",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ],
+      "settings": {
+        "eyebrow": "Testimonials",
+        "heading": "What our customers say",
+        "show_summary": true,
+        "summary_rating": 5,
+        "summary_text": "4.9 / 5 based on 500+ reviews",
+        "columns": 3,
+        "bg_color": "#ffffff",
+        "card_color": "#f6f4f1",
+        "text_color": "#000000",
+        "star_color": "#202259",
+        "card_radius": 0,
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "faq": {
@@ -470,62 +544,6 @@
         "padding_top": 48,
         "padding_bottom": 48
       }
-    },
-    "customer_reviews": {
-      "type": "customer-reviews",
-      "blocks": {
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "title": "",
-            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
-            "name": "Customer name",
-            "location": "",
-            "verified": true
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "title": "",
-            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
-            "name": "Customer name",
-            "location": "",
-            "verified": true
-          }
-        },
-        "review_3": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "title": "",
-            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
-            "name": "Customer name",
-            "location": "",
-            "verified": true
-          }
-        },
-        "review_4": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "title": "",
-            "text": "<p>Replace this with a real customer review in the theme editor.</p>",
-            "name": "Customer name",
-            "location": "",
-            "verified": true
-          }
-        }
-      },
-      "block_order": [
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_4"
-      ],
-      "settings": {}
     }
   },
   "order": [
