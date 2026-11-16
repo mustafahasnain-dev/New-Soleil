@@ -246,9 +246,9 @@
     "about": {
       "type": "custom-aboutus",
       "settings": {
-        "image": "shopify://shop_images/717d8474-0781-401b-a8fd-b2b09ecfb4b2.png",
+        "image": "shopify://shop_images/c77a6c16-313a-47f9-b356-96f25b2206c3.png",
         "mobile_ratio": "4 / 3",
-        "mobile_focus": "25%",
+        "mobile_focus": "center",
         "subheading": "Jewellery with a story",
         "heading": "About SOLEIL",
         "text": "<p>At SOLEIL, we create jewellery that celebrates timeless elegance, individuality and meaningful moments. Inspired by beauty, culture and the world around us, each piece is thoughtfully designed to bring a refined touch to everyday life and special occasions.</p>",
