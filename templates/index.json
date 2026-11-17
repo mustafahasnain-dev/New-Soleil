@@ -592,6 +592,7 @@
     },
     "video_WipgP3": {
       "type": "video",
+      "custom_css": [],
       "name": "t:sections.video.presets.name",
       "settings": {
         "heading": "",
