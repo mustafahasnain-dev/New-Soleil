@@ -593,7 +593,8 @@
     "video_WipgP3": {
       "type": "video",
       "custom_css": [
-        "video {width: 100%; height: 500px; object-fit: cover;}"
+        "video {width: 100%; height: 500px; object-fit: cover; display: block;}",
+        "@media (max-width: 749px) {video {height: 300px; }}"
       ],
       "name": "t:sections.video.presets.name",
       "settings": {
