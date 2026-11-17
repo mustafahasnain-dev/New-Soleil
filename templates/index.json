@@ -596,14 +596,14 @@
       "settings": {
         "heading": "",
         "heading_size": "h1",
-        "enable_video_looping": false,
+        "enable_video_looping": true,
         "video": "shopify://files/videos/dana (2).mp4",
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
         "cover_image": "shopify://shop_images/81b43264-462d-44e3-ac27-70b6b37f85ad.png",
         "description": "",
         "full_width": true,
         "color_scheme": "",
-        "padding_top": 36,
+        "padding_top": 28,
         "padding_bottom": 32
       }
     }
