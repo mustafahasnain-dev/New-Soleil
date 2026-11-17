@@ -288,6 +288,51 @@
         "mobile_ratio": "4 / 5"
       }
     },
+    "curated_collections_APeLtG": {
+      "type": "curated-collections",
+      "blocks": {
+        "collection_VYa9cR": {
+          "type": "collection",
+          "settings": {
+            "collection": "traditional",
+            "label": ""
+          }
+        },
+        "collection_dqGAVm": {
+          "type": "collection",
+          "settings": {
+            "collection": "modern",
+            "label": ""
+          }
+        },
+        "collection_qia9Ri": {
+          "type": "collection",
+          "settings": {
+            "collection": "minimalist",
+            "label": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_VYa9cR",
+        "collection_dqGAVm",
+        "collection_qia9Ri"
+      ],
+      "name": "Shop by category",
+      "settings": {
+        "heading": "The SOLEIL EDIT",
+        "heading_size": 30,
+        "heading_gap": 32,
+        "columns_desktop": 3,
+        "image_ratio": "0.857",
+        "radius": 8,
+        "gap": 22,
+        "label_size": 16,
+        "mobile_layout": "grid",
+        "padding_top": 52,
+        "padding_bottom": 48
+      }
+    },
     "customer_reviews": {
       "type": "customer-reviews",
       "blocks": {
@@ -552,6 +597,7 @@
     "toggle",
     "curated_collections",
     "collection_toggle_mqmGqD",
+    "curated_collections_APeLtG",
     "about",
     "gift_split",
     "customer_reviews",
