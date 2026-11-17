@@ -601,7 +601,7 @@
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
         "cover_image": "shopify://shop_images/81b43264-462d-44e3-ac27-70b6b37f85ad.png",
         "description": "",
-        "full_width": false,
+        "full_width": true,
         "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 32
