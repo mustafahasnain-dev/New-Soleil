@@ -243,51 +243,6 @@
         "width": "default"
       }
     },
-    "about": {
-      "type": "custom-aboutus",
-      "settings": {
-        "image": "shopify://shop_images/c77a6c16-313a-47f9-b356-96f25b2206c3.png",
-        "mobile_ratio": "4 / 3",
-        "mobile_focus": "center",
-        "subheading": "Jewellery with a story",
-        "heading": "About SOLEIL",
-        "text": "<p>At SOLEIL, we create jewellery that celebrates timeless elegance, individuality and meaningful moments. Inspired by beauty, culture and the world around us, each piece is thoughtfully designed to bring a refined touch to everyday life and special occasions.</p>",
-        "button_label": "Discover Soleil",
-        "button_link": "",
-        "text_position": "right",
-        "content_offset": 58,
-        "content_width": 29,
-        "min_height": 480,
-        "width": "full",
-        "border_radius": 0,
-        "top_spacing": "medium",
-        "color_text": "#202259",
-        "color_background": "#f6efe6",
-        "color_button": "#202259",
-        "color_button_text": "#ffffff"
-      }
-    },
-    "gift_split": {
-      "type": "gift-split",
-      "settings": {
-        "image": "shopify://shop_images/MG_0887.jpg",
-        "image_position": "left",
-        "eyebrow": "Luxury gift box sets",
-        "heading": "Give the perfect gift",
-        "text": "<p>Premium packaging, timeless elegance, and handcrafted pieces all wrapped in a signature gift box.</p>",
-        "button_label_1": "Shop gifts",
-        "button_link_1": "",
-        "button_label_2": "",
-        "button_link_2": "",
-        "bg_color": "#202259",
-        "text_color": "#f5f5fa",
-        "btn_bg": "#f5f5fa",
-        "btn_text": "#202259",
-        "full_width": true,
-        "min_height": 560,
-        "mobile_ratio": "4 / 5"
-      }
-    },
     "curated_collections_APeLtG": {
       "type": "curated-collections",
       "blocks": {
@@ -331,6 +286,51 @@
         "mobile_layout": "grid",
         "padding_top": 52,
         "padding_bottom": 48
+      }
+    },
+    "about": {
+      "type": "custom-aboutus",
+      "settings": {
+        "image": "shopify://shop_images/c77a6c16-313a-47f9-b356-96f25b2206c3.png",
+        "mobile_ratio": "4 / 3",
+        "mobile_focus": "center",
+        "subheading": "Jewellery with a story",
+        "heading": "About SOLEIL",
+        "text": "<p>At SOLEIL, we create jewellery that celebrates timeless elegance, individuality and meaningful moments. Inspired by beauty, culture and the world around us, each piece is thoughtfully designed to bring a refined touch to everyday life and special occasions.</p>",
+        "button_label": "Discover Soleil",
+        "button_link": "",
+        "text_position": "right",
+        "content_offset": 58,
+        "content_width": 29,
+        "min_height": 480,
+        "width": "full",
+        "border_radius": 0,
+        "top_spacing": "medium",
+        "color_text": "#202259",
+        "color_background": "#f6efe6",
+        "color_button": "#202259",
+        "color_button_text": "#ffffff"
+      }
+    },
+    "gift_split": {
+      "type": "gift-split",
+      "settings": {
+        "image": "shopify://shop_images/MG_0887.jpg",
+        "image_position": "left",
+        "eyebrow": "Luxury gift box sets",
+        "heading": "Give the perfect gift",
+        "text": "<p>Premium packaging, timeless elegance, and handcrafted pieces all wrapped in a signature gift box.</p>",
+        "button_label_1": "Shop gifts",
+        "button_link_1": "",
+        "button_label_2": "",
+        "button_link_2": "",
+        "bg_color": "#202259",
+        "text_color": "#f5f5fa",
+        "btn_bg": "#f5f5fa",
+        "btn_text": "#202259",
+        "full_width": true,
+        "min_height": 560,
+        "mobile_ratio": "4 / 5"
       }
     },
     "customer_reviews": {
@@ -400,7 +400,7 @@
         "columns": 3,
         "bg_color": "#ffffff",
         "card_color": "#f6f4f1",
-        "text_color": "#000000",
+        "text_color": "#202259",
         "star_color": "#202259",
         "card_radius": 0,
         "padding_top": 80,
