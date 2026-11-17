@@ -592,7 +592,9 @@
     },
     "video_WipgP3": {
       "type": "video",
-      "custom_css": [],
+      "custom_css": [
+        "video {width: 100%; height: 500px; object-fit: cover;}"
+      ],
       "name": "t:sections.video.presets.name",
       "settings": {
         "heading": "",
