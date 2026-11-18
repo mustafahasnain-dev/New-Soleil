@@ -9,15 +9,24 @@
  */
 {
   "sections": {
-    "collection_nav": {
-      "type": "collection-nav",
-      "settings": {}
-    },
     "banner": {
       "type": "collection-banner-image",
       "settings": {
         "max_height": 0,
         "max_height_mobile": 0,
+        "margin_bottom": 0
+      }
+    },
+    "collection_nav": {
+      "type": "collection-nav",
+      "settings": {
+        "menu": "collection-menu",
+        "bg_color": "#ececec",
+        "text_color": "#6b6b6b",
+        "active_color": "#000000",
+        "font_size": 12,
+        "gap": 40,
+        "padding": 20,
         "margin_bottom": 0
       }
     },
