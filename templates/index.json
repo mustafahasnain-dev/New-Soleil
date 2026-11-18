@@ -165,7 +165,7 @@
         "collection_1": {
           "type": "collection",
           "settings": {
-            "collection": "rings",
+            "collection": "yara",
             "image": "shopify://shop_images/65d1659f-11ae-4e5f-a70e-bc1fc90ccf30.png",
             "label": "Rings"
           }
