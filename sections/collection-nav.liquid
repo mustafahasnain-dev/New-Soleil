@@ -1,0 +1,66 @@
+{%- comment -%}
+  Category navigation bar under the collection banner, as on minimalist.ae: a grey strip of uppercase
+  links from a menu picked in the theme editor. The link for the current collection is highlighted.
+  Scrolls sideways on small screens.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign sid = '#shopify-section-' | append: section.id
+  assign nav_menu = linklists[s.menu]
+-%}
+{%- if nav_menu.links.size > 0 -%}
+  <style>
+    {{ sid }} .collection-nav{ background:{{ s.bg_color }}; margin-bottom:{{ s.margin_bottom }}px; }
+    {{ sid }} .collection-nav__list{ display:flex; justify-content:center; gap:{{ s.gap }}px; max-width:1620px; margin:0 auto; padding:0 20px; list-style:none; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+    {{ sid }} .collection-nav__list::-webkit-scrollbar{ display:none; }
+    {{ sid }} .collection-nav__item{ flex:0 0 auto; }
+    {{ sid }} .collection-nav__link{ position:relative; display:block; padding:{{ s.padding }}px 0; font-size:{{ s.font_size }}px; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap; color:{{ s.text_color }}; text-decoration:none; transition:color .2s ease; }
+    {{ sid }} .collection-nav__link::after{ content:''; position:absolute; left:0; right:0; bottom:{{ s.padding | divided_by: 2 }}px; height:1px; background:currentColor; transform:scaleX(0); transition:transform .25s ease; }
+    {{ sid }} .collection-nav__link:hover, {{ sid }} .collection-nav__link.is-active{ color:{{ s.active_color }}; }
+    {{ sid }} .collection-nav__link:hover::after, {{ sid }} .collection-nav__link.is-active::after{ transform:scaleX(1); }
+    @media screen and (max-width:749px){
+      {{ sid }} .collection-nav__list{ justify-content:flex-start; gap:{{ s.gap | times: 2 | divided_by: 3 }}px; }
+    }
+  </style>
+
+  <nav class="collection-nav" aria-label="{{ nav_menu.title | escape }}">
+    <ul class="collection-nav__list" role="list">
+      {%- for link in nav_menu.links -%}
+        {%- liquid
+          assign is_active = false
+          if link.active or link.current
+            assign is_active = true
+          elsif collection and link.url == collection.url
+            assign is_active = true
+          endif
+        -%}
+        <li class="collection-nav__item">
+          <a href="{{ link.url }}" class="collection-nav__link{% if is_active %} is-active{% endif %}"{% if is_active %} aria-current="page"{% endif %}>
+            {{- link.title | escape -}}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+{%- elsif request.design_mode -%}
+  <p style="padding:16px 20px;text-align:center;background:#ececec;font-size:13px;">Collection navigation: pick a menu in the section settings.</p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection navigation",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "info": "e.g. New, All Jewellery, Sets, Necklaces, Bracelets, Earrings, Rings" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ececec" },
+    { "type": "color", "id": "text_color", "label": "Link color", "default": "#6b6b6b" },
+    { "type": "color", "id": "active_color", "label": "Active / hover color", "default": "#000000" },
+    { "type": "range", "id": "font_size", "label": "Font size", "min": 10, "max": 16, "step": 1, "unit": "px", "default": 12 },
+    { "type": "range", "id": "gap", "label": "Space between links", "min": 16, "max": 80, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding", "label": "Bar height (padding)", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "margin_bottom", "label": "Space below", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 0 }
+  ],
+  "presets": [ { "name": "Collection navigation" } ]
+}
+{% endschema %}
