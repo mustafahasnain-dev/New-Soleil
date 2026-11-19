@@ -11,13 +11,40 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "custom_aboutus_TRfKc8": {
+      "type": "custom-aboutus",
+      "name": "Custom about us",
+      "settings": {
+        "image": "shopify://shop_images/c77a6c16-313a-47f9-b356-96f25b2206c3.png",
+        "mobile_ratio": "4 / 3",
+        "mobile_focus": "25%",
+        "subheading": "Jewellery with a story",
+        "heading": "About SOLEIL",
+        "text": "<p>At SOLEIL, we create jewellery that celebrates timeless elegance, individuality and meaningful moments. Inspired by beauty, culture and the world around us, each piece is thoughtfully designed to bring a refined touch to everyday life and special occasions.</p>",
+        "button_label": "Discover Soleil",
+        "button_link": "",
+        "text_position": "right",
+        "content_offset": 61,
+        "content_width": 29,
+        "min_height": 460,
+        "width": "full",
+        "border_radius": 0,
+        "top_spacing": "normal",
+        "color_text": "#202259",
+        "color_background": "#f6efe6",
+        "color_button": "#202259",
+        "color_button_text": "#ffffff"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "custom_aboutus_TRfKc8"
   ]
 }
