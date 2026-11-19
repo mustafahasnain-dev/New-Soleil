@@ -17,6 +17,18 @@
   #shopify-section-{{ section.id }} .title--primary{ margin: 32px 0 24px; text-align: center; }
   #shopify-section-{{ section.id }} .card__heading{ margin-top: 12px; }
   #shopify-section-{{ section.id }} .card__heading .icon-wrap{ display: none; }
+  /* grid matches the collection page product grid (template-collection-minimal.css) */
+  #shopify-section-{{ section.id }} .page-width{ max-width: var(--page-width); padding-left: 15px; padding-right: 15px; }
+  #shopify-section-{{ section.id }} .collection-list.grid{ display: grid; grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr)); column-gap: 15px; row-gap: 34px; margin: 0; }
+  #shopify-section-{{ section.id }} .collection-list .grid__item{ width: auto; max-width: none; padding: 0; }
+  #shopify-section-{{ section.id }} .collection-list .card__inner{ background: #f8f8f8; }
+  @media screen and (min-width: 750px) and (max-width: 989px){
+    #shopify-section-{{ section.id }} .collection-list.grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media screen and (max-width: 749px){
+    #shopify-section-{{ section.id }} .page-width{ padding-left: 10px; padding-right: 10px; }
+    #shopify-section-{{ section.id }} .collection-list.grid{ grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr)); column-gap: 10px; row-gap: 26px; }
+  }
   @media screen and (max-width: 749px){
     #shopify-section-{{ section.id }} .title--primary,
     #shopify-section-{{ section.id }} .card__heading,
