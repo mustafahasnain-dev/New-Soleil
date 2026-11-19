@@ -15,7 +15,7 @@
         "columns_desktop": 4,
         "columns_mobile": "2",
         "image_ratio": "square",
-        "image_shape": "default",
+        "image_shape": "round",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
