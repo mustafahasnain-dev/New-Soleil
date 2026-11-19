@@ -1,6 +1,28 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
 
+<style>
+  /* heading and collection names match the product names on collection pages (.mcard__name) */
+  #shopify-section-{{ section.id }} .title--primary,
+  #shopify-section-{{ section.id }} .card__heading,
+  #shopify-section-{{ section.id }} .card__heading a{
+    font-family: var(--font-body-family);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: #000;
+  }
+  #shopify-section-{{ section.id }} .title--primary{ margin: 32px 0 24px; text-align: center; }
+  #shopify-section-{{ section.id }} .card__heading{ margin-top: 12px; }
+  #shopify-section-{{ section.id }} .card__heading .icon-wrap{ display: none; }
+  @media screen and (max-width: 749px){
+    #shopify-section-{{ section.id }} .title--primary,
+    #shopify-section-{{ section.id }} .card__heading,
+    #shopify-section-{{ section.id }} .card__heading a{ font-size: 13px; }
+  }
+</style>
 <div class="page-width">
   <h1 class="title title--primary inline-richtext{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     {{ section.settings.title }}

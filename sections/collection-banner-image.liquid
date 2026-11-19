@@ -1,10 +1,16 @@
 {%- comment -%}
   Full-width collection banner, as on minimalist.ae/collections/perfumes: the image spans the page at its
   natural proportions with no overlay. The image comes only from the collection metafield custom.bg-image
-  (file, image). Renders nothing when the metafield is empty, so the page starts at the toolbar.
+  (file, image). On the collections list page it uses the section's list image instead. Renders nothing when the metafield is empty, so the page starts at the toolbar.
   The page h1 lives in the product grid section.
 {%- endcomment -%}
-{%- assign banner_image = collection.metafields.custom['bg-image'].value -%}
+{%- liquid
+  if template.name == 'list-collections'
+    assign banner_image = section.settings.list_image
+  else
+    assign banner_image = collection.metafields.custom['bg-image'].value
+  endif
+-%}
 {%- if banner_image != blank -%}
   <style>
     #shopify-section-{{ section.id }} .collection-banner-image{ position:relative; margin-bottom:{{ section.settings.margin_bottom }}px; }
@@ -27,7 +33,7 @@
         fetchpriority: 'high',
         widths: '500, 750, 1000, 1200, 1920, 2400, 2800',
         sizes: '100vw',
-        alt: collection.title
+        alt: collection.title | default: page_title
     }}
   </div>
 {%- endif -%}
@@ -37,11 +43,17 @@
   "name": "Collection banner image",
   "tag": "section",
   "class": "section",
-  "enabled_on": { "templates": ["collection"] },
+  "enabled_on": { "templates": ["collection", "list-collections"] },
   "settings": [
     {
       "type": "paragraph",
       "content": "Shows the image from each collection's bg-image metafield (custom.bg-image) full width. Collections without it show no banner."
+    },
+    {
+      "type": "image_picker",
+      "id": "list_image",
+      "label": "Collections list page image",
+      "info": "Only used on the collections list page (/collections), which has no collection metafield. Ignored on collection pages."
     },
     {
       "type": "range",

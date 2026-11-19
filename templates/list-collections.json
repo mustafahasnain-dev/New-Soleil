@@ -9,6 +9,14 @@
  */
 {
   "sections": {
+    "banner": {
+      "type": "collection-banner-image",
+      "settings": {}
+    },
+    "collection_nav": {
+      "type": "collection-nav",
+      "settings": {}
+    },
     "main": {
       "type": "main-list-collections",
       "settings": {
@@ -21,6 +29,8 @@
     }
   },
   "order": [
+    "banner",
+    "collection_nav",
     "main"
   ]
 }
