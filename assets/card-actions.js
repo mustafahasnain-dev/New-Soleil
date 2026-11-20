@@ -146,6 +146,17 @@
     else toggleList(btn, type);
   });
 
+  // keep the header counter in sync with every cart change (cart page quantity / remove, drawer, product form)
+  const subscribeCart = () => {
+    if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+      subscribe(PUB_SUB_EVENTS.cartUpdate, (event) => {
+        if (!event || event.source !== 'card-actions') updateCartCount();
+      });
+    }
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', subscribeCart);
+  else subscribeCart();
+
   window.addEventListener('wishlistUpdated', () => syncStates('wishlist'));
   window.addEventListener('compareUpdated', () => syncStates('compare'));
   window.addEventListener('storage', syncAll);
