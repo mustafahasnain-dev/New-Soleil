@@ -82,10 +82,10 @@
         "gift_wrap": {
           "type": "gift_wrap",
           "settings": {
-            "text": "Complimentary gift wrapping",
-            "image": "shopify://shop_images/Pack.webp",
+            "text": "Every order comes with SOLEIL's signature gift packaging.",
+            "image": "shopify://shop_images/55c0b5b4-02b9-4c93-abf7-9214c900fd97.png",
             "property_name": "Gift wrapping",
-            "property_value": "Yes"
+            "property_value": "yes"
           }
         },
         "buy_buttons": {
