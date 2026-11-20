@@ -27,22 +27,30 @@
   {%- if mf_rows != blank -%}
     {%- for row in mf_rows -%}
       {%- liquid
-        assign row_image = row.image.value
+        assign row_media = row.image.value
+        assign row_image = nil
+        assign row_video = nil
+        if row_media.media_type == 'video'
+          assign row_video = row_media
+        else
+          assign row_image = row_media
+        endif
         assign row_heading = row.heading.value
+        assign row_bg = row.bg_color.value
         assign row_text = ''
         if row.text.value != blank
           assign row_text = row.text.value | escape | newline_to_br | prepend: '<p>' | append: '</p>'
         endif
       -%}
-      {%- if row_image != blank or row_heading != blank -%}
+      {%- if row_media != blank or row_heading != blank -%}
         {%- render 'product-story-row',
           section: section,
           index: forloop.index,
           image: row_image,
-          video: nil,
+          video: row_video,
           heading: row_heading,
           text: row_text,
-          bg: nil,
+          bg: row_bg,
           attrs: ''
         -%}
       {%- endif -%}
@@ -107,7 +115,7 @@
       "type": "checkbox",
       "id": "use_metafield",
       "label": "Use product metafield rows when available",
-      "info": "Reads custom.story_rows (list of Product story row entries). Falls back to the blocks below.",
+      "info": "Each product's rows come from its Story rows metafield (Products → product → Metafields). Products without any use the rows below.",
       "default": true
     },
     {
