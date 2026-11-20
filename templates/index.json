@@ -131,6 +131,100 @@
         "margin_bottom": 0
       }
     },
+    "collection_circles": {
+      "type": "collection-circles",
+      "blocks": {
+        "col_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "necklaces-pendants",
+            "title": ""
+          }
+        },
+        "col_2": {
+          "type": "collection",
+          "settings": {
+            "collection": "earrings",
+            "title": ""
+          }
+        },
+        "col_3": {
+          "type": "collection",
+          "settings": {
+            "collection": "bracelets",
+            "title": ""
+          }
+        },
+        "col_4": {
+          "type": "collection",
+          "settings": {
+            "collection": "best-sellers",
+            "title": ""
+          }
+        },
+        "col_5": {
+          "type": "collection",
+          "settings": {
+            "collection": "gifts",
+            "title": ""
+          }
+        },
+        "col_6": {
+          "type": "collection",
+          "settings": {
+            "collection": "minimalist",
+            "title": ""
+          }
+        },
+        "col_7": {
+          "type": "collection",
+          "settings": {
+            "collection": "modern",
+            "title": ""
+          }
+        },
+        "col_8": {
+          "type": "collection",
+          "settings": {
+            "collection": "classic",
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "col_1",
+        "col_2",
+        "col_3",
+        "col_4",
+        "col_5",
+        "col_6",
+        "col_7",
+        "col_8"
+      ],
+      "settings": {
+        "heading": "Shop by category",
+        "heading_gap": 28,
+        "columns_desktop": 8,
+        "columns_mobile": 3.5,
+        "gap": 24,
+        "image_max": 200,
+        "title_size": 13,
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "circle_bg": "#f6f4f1",
+        "show_border": false,
+        "border_color": "#e5e5e5",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_left": 0,
+        "padding_right": 0,
+        "spacing_mobile": 70
+      }
+    },
     "toggle": {
       "type": "collection-toggle",
       "settings": {
@@ -632,70 +726,6 @@
         "padding_top": 28,
         "padding_bottom": 32
       }
-    },
-    "collection_circles": {
-      "type": "collection-circles",
-      "blocks": {
-        "col_1": {
-          "type": "collection",
-          "settings": {
-            "collection": "necklaces-pendants"
-          }
-        },
-        "col_2": {
-          "type": "collection",
-          "settings": {
-            "collection": "earrings"
-          }
-        },
-        "col_3": {
-          "type": "collection",
-          "settings": {
-            "collection": "bracelets"
-          }
-        },
-        "col_4": {
-          "type": "collection",
-          "settings": {
-            "collection": "best-sellers"
-          }
-        },
-        "col_5": {
-          "type": "collection",
-          "settings": {
-            "collection": "gifts"
-          }
-        },
-        "col_6": {
-          "type": "collection",
-          "settings": {
-            "collection": "minimalist"
-          }
-        },
-        "col_7": {
-          "type": "collection",
-          "settings": {
-            "collection": "modern"
-          }
-        },
-        "col_8": {
-          "type": "collection",
-          "settings": {
-            "collection": "classic"
-          }
-        }
-      },
-      "block_order": [
-        "col_1",
-        "col_2",
-        "col_3",
-        "col_4",
-        "col_5",
-        "col_6",
-        "col_7",
-        "col_8"
-      ],
-      "settings": {}
     }
   },
   "order": [
