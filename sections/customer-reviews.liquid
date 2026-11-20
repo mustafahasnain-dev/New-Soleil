@@ -1,3 +1,4 @@
+{%- render 'section-spacing', section: section, skip_vertical_padding: true -%}
 {%- comment -%}
   Homepage customer reviews: heading with an overall rating summary, then a swipeable row of review cards
   (stars, title, quote, name, optional location / product and photo) with prev / next arrows.
@@ -142,42 +143,260 @@
   "class": "section",
   "max_blocks": 20,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Testimonials" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say" },
-    { "type": "checkbox", "id": "show_summary", "label": "Show rating summary", "default": true },
-    { "type": "range", "id": "summary_rating", "label": "Summary stars", "min": 1, "max": 5, "step": 1, "default": 5 },
-    { "type": "text", "id": "summary_text", "label": "Summary text", "default": "4.9 / 5 based on 500+ reviews" },
-    { "type": "range", "id": "columns", "label": "Reviews per row (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
-    { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
-    { "type": "color", "id": "card_color", "label": "Card background", "default": "#f6f4f1" },
-    { "type": "color", "id": "text_color", "label": "Text", "default": "#000000" },
-    { "type": "color", "id": "star_color", "label": "Stars", "default": "#202259" },
-    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 0 },
-    { "type": "header", "content": "Spacing" },
-    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 80 },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 80 }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small heading",
+      "default": "Testimonials"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What our customers say"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show rating summary",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "summary_rating",
+      "label": "Summary stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "summary_text",
+      "label": "Summary text",
+      "default": "4.9 / 5 based on 500+ reviews"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Reviews per row (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_color",
+      "label": "Card background",
+      "default": "#f6f4f1"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Stars",
+      "default": "#202259"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_left",
+      "label": "Margin left",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_right",
+      "label": "Margin right",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Padding left",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Padding right",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "spacing_mobile",
+      "label": "Mobile spacing scale",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100,
+      "info": "Mobile uses this percentage of the spacing above."
+    }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
-        { "type": "text", "id": "title", "label": "Review title" },
-        { "type": "richtext", "id": "text", "label": "Review", "default": "<p>Beautiful piece and gorgeous packaging. It arrived quickly and looks even better in person.</p>" },
-        { "type": "text", "id": "name", "label": "Customer name", "default": "Customer name" },
-        { "type": "text", "id": "location", "label": "Location", "info": "e.g. Dubai, UAE" },
-        { "type": "product", "id": "product", "label": "Product reviewed" },
-        { "type": "image_picker", "id": "photo", "label": "Customer photo", "info": "Optional. Shows the first letter of the name when empty." },
-        { "type": "checkbox", "id": "verified", "label": "Show verified buyer", "default": true }
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Review",
+          "default": "<p>Beautiful piece and gorgeous packaging. It arrived quickly and looks even better in person.</p>"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer name",
+          "default": "Customer name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "info": "e.g. Dubai, UAE"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product reviewed"
+        },
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Customer photo",
+          "info": "Optional. Shows the first letter of the name when empty."
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Show verified buyer",
+          "default": true
+        }
       ]
     }
   ],
   "presets": [
     {
       "name": "Customer reviews",
-      "blocks": [ { "type": "review" }, { "type": "review" }, { "type": "review" }, { "type": "review" } ]
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        }
+      ]
     }
   ]
 }

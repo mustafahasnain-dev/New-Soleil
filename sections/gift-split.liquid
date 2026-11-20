@@ -1,3 +1,4 @@
+{%- render 'section-spacing', section: section -%}
 {%- comment -%}
   Split image / text promo (e.g. gifts), modelled on minimalist.ae: a large image on one half,
   a dark panel on the other with a small eyebrow, heading, text and up to two pill buttons.
@@ -69,28 +70,250 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "header", "content": "Image" },
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional. Defaults to the image above." },
-    { "type": "select", "id": "image_position", "label": "Image position", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
-    { "type": "header", "content": "Content" },
-    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Luxury gift box sets" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Give the perfect gift, every time" },
-    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Premium packaging, timeless elegance, and handcrafted pieces all wrapped in a signature gift box.</p>" },
-    { "type": "text", "id": "button_label_1", "label": "Button 1 label", "default": "Shop curated gifts" },
-    { "type": "url", "id": "button_link_1", "label": "Button 1 link" },
-    { "type": "text", "id": "button_label_2", "label": "Button 2 label", "default": "Shop personalised products" },
-    { "type": "url", "id": "button_link_2", "label": "Button 2 link" },
-    { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "bg_color", "label": "Panel background", "default": "#1e1e1e" },
-    { "type": "color", "id": "text_color", "label": "Text and outline", "default": "#ffffff" },
-    { "type": "color", "id": "btn_bg", "label": "Button 1 background", "default": "#e3dfda" },
-    { "type": "color", "id": "btn_text", "label": "Button 1 text", "default": "#1e1e1e" },
-    { "type": "header", "content": "Layout" },
-    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true, "info": "Off keeps it within the 1620px page width." },
-    { "type": "range", "id": "min_height", "label": "Desktop height", "min": 400, "max": 1000, "step": 20, "unit": "px", "default": 760 },
-    { "type": "select", "id": "mobile_ratio", "label": "Mobile image shape", "default": "4 / 5", "options": [ { "value": "1 / 1", "label": "Square" }, { "value": "4 / 5", "label": "Portrait" }, { "value": "4 / 3", "label": "Landscape" } ] }
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "Optional. Defaults to the image above."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small heading",
+      "default": "Luxury gift box sets"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Give the perfect gift, every time"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Premium packaging, timeless elegance, and handcrafted pieces all wrapped in a signature gift box.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "Button 1 label",
+      "default": "Shop curated gifts"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Button 2 label",
+      "default": "Shop personalised products"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Panel background",
+      "default": "#1e1e1e"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text and outline",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Button 1 background",
+      "default": "#e3dfda"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Button 1 text",
+      "default": "#1e1e1e"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true,
+      "info": "Off keeps it within the 1620px page width."
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Desktop height",
+      "min": 400,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "default": 760
+    },
+    {
+      "type": "select",
+      "id": "mobile_ratio",
+      "label": "Mobile image shape",
+      "default": "4 / 5",
+      "options": [
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait"
+        },
+        {
+          "value": "4 / 3",
+          "label": "Landscape"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_left",
+      "label": "Margin left",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_right",
+      "label": "Margin right",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Padding left",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Padding right",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "spacing_mobile",
+      "label": "Mobile spacing scale",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100,
+      "info": "Mobile uses this percentage of the spacing above."
+    }
   ],
-  "presets": [ { "name": "Gift split banner" } ]
+  "presets": [
+    {
+      "name": "Gift split banner"
+    }
+  ]
 }
 {% endschema %}

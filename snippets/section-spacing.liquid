@@ -1,0 +1,23 @@
+{%- comment -%}
+  Outer spacing for a section from its "Spacing" settings: margin_top / margin_bottom / margin_left / margin_right
+  and padding_top / padding_bottom / padding_left / padding_right (px). Mobile (< 750px) scales them by the
+  spacing_mobile setting (percent). Applied to the section wrapper, #shopify-section-<id>.
+  Pass skip_vertical_padding: true when the section uses padding_top / padding_bottom itself.
+  Accepts: section, skip_vertical_padding
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign m = st.spacing_mobile | default: 100 | divided_by: 100.0
+-%}
+<style>
+  #shopify-section-{{ section.id }}{
+    margin:{{ st.margin_top }}px {{ st.margin_right }}px {{ st.margin_bottom }}px {{ st.margin_left }}px;
+    padding:{% if skip_vertical_padding %}0{% else %}{{ st.padding_top }}px{% endif %} {{ st.padding_right }}px {% if skip_vertical_padding %}0{% else %}{{ st.padding_bottom }}px{% endif %} {{ st.padding_left }}px;
+  }
+  @media screen and (max-width:749px){
+    #shopify-section-{{ section.id }}{
+      margin:{{ st.margin_top | times: m | round }}px {{ st.margin_right | times: m | round }}px {{ st.margin_bottom | times: m | round }}px {{ st.margin_left | times: m | round }}px;
+      padding:{% if skip_vertical_padding %}0{% else %}{{ st.padding_top | times: m | round }}px{% endif %} {{ st.padding_right | times: m | round }}px {% if skip_vertical_padding %}0{% else %}{{ st.padding_bottom | times: m | round }}px{% endif %} {{ st.padding_left | times: m | round }}px;
+    }
+  }
+</style>
