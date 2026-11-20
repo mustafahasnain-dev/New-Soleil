@@ -13,9 +13,9 @@
       "type": "collection-banner-image",
       "settings": {
         "list_image": "shopify://shop_images/All_Collections__Gold_Diamond_Elegance.png",
-        "max_height": 300,
-        "max_height_mobile": 180,
-        "margin_bottom": 28
+        "max_height": 0,
+        "max_height_mobile": 0,
+        "margin_bottom": 0
       }
     },
     "collection_nav": {
