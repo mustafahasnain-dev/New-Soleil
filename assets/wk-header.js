@@ -2549,7 +2549,9 @@ class CartItems extends HTMLElement {
         if (cartFooter) cartFooter.classList.toggle('is-empty', parsedState.item_count === 0);
         if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
         this.getSectionsToRender().forEach((section) => {
-          const elementToReplace = document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
+          const sectionElement = document.getElementById(section.id);
+          if (!sectionElement || !parsedState.sections || !parsedState.sections[section.section]) return;
+          const elementToReplace = sectionElement.querySelector(section.selector) || sectionElement;
           const new_html = this.getSectionInnerHTML(parsedState.sections[section.section], section.selector);
           const new_obj = new DOMParser().parseFromString(parsedState.sections[section.section], 'text/html').querySelector(section.selector);
           if(new_obj.matches('wk-drawer-inner')){
