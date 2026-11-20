@@ -13,7 +13,7 @@
       "type": "collection-banner-image",
       "settings": {
         "list_image": "shopify://shop_images/b84766fb-f273-4713-86b6-60d86c702f47.png",
-        "max_height": 280,
+        "max_height": 360,
         "max_height_mobile": 0,
         "margin_bottom": 0
       }
