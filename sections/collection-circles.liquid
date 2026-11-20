@@ -1,0 +1,173 @@
+{%- render 'section-spacing', section: section -%}
+{%- comment -%}
+  Collection categories as round images with the collection name underneath.
+  Desktop: shows "Collections per row" in a row; with more collections than that it becomes a carousel with arrows.
+  Mobile: always a swipeable carousel showing "Collections visible on mobile".
+  Image: block image, else the collection image, else the collection's first product image.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign sid = '#shopify-section-' | append: section.id
+  assign count = section.blocks.size
+  assign is_carousel = false
+  if count > s.columns_desktop
+    assign is_carousel = true
+  endif
+  assign gap_d = s.gap
+  assign gap_m = s.gap | times: 0.6 | round
+-%}
+<style>
+  {{ sid }} .ccircles{ background:{{ s.bg_color }}; color:{{ s.text_color }}; }
+  {{ sid }} .ccircles__inner{ position:relative; max-width:1620px; margin:0 auto; padding:0 20px; }
+  {{ sid }} .ccircles__heading{ margin:0 0 {{ s.heading_gap }}px; text-align:center; font-size:clamp(20px,2vw,28px); font-weight:400; letter-spacing:.04em; text-transform:uppercase; color:inherit; }
+  {{ sid }} .ccircles__track{ display:grid; grid-auto-flow:column; grid-auto-columns:calc((100% - {{ s.columns_desktop | minus: 1 | times: gap_d }}px) / {{ s.columns_desktop }}); gap:{{ gap_d }}px; list-style:none; margin:0; padding:0; }
+  {{ sid }} .ccircles__track--static{ justify-content:center; grid-auto-columns:calc((100% - {{ s.columns_desktop | minus: 1 | times: gap_d }}px) / {{ s.columns_desktop }}); }
+  {{ sid }} .ccircles__track--carousel{ overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  {{ sid }} .ccircles__track::-webkit-scrollbar{ display:none; }
+  {{ sid }} .ccircles__item{ scroll-snap-align:start; min-width:0; }
+  {{ sid }} .ccircles__link{ display:flex; flex-direction:column; align-items:center; color:inherit; text-decoration:none; }
+  {{ sid }} .ccircles__media{ position:relative; display:block; width:100%; max-width:{{ s.image_max }}px; aspect-ratio:1/1; border-radius:50%; overflow:hidden; background:{{ s.circle_bg }};{% if s.show_border %} box-shadow:0 0 0 1px {{ s.border_color }};{% endif %} }
+  {{ sid }} .ccircles__media img, {{ sid }} .ccircles__media svg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  {{ sid }} .ccircles__link:hover .ccircles__media img{ transform:scale(1.06); }
+  {{ sid }} .ccircles__title{ margin:14px 0 0; text-align:center; font-size:{{ s.title_size }}px; letter-spacing:.06em; text-transform:uppercase; line-height:1.35; color:inherit; }
+  {{ sid }} .ccircles__link:hover .ccircles__title{ text-decoration:underline; text-underline-offset:3px; }
+  {{ sid }} .ccircles__arrow{ position:absolute; top:50%; z-index:2; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; padding:0; border:0; border-radius:50%; background:#fff; color:#000; box-shadow:0 2px 10px rgba(0,0,0,.12); cursor:pointer; transform:translateY(-50%); transition:opacity .2s ease; }
+  {{ sid }} .ccircles__arrow:disabled{ opacity:0; pointer-events:none; }
+  {{ sid }} .ccircles__arrow--prev{ left:0; }
+  {{ sid }} .ccircles__arrow--next{ right:0; }
+  {{ sid }} .ccircles__viewport{ position:relative; }
+  @media screen and (max-width:749px){
+    {{ sid }} .ccircles__inner{ padding:0 0 0 16px; }
+    {{ sid }} .ccircles__track, {{ sid }} .ccircles__track--static{ grid-auto-columns:calc((100% - 16px - {{ s.columns_mobile | floor | times: gap_m }}px) / {{ s.columns_mobile }}); gap:{{ gap_m }}px; justify-content:start; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding-right:16px; }
+    {{ sid }} .ccircles__title{ font-size:{{ s.title_size | minus: 2 | at_least: 10 }}px; margin-top:10px; }
+    {{ sid }} .ccircles__arrow{ display:none; }
+  }
+</style>
+
+<div class="ccircles">
+  <div class="ccircles__inner">
+    {%- if s.heading != blank -%}<h2 class="ccircles__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+    <div class="ccircles__viewport">
+      {%- if is_carousel -%}
+        <button type="button" class="ccircles__arrow ccircles__arrow--prev" data-cc-prev aria-label="Previous collections">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+        </button>
+      {%- endif -%}
+      <ul class="ccircles__track {% if is_carousel %}ccircles__track--carousel{% else %}ccircles__track--static{% endif %}" role="list" data-cc-track>
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign col = block.settings.collection
+            assign img = block.settings.image
+            if img == blank and col != blank
+              assign img = col.image | default: col.featured_image
+              if img == blank and col.products.size > 0
+                assign img = col.products.first.featured_image
+              endif
+            endif
+            assign title = block.settings.title | default: col.title | default: 'Collection'
+            assign url = col.url | default: '#'
+          -%}
+          <li class="ccircles__item" {{ block.shopify_attributes }}>
+            <a href="{{ url }}" class="ccircles__link">
+              <span class="ccircles__media">
+                {%- if img != blank -%}
+                  {{ img | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 300, 400, 600', sizes: '(min-width: 750px) 200px, 40vw', alt: title }}
+                {%- else -%}
+                  {{ 'collection-1' | placeholder_svg_tag }}
+                {%- endif -%}
+              </span>
+              <span class="ccircles__title">{{ title | escape }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- if is_carousel -%}
+        <button type="button" class="ccircles__arrow ccircles__arrow--next" data-cc-next aria-label="Next collections">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- if is_carousel -%}
+  <script>
+    (() => {
+      const root = document.querySelector('{{ sid }}');
+      if (!root) return;
+      const track = root.querySelector('[data-cc-track]');
+      const prev = root.querySelector('[data-cc-prev]');
+      const next = root.querySelector('[data-cc-next]');
+      const media = root.querySelector('.ccircles__media');
+      const step = () => {
+        const item = track.querySelector('.ccircles__item');
+        return item ? item.getBoundingClientRect().width + {{ gap_d }} : track.clientWidth;
+      };
+      const place = () => {
+        if (media) {
+          const top = media.getBoundingClientRect().top - root.querySelector('.ccircles__viewport').getBoundingClientRect().top + media.offsetHeight / 2;
+          prev.style.top = next.style.top = `${top}px`;
+        }
+        prev.disabled = track.scrollLeft <= 2;
+        next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+      };
+      prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+      next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+      track.addEventListener('scroll', () => window.requestAnimationFrame(place), { passive: true });
+      window.addEventListener('resize', place);
+      window.addEventListener('load', place);
+      place();
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection circles",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 24,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by category" },
+    { "type": "range", "id": "heading_gap", "label": "Space under heading", "min": 0, "max": 60, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "columns_desktop", "label": "Collections per row (desktop)", "min": 3, "max": 10, "step": 1, "default": 6, "info": "More collections than this turns the row into a carousel." },
+    { "type": "range", "id": "columns_mobile", "label": "Collections visible on mobile", "min": 2, "max": 5, "step": 0.5, "default": 3.5, "info": "Mobile is always a swipeable carousel. Use .5 to show part of the next circle." },
+    { "type": "range", "id": "gap", "label": "Space between collections", "min": 8, "max": 60, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "image_max", "label": "Max circle size", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 200 },
+    { "type": "range", "id": "title_size", "label": "Name font size", "min": 10, "max": 20, "step": 1, "unit": "px", "default": 13 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#000000" },
+    { "type": "color", "id": "circle_bg", "label": "Circle background", "default": "#f6f4f1" },
+    { "type": "checkbox", "id": "show_border", "label": "Show circle border", "default": false },
+    { "type": "color", "id": "border_color", "label": "Circle border", "default": "#e5e5e5" },
+    { "type": "header", "content": "Section spacing" },
+    { "type": "range", "id": "margin_top", "label": "Margin top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_bottom", "label": "Margin bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_left", "label": "Margin left", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_right", "label": "Margin right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_left", "label": "Padding left", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_right", "label": "Padding right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "spacing_mobile", "label": "Mobile spacing scale", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 70, "info": "Mobile uses this percentage of the spacing above." }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Custom image", "info": "Optional. Defaults to the collection image." },
+        { "type": "text", "id": "title", "label": "Custom name", "info": "Optional. Defaults to the collection title." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection circles",
+      "blocks": [ { "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" } ]
+    }
+  ]
+}
+{% endschema %}

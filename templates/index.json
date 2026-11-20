@@ -632,11 +632,76 @@
         "padding_top": 28,
         "padding_bottom": 32
       }
+    },
+    "collection_circles": {
+      "type": "collection-circles",
+      "blocks": {
+        "col_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "necklaces-pendants"
+          }
+        },
+        "col_2": {
+          "type": "collection",
+          "settings": {
+            "collection": "earrings"
+          }
+        },
+        "col_3": {
+          "type": "collection",
+          "settings": {
+            "collection": "bracelets"
+          }
+        },
+        "col_4": {
+          "type": "collection",
+          "settings": {
+            "collection": "best-sellers"
+          }
+        },
+        "col_5": {
+          "type": "collection",
+          "settings": {
+            "collection": "gifts"
+          }
+        },
+        "col_6": {
+          "type": "collection",
+          "settings": {
+            "collection": "minimalist"
+          }
+        },
+        "col_7": {
+          "type": "collection",
+          "settings": {
+            "collection": "modern"
+          }
+        },
+        "col_8": {
+          "type": "collection",
+          "settings": {
+            "collection": "classic"
+          }
+        }
+      },
+      "block_order": [
+        "col_1",
+        "col_2",
+        "col_3",
+        "col_4",
+        "col_5",
+        "col_6",
+        "col_7",
+        "col_8"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "hero",
     "promo_marquee",
+    "collection_circles",
     "toggle",
     "curated_collections",
     "collection_toggle_mqmGqD",
