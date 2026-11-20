@@ -70,6 +70,34 @@
     toast(added ? `Added to ${LABELS[type]}${link}` : `Removed from ${LABELS[type]}`);
   };
 
+  // header cart counters (snippets/wk-cart-icon-bubble*.liquid); the bubble is only rendered when the cart has items
+  const updateCartCount = () =>
+    fetch(`${(window.routes && window.routes.cart_url) || '/cart'}.js`, { headers: { Accept: 'application/json' } })
+      .then((r) => r.json())
+      .then((cart) => {
+        const count = cart.item_count;
+        document.querySelectorAll('#wk-cart-icon-bubble-short, #wk-cart-icon-bubble--mobile-short').forEach((link) => {
+          const el = link.querySelector('.header__button__bubble__count');
+          if (el) el.textContent = count;
+        });
+        document.querySelectorAll('#wk-cart-icon-bubble, #wk-cart-icon-bubble--mobile').forEach((link) => {
+          let bubble = link.querySelector('.cart-count-bubble');
+          if (!count) {
+            if (bubble) bubble.remove();
+            return;
+          }
+          if (!bubble) {
+            bubble = document.createElement('div');
+            bubble.className = 'cart-count-bubble header__button__bubble';
+            link.prepend(bubble);
+          }
+          bubble.innerHTML = `${count < 100 ? `<span class="body3-no-scale header__button__bubble__count" aria-hidden="true">${count}</span>` : ''}<span class="visually-hidden">${count} item${count === 1 ? '' : 's'} in cart</span>`;
+          const icon = link.querySelector('.wk-cart-icon-bubble');
+          if (icon) icon.classList.add('cart-icon-bubble_hide-tablet');
+        });
+      })
+      .catch(() => {});
+
   const addToCart = (btn) => {
     if (btn.dataset.single !== 'true') {
       window.location.href = btn.dataset.url;
@@ -99,6 +127,7 @@
         } else {
           toast(`Added to cart <a href="${(window.routes && window.routes.cart_url) || '/cart'}">View cart</a>`);
         }
+        updateCartCount();
         if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
           publish(PUB_SUB_EVENTS.cartUpdate, { source: 'card-actions', productVariantId: btn.dataset.variantId });
         }
