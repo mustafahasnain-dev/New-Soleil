@@ -305,11 +305,20 @@
         "min_height": 480,
         "width": "full",
         "border_radius": 0,
-        "top_spacing": "medium",
+        "top_spacing": "none",
         "color_text": "#202259",
         "color_background": "#f6efe6",
         "color_button": "#202259",
-        "color_button_text": "#ffffff"
+        "color_button_text": "#ffffff",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "spacing_mobile": 100
       }
     },
     "gift_split": {
@@ -330,7 +339,16 @@
         "btn_text": "#202259",
         "full_width": true,
         "min_height": 560,
-        "mobile_ratio": "4 / 5"
+        "mobile_ratio": "4 / 5",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "spacing_mobile": 100
       }
     },
     "customer_reviews": {
@@ -404,7 +422,14 @@
         "star_color": "#202259",
         "card_radius": 0,
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "spacing_mobile": 100
       }
     },
     "faq": {
