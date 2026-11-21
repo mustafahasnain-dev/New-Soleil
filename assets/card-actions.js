@@ -168,3 +168,16 @@
     window.__cardActionsSync = setTimeout(syncAll, 100);
   }).observe(document.documentElement, { childList: true, subtree: true });
 })();
+
+/* Colour swatches on product cards: swap image + link to the chosen variant */
+(function(){
+  function pick(dot){
+    var card=dot.closest('.card-wrapper');if(!card)return;
+    card.querySelectorAll('.card-swatches__dot').forEach(function(d){d.classList.toggle('is-active',d===dot)});
+    var img=card.querySelector('.card__media img');
+    if(img&&dot.dataset.src){img.src=dot.dataset.src;if(dot.dataset.srcset)img.srcset=dot.dataset.srcset;}
+    card.querySelectorAll('a.full-unstyled-link').forEach(function(a){if(dot.dataset.url)a.href=dot.dataset.url});
+  }
+  document.addEventListener('click',function(e){var d=e.target.closest('.card-swatches__dot');if(d){e.preventDefault();e.stopPropagation();pick(d);}});
+  document.addEventListener('mouseover',function(e){var d=e.target.closest('.card-swatches__dot');if(d&&window.matchMedia('(hover:hover)').matches)pick(d);});
+})();

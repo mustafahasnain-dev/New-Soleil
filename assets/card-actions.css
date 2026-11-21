@@ -104,3 +104,9 @@
     transition: none;
   }
 }
+
+/* Colour swatches on product cards */
+.card-swatches{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 10px;position:relative;z-index:3}
+.card-swatches__dot{width:24px;height:24px;padding:0;border-radius:50%;border:1px solid rgba(0,0,0,.18);cursor:pointer;outline-offset:3px;transition:box-shadow .15s ease}
+.card-swatches__dot.is-active,.card-swatches__dot:hover{box-shadow:0 0 0 2px #fff,0 0 0 3px #111}
+@media (max-width:749px){.card-swatches__dot{width:20px;height:20px}.card-swatches{gap:6px}}
