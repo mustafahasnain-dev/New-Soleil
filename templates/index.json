@@ -1,12 +1,12 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -526,6 +526,40 @@
         "spacing_mobile": 100
       }
     },
+    "image_video_split": {
+      "type": "image-video-split",
+      "settings": {
+        "image": "shopify://shop_images/ln1_97bad607-5ad7-4e7a-842e-57e4ffc12a92.jpg",
+        "eyebrow": "Most-loved collection",
+        "heading": "Fashion & style",
+        "button_label": "Order now",
+        "button_link": "",
+        "h_align": "flex-end",
+        "v_align": "flex-end",
+        "overlay": 15,
+        "video": "shopify://files/videos/dana (2).mp4",
+        "video_url": "",
+        "video_link": "",
+        "eyebrow_size": 15,
+        "heading_size": 64,
+        "text_color": "#ffffff",
+        "btn_bg": "#ffffff",
+        "btn_text": "#1e1e1e",
+        "swap": false,
+        "full_width": true,
+        "height": 500,
+        "height_mobile": 380,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "spacing_mobile": 100
+      }
+    },
     "faq": {
       "type": "faq-accordion",
       "blocks": {
@@ -711,6 +745,7 @@
     },
     "video_WipgP3": {
       "type": "video",
+      "disabled": true,
       "custom_css": [],
       "name": "t:sections.video.presets.name",
       "settings": {
@@ -726,10 +761,6 @@
         "padding_top": 28,
         "padding_bottom": 32
       }
-    },
-    "image_video_split": {
-      "type": "image-video-split",
-      "settings": {}
     }
   },
   "order": [
@@ -740,10 +771,10 @@
     "curated_collections",
     "collection_toggle_mqmGqD",
     "curated_collections_APeLtG",
-    "image_video_split",
     "about",
     "gift_split",
     "customer_reviews",
+    "image_video_split",
     "faq",
     "video_WipgP3"
   ]
