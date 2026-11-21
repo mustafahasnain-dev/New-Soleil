@@ -64,6 +64,7 @@
         {{ 'product-1' | placeholder_svg_tag: 'mcard__img mcard__placeholder' }}
       {%- endif -%}
     </div>
+    {%- render 'card-swatches', card_product: card_product -%}
     <h3 class="mcard__name">{{ card_product.title | escape }}</h3>
     <p class="mcard__price">
       {%- if card_product.compare_at_price > card_product.price -%}

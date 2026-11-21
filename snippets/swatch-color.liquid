@@ -1,0 +1,25 @@
+{%- comment -%}
+  Outputs a CSS background for a colour option value: its Shopify swatch image/colour,
+  else a colour guessed from the name (gold, silver, rose gold, green...), else the name itself as a CSS colour.
+  Accepts: value
+{%- endcomment -%}
+{%- liquid
+  assign vname = value.name | default: value | downcase | strip
+    assign bg = ''
+    if value.swatch.image
+      assign bg = value.swatch.image | image_url: width: 60 | prepend: 'url(' | append: ') center/cover'
+    elsif value.swatch.color
+      assign bg = value.swatch.color
+    elsif vname contains 'rose'
+      assign bg = 'linear-gradient(135deg,#f3c7b4,#c98f7a 55%,#f6d9cc)'
+    elsif vname contains 'gold' or vname contains 'yellow'
+      assign bg = 'linear-gradient(135deg,#f7e08a,#c9a03c 55%,#f3d98b)'
+    elsif vname contains 'silver' or vname contains 'steel' or vname contains 'white' or vname contains 'platinum' or vname contains 'rhodium'
+      assign bg = 'linear-gradient(135deg,#f4f4f4,#a9a9a9 55%,#e9e9e9)'
+    elsif vname contains 'pearl'
+      assign bg = 'linear-gradient(135deg,#fffdf6,#e7e0cf)'
+    else
+      assign bg = vname | remove: ' ' | remove: '-'
+    endif
+  echo bg
+-%}

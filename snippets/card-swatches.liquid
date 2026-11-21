@@ -19,33 +19,9 @@
     {%- for value in swatch_option.values -%}
       {%- liquid
         assign v = value.variant
-        assign vname = value.name | downcase
-        assign bg = ''
-        if value.swatch.image
-          assign bg = value.swatch.image | image_url: width: 60 | prepend: 'url(' | append: ') center/cover'
-        elsif value.swatch.color
-          assign bg = value.swatch.color
-        elsif vname contains 'rose'
-          assign bg = 'linear-gradient(135deg,#f3c7b4,#c98f7a 55%,#f6d9cc)'
-        elsif vname contains 'gold' or vname contains 'yellow'
-          assign bg = 'linear-gradient(135deg,#f7e08a,#c9a03c 55%,#f3d98b)'
-        elsif vname contains 'silver' or vname contains 'steel' or vname contains 'white' or vname contains 'platinum' or vname contains 'rhodium'
-          assign bg = 'linear-gradient(135deg,#f4f4f4,#a9a9a9 55%,#e9e9e9)'
-        elsif vname contains 'black'
-          assign bg = '#111111'
-        elsif vname contains 'green' or vname contains 'emerald'
-          assign bg = '#0a6b23'
-        elsif vname contains 'blue'
-          assign bg = '#1f4fa8'
-        elsif vname contains 'red' or vname contains 'ruby'
-          assign bg = '#a3122a'
-        elsif vname contains 'pink'
-          assign bg = '#f2a7bf'
-        elsif vname contains 'pearl'
-          assign bg = 'linear-gradient(135deg,#fffdf6,#e7e0cf)'
-        else
-          assign bg = vname | split: ' ' | last
-        endif
+        capture bg
+          render 'swatch-color', value: value
+        endcapture
         assign img_src = ''
         if v.featured_media
           assign img_src = v.featured_media | image_url: width: 533
@@ -53,15 +29,16 @@
           assign img_srcset = v.featured_media | image_url: width: 720 | prepend: img_srcset | append: ' 720w'
         endif
       -%}
-      <button
-        type="button"
+      <span
+        role="button"
+        tabindex="0"
         class="card-swatches__dot{% if forloop.first %} is-active{% endif %}"
         style="background: {{ bg }};"
         title="{{ value.name | escape }}"
         aria-label="{{ value.name | escape }}"
         data-url="{{ card_product.url }}{% if v %}?variant={{ v.id }}{% endif %}"
         {% if img_src != blank %}data-src="{{ img_src }}" data-srcset="{{ img_srcset }}"{% endif %}
-      ></button>
+      ></span>
     {%- endfor -%}
   </div>
 {%- endif -%}

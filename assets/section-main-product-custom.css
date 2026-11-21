@@ -892,3 +892,8 @@
 .mpc-text-image__link { display: inline-block; }
 .mpc-text-image__img { display: block; width: 100%; max-width: var(--mpc-ti-width); height: auto; }
 .mpc-text-image--center .mpc-text-image__img { margin: 0 auto; }
+
+/* Colour-circle swatches */
+.mpc-swatch:has(.mpc-swatch__color) { width: 36px; height: 36px; padding: 3px; border-radius: 50%; border-color: transparent; }
+.mpc-swatch:has(.mpc-swatch__color) .mpc-swatch__color { border-radius: 50%; border: 1px solid rgba(0,0,0,.15); }
+.mpc-option__input:checked + .mpc-swatch:has(.mpc-swatch__color) { border-color: var(--mpc-text); box-shadow: none; }

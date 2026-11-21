@@ -289,7 +289,7 @@
                               {%- liquid
                                 assign swatch_img = value.swatch.image
                                 assign opt_index = option.position | minus: 1
-                                if swatch_img == blank
+                                if swatch_img == blank and block.settings.swatch_style == 'image'
                                   for v in product.variants
                                     if v.options[opt_index] == value_name and v.featured_image
                                       assign swatch_img = v.featured_image
@@ -301,10 +301,8 @@
                               <label for="{{ input_id }}" class="mpc-swatch" title="{{ value | escape }}">
                                 {%- if swatch_img != blank -%}
                                   {{ swatch_img | image_url: width: 160 | image_tag: loading: 'lazy', alt: value_name }}
-                                {%- elsif value.swatch.color -%}
-                                  <span class="mpc-swatch__color" style="background: {{ value.swatch.color }};"></span>
                                 {%- else -%}
-                                  <span class="mpc-swatch__text">{{ value | escape }}</span>
+                                  <span class="mpc-swatch__color" style="background: {% render 'swatch-color', value: value %};"></span>
                                 {%- endif -%}
                                 <span class="visually-hidden">{{ value | escape }}</span>
                               </label>
@@ -834,6 +832,16 @@
       "name": "Variant picker",
       "limit": 1,
       "settings": [
+        {
+          "type": "select",
+          "id": "swatch_style",
+          "label": "Swatch style",
+          "default": "color",
+          "options": [
+            { "value": "color", "label": "Colour circles" },
+            { "value": "image", "label": "Variant images" }
+          ]
+        },
         {
           "type": "text",
           "id": "swatch_options",
