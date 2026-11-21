@@ -1,12 +1,12 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -22,43 +22,50 @@
         "tip_1": {
           "type": "tip",
           "settings": {
-            "text": "Wipe gently with a soft dry cloth after each wear"
+            "text": "Wipe gently with a soft dry cloth after each wear",
+            "icon": "cloth"
           }
         },
         "tip_2": {
           "type": "tip",
           "settings": {
-            "text": "Avoid wipes or cleaners containing alcohol, fragrance or dye"
+            "text": "Avoid wipes or cleaners containing alcohol, fragrance or dye",
+            "icon": "no_spray"
           }
         },
         "tip_3": {
           "type": "tip",
           "settings": {
-            "text": "Keep away from water, perfume and lotions"
+            "text": "Keep away from water, perfume and lotions",
+            "icon": "drops"
           }
         },
         "tip_4": {
           "type": "tip",
           "settings": {
-            "text": "Store in a cool, dry place away from direct sunlight"
+            "text": "Store in a cool, dry place away from direct sunlight",
+            "icon": "sun"
           }
         },
         "tip_5": {
           "type": "tip",
           "settings": {
-            "text": "Keep each piece in its pouch or box to avoid scratches"
+            "text": "Keep each piece in its pouch or box to avoid scratches",
+            "icon": "pouch"
           }
         },
         "tip_6": {
           "type": "tip",
           "settings": {
-            "text": "Remove before sleeping, swimming, showering or exercising"
+            "text": "Remove before sleeping, swimming, showering or exercising",
+            "icon": "moon"
           }
         },
         "tip_7": {
           "type": "tip",
           "settings": {
-            "text": "Put your jewellery on last, after make-up and perfume"
+            "text": "Put your jewellery on last, after make-up and perfume",
+            "icon": "sparkle"
           }
         }
       },
@@ -74,7 +81,11 @@
       "settings": {
         "heading": "Jewellery care",
         "button_label": "Shop jewellery",
-        "button_link": "shopify://collections/all"
+        "button_link": "shopify://collections/all",
+        "columns": 2,
+        "columns_mobile": 1,
+        "image_max": 90,
+        "tile_bg": "rgba(0,0,0,0)"
       }
     }
   },
