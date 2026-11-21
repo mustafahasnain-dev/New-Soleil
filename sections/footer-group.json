@@ -20,7 +20,7 @@
         "description": "<p>We’re a community that celebrates beauty, confidence and meaningful pieces for everyday moments.</p>",
         "show_social_brand": true,
         "location_heading": "SHOP",
-        "location_text": "<p><a href=\"/collections/all/jewelry\" title=\"/collections/all/jewelry\">All Jewellery</a>&nbsp;<br/><a href=\"https://new-soleil-ddcfubz2.myshopify.com/collections/yara\" title=\"https://new-soleil-ddcfubz2.myshopify.com/collections/yara\">Watches</a><br/><a href=\"https://new-soleil-ddcfubz2.myshopify.com/collections/asayel\" title=\"https://new-soleil-ddcfubz2.myshopify.com/collections/asayel\">Leather Goods</a></p>",
+        "location_text": "<p><a href=\"/collections/all/jewelry\" title=\"/collections/all/jewelry\">All Jewellery</a>&nbsp;<br/><a href=\"/collections/watches\" title=\"Watches\">Watches</a><br/><a href=\"/collections/bags\" title=\"Bags\">Leather Goods</a></p>",
         "menu_heading": "Customer Service",
         "menu": "footer",
         "newsletter_heading": "Subscribe to our emails",
