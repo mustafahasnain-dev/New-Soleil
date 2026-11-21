@@ -1,0 +1,126 @@
+{%- render 'section-spacing', section: section -%}
+{%- comment -%}
+  Care & maintenance page: optional banner (desktop/mobile), heading, a row of tip tiles (image + caption), button.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign sid = '#shopify-section-' | append: section.id
+-%}
+<style>
+  {{ sid }} .care{ background:{{ s.bg_color }}; color:{{ s.text_color }}; }
+  {{ sid }} .care__banner img{ display:block; width:100%; height:auto; }
+  {{ sid }} .care__banner .care__banner--mobile{ display:none; }
+  {{ sid }} .care__inner{ max-width:1400px; margin:0 auto; padding:{{ s.inner_padding }}px 20px; text-align:center; }
+  {{ sid }} .care__title{ margin:0 0 12px; font-size:clamp(22px,2.4vw,32px); font-weight:400; letter-spacing:.06em; text-transform:uppercase; color:inherit; }
+  {{ sid }} .care__intro{ max-width:720px; margin:0 auto; font-size:14px; line-height:1.8; color:inherit; }
+  {{ sid }} .care__intro p{ margin:0; }
+  {{ sid }} .care__grid{ display:grid; grid-template-columns:repeat({{ s.columns }},minmax(0,1fr)); gap:32px 24px; margin:40px 0 0; padding:0; list-style:none; }
+  {{ sid }} .care__item{ display:flex; flex-direction:column; align-items:center; }
+  {{ sid }} .care__media{ width:100%; max-width:{{ s.image_max }}px; aspect-ratio:1/1; overflow:hidden;{% if s.round %} border-radius:50%;{% endif %} background:{{ s.tile_bg }}; }
+  {{ sid }} .care__media img, {{ sid }} .care__media svg{ width:100%; height:100%; object-fit:cover; display:block; }
+  {{ sid }} .care__text{ margin:16px 0 0; max-width:220px; font-size:13px; line-height:1.6; letter-spacing:.02em; color:inherit; }
+  {{ sid }} .care__btn{ display:inline-flex; align-items:center; justify-content:center; min-height:50px; margin-top:44px; padding:12px 36px; background:{{ s.btn_bg }}; color:{{ s.btn_text }}; border:1px solid {{ s.btn_bg }}; font-size:13px; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; transition:background-color .2s ease,color .2s ease; }
+  {{ sid }} .care__btn:hover{ background:transparent; color:{{ s.btn_bg }}; }
+  @media screen and (max-width:989px){
+    {{ sid }} .care__grid{ grid-template-columns:repeat({{ s.columns | at_most: 4 }},minmax(0,1fr)); }
+  }
+  @media screen and (max-width:749px){
+    {%- if s.banner_mobile != blank %}
+    {{ sid }} .care__banner .care__banner--desktop{ display:none; }
+    {{ sid }} .care__banner .care__banner--mobile{ display:block; }
+    {%- endif %}
+    {{ sid }} .care__grid{ grid-template-columns:repeat({{ s.columns_mobile }},minmax(0,1fr)); gap:28px 16px; margin-top:28px; }
+    {{ sid }} .care__text{ font-size:12px; }
+  }
+</style>
+
+<div class="care">
+  {%- if s.banner != blank -%}
+    <div class="care__banner">
+      {{ s.banner | image_url: width: 2400 | image_tag: class: 'care__banner--desktop', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', alt: s.heading }}
+      {%- if s.banner_mobile != blank -%}
+        {{ s.banner_mobile | image_url: width: 1000 | image_tag: class: 'care__banner--mobile', widths: '500, 750, 1000', sizes: '100vw', alt: s.heading }}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="care__inner">
+    {%- if s.heading != blank -%}<h2 class="care__title">{{ s.heading | escape }}</h2>{%- endif -%}
+    {%- if s.text != blank -%}<div class="care__intro">{{ s.text }}</div>{%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="care__grid" role="list">
+        {%- for block in section.blocks -%}
+          <li class="care__item" {{ block.shopify_attributes }}>
+            <div class="care__media">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', widths: '200, 300, 400, 500', sizes: '(min-width: 990px) 180px, 45vw', alt: block.settings.text }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+            {%- if block.settings.text != blank -%}<p class="care__text">{{ block.settings.text | escape }}</p>{%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if s.button_label != blank -%}
+      <a href="{{ s.button_link | default: routes.all_products_collection_url }}" class="care__btn">{{ s.button_label | escape }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Care tips",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "header", "content": "Banner" },
+    { "type": "image_picker", "id": "banner", "label": "Banner image" },
+    { "type": "image_picker", "id": "banner_mobile", "label": "Mobile banner image", "info": "Optional." },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Jewellery care" },
+    { "type": "richtext", "id": "text", "label": "Intro text" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop jewellery" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Tips grid" },
+    { "type": "range", "id": "columns", "label": "Tips per row (desktop)", "min": 2, "max": 8, "step": 1, "default": 7 },
+    { "type": "range", "id": "columns_mobile", "label": "Tips per row (mobile)", "min": 1, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "image_max", "label": "Max image size", "min": 80, "max": 300, "step": 10, "unit": "px", "default": 180 },
+    { "type": "checkbox", "id": "round", "label": "Round images", "default": false },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#000000" },
+    { "type": "color", "id": "tile_bg", "label": "Image background", "default": "#f6f4f1" },
+    { "type": "color", "id": "btn_bg", "label": "Button background", "default": "#000000" },
+    { "type": "color", "id": "btn_text", "label": "Button text", "default": "#ffffff" },
+    { "type": "range", "id": "inner_padding", "label": "Content top/bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "header", "content": "Section spacing" },
+    { "type": "range", "id": "margin_top", "label": "Margin top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_bottom", "label": "Margin bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_left", "label": "Margin left", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_right", "label": "Margin right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_left", "label": "Padding left", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_right", "label": "Padding right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "spacing_mobile", "label": "Mobile spacing scale", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 100, "info": "Mobile uses this percentage of the spacing above." }
+  ],
+  "blocks": [
+    {
+      "type": "tip",
+      "name": "Tip",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Wipe gently with a soft dry cloth" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Care tips", "blocks": [ { "type": "tip" }, { "type": "tip" }, { "type": "tip" } ] }
+  ]
+}
+{% endschema %}

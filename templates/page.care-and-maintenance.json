@@ -1,12 +1,12 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -15,9 +15,71 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "care_tips": {
+      "type": "care-tips",
+      "blocks": {
+        "tip_1": {
+          "type": "tip",
+          "settings": {
+            "text": "Wipe gently with a soft dry cloth after each wear"
+          }
+        },
+        "tip_2": {
+          "type": "tip",
+          "settings": {
+            "text": "Avoid wipes or cleaners containing alcohol, fragrance or dye"
+          }
+        },
+        "tip_3": {
+          "type": "tip",
+          "settings": {
+            "text": "Keep away from water, perfume and lotions"
+          }
+        },
+        "tip_4": {
+          "type": "tip",
+          "settings": {
+            "text": "Store in a cool, dry place away from direct sunlight"
+          }
+        },
+        "tip_5": {
+          "type": "tip",
+          "settings": {
+            "text": "Keep each piece in its pouch or box to avoid scratches"
+          }
+        },
+        "tip_6": {
+          "type": "tip",
+          "settings": {
+            "text": "Remove before sleeping, swimming, showering or exercising"
+          }
+        },
+        "tip_7": {
+          "type": "tip",
+          "settings": {
+            "text": "Put your jewellery on last, after make-up and perfume"
+          }
+        }
+      },
+      "block_order": [
+        "tip_1",
+        "tip_2",
+        "tip_3",
+        "tip_4",
+        "tip_5",
+        "tip_6",
+        "tip_7"
+      ],
+      "settings": {
+        "heading": "Jewellery care",
+        "button_label": "Shop jewellery",
+        "button_link": "shopify://collections/all"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "care_tips"
   ]
 }
