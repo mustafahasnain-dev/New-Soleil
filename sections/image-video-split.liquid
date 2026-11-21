@@ -1,0 +1,100 @@
+{%- render 'section-spacing', section: section -%}
+{%- comment -%}
+  Two columns: an image with eyebrow, heading and button on one side, a looping muted video on the other.
+  Stacks on mobile.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign sid = '#shopify-section-' | append: section.id
+-%}
+<style>
+  {{ sid }} .ivs{ display:grid; grid-template-columns:1fr 1fr; height:{{ s.height }}px;{% unless s.full_width %} max-width:1620px; margin:0 auto;{% endunless %} }
+  {{ sid }} .ivs--swap .ivs__image{ order:2; }
+  {{ sid }} .ivs__image, {{ sid }} .ivs__video{ position:relative; overflow:hidden; background:#e9e6e1; }
+  {{ sid }} .ivs__image > img, {{ sid }} .ivs__image > svg, {{ sid }} .ivs__video video, {{ sid }} .ivs__video img, {{ sid }} .ivs__video svg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  {{ sid }} .ivs__image::after{ content:''; position:absolute; inset:0; background:#000; opacity:{{ s.overlay | divided_by: 100.0 }}; pointer-events:none; }
+  {{ sid }} .ivs__content{ position:absolute; z-index:1; inset:0; display:flex; flex-direction:column; justify-content:{{ s.v_align }}; align-items:{{ s.h_align }}; text-align:{% if s.h_align == 'flex-start' %}left{% elsif s.h_align == 'center' %}center{% else %}right{% endif %}; padding:clamp(24px,4vw,56px); color:{{ s.text_color }}; }
+  {{ sid }} .ivs__eyebrow{ margin:0 0 12px; font-size:{{ s.eyebrow_size }}px; color:inherit; }
+  {{ sid }} .ivs__heading{ margin:0 0 28px; font-size:clamp(28px,4vw,{{ s.heading_size }}px); font-weight:400; line-height:1.05; letter-spacing:.02em; text-transform:uppercase; color:inherit; }
+  {{ sid }} .ivs__btn{ display:inline-flex; align-items:center; justify-content:center; min-height:52px; padding:12px 28px; background:{{ s.btn_bg }}; color:{{ s.btn_text }}; border:1px solid {{ s.btn_bg }}; font-size:13px; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; transition:background-color .2s ease,color .2s ease; }
+  {{ sid }} .ivs__btn:hover{ background:transparent; color:{{ s.text_color }}; border-color:{{ s.text_color }}; }
+  {{ sid }} .ivs__link{ position:absolute; inset:0; z-index:0; }
+  @media screen and (max-width:749px){
+    {{ sid }} .ivs{ grid-template-columns:1fr; height:auto; }
+    {{ sid }} .ivs--swap .ivs__image{ order:0; }
+    {{ sid }} .ivs__image, {{ sid }} .ivs__video{ height:{{ s.height_mobile }}px; }
+    {{ sid }} .ivs__heading{ font-size:clamp(26px,8vw,40px); margin-bottom:20px; }
+  }
+</style>
+
+<div class="ivs{% if s.swap %} ivs--swap{% endif %}">
+  <div class="ivs__image">
+    {%- if s.image != blank -%}
+      {{ s.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1500, 1800', sizes: '(min-width: 750px) 50vw, 100vw', alt: s.heading }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag }}
+    {%- endif -%}
+    <div class="ivs__content">
+      {%- if s.eyebrow != blank -%}<p class="ivs__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="ivs__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+      {%- if s.button_label != blank -%}<a href="{{ s.button_link | default: '#' }}" class="ivs__btn">{{ s.button_label | escape }}</a>{%- endif -%}
+    </div>
+  </div>
+  <div class="ivs__video">
+    {%- if s.video != blank -%}
+      {{ s.video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1200x' }}
+    {%- elsif s.video_url != blank -%}
+      <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"></video>
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag }}
+    {%- endif -%}
+    {%- if s.video_link != blank -%}<a href="{{ s.video_link }}" class="ivs__link" aria-label="{{ s.heading | escape }}"></a>{%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image + video split",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "header", "content": "Image side" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Most-loved collection" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Fashion & style" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Order now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "select", "id": "h_align", "label": "Text position (horizontal)", "default": "flex-end", "options": [
+      { "value": "flex-start", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "flex-end", "label": "Right" } ] },
+    { "type": "select", "id": "v_align", "label": "Text position (vertical)", "default": "flex-end", "options": [
+      { "value": "flex-start", "label": "Top" }, { "value": "center", "label": "Middle" }, { "value": "flex-end", "label": "Bottom" } ] },
+    { "type": "range", "id": "overlay", "label": "Image darkening", "min": 0, "max": 70, "step": 5, "unit": "%", "default": 15 },
+    { "type": "header", "content": "Video side" },
+    { "type": "video", "id": "video", "label": "Video", "info": "Plays muted and looped." },
+    { "type": "text", "id": "video_url", "label": "Or video URL (.mp4)" },
+    { "type": "url", "id": "video_link", "label": "Video link", "info": "Optional. Makes the video clickable." },
+    { "type": "header", "content": "Style" },
+    { "type": "range", "id": "eyebrow_size", "label": "Small heading size", "min": 11, "max": 24, "step": 1, "unit": "px", "default": 15 },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 28, "max": 96, "step": 2, "unit": "px", "default": 64 },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#ffffff" },
+    { "type": "color", "id": "btn_bg", "label": "Button background", "default": "#ffffff" },
+    { "type": "color", "id": "btn_text", "label": "Button text", "default": "#1e1e1e" },
+    { "type": "header", "content": "Layout" },
+    { "type": "checkbox", "id": "swap", "label": "Video on the left", "default": false },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true },
+    { "type": "range", "id": "height", "label": "Desktop height", "min": 300, "max": 900, "step": 10, "unit": "px", "default": 500 },
+    { "type": "range", "id": "height_mobile", "label": "Mobile height (each half)", "min": 200, "max": 700, "step": 10, "unit": "px", "default": 380 },
+    { "type": "header", "content": "Section spacing" },
+    { "type": "range", "id": "margin_top", "label": "Margin top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_bottom", "label": "Margin bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_left", "label": "Margin left", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "margin_right", "label": "Margin right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_left", "label": "Padding left", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_right", "label": "Padding right", "min": 0, "max": 200, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "spacing_mobile", "label": "Mobile spacing scale", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 100, "info": "Mobile uses this percentage of the spacing above." }
+  ],
+  "presets": [ { "name": "Image + video split" } ]
+}
+{% endschema %}
