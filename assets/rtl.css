@@ -1,0 +1,37 @@
+/* RTL overrides, loaded only when the storefront language is Arabic (html[dir=rtl]).
+   Flexbox, grid and text alignment flip on their own from dir="rtl"; this file fixes what doesn't. */
+[dir=rtl] body { font-family: "Tajawal", var(--font-body-family, sans-serif); }
+[dir=rtl] h1, [dir=rtl] h2, [dir=rtl] h3, [dir=rtl] h4, [dir=rtl] h5, [dir=rtl] h6,
+[dir=rtl] .h0, [dir=rtl] .h1, [dir=rtl] .h2, [dir=rtl] .h3, [dir=rtl] .h4, [dir=rtl] .h5 { font-family: "Tajawal", var(--font-heading-family, sans-serif); letter-spacing: 0; }
+[dir=rtl] * { letter-spacing: 0 !important; }
+
+/* Menu drawer: open from the right, sub-menus slide in from the left */
+[dir=rtl] .menu-drawer { left: auto; right: 0; transform: translateX(100%); }
+[dir=rtl] .js .menu-drawer__submenu,
+[dir=rtl] #wk-scope .menu-drawer__submenu { left: auto; right: 0; transform: translateX(-100%); }
+[dir=rtl] .js details[open] > .menu-drawer,
+[dir=rtl] .js details[open] > .menu-drawer__submenu,
+[dir=rtl] #wk-scope details[open] > .menu-drawer__submenu { transform: translateX(0); }
+
+/* Cart / filter drawers slide from the left */
+[dir=rtl] .drawer__inner { transform: translateX(-100%); }
+[dir=rtl] .drawer.active .drawer__inner { transform: translateX(0); }
+[dir=rtl] .drawer { justify-content: flex-start; }
+
+/* Direction-bearing icons point the other way */
+[dir=rtl] .icon-arrow,
+[dir=rtl] .icon-caret-right,
+[dir=rtl] .menu-drawer__menu-item .icon-arrow,
+[dir=rtl] .link--back .icon-arrow,
+[dir=rtl] .slider-button .icon,
+[dir=rtl] .swiper-button-next svg,
+[dir=rtl] .swiper-button-prev svg { transform: scaleX(-1); }
+
+/* Numbers, prices, phone and email stay left-to-right */
+[dir=rtl] .price, [dir=rtl] .price-item, [dir=rtl] input[type=tel], [dir=rtl] input[type=email] { direction: ltr; unicode-bidi: isolate; }
+[dir=rtl] .price { text-align: right; }
+
+/* Forms */
+[dir=rtl] .field__label, [dir=rtl] .select__select, [dir=rtl] .field__input { text-align: right; }
+[dir=rtl] .field__label { left: auto; right: var(--inputs-border-width, 1px); padding-right: 1.5rem; }
+[dir=rtl] .select .icon-caret { right: auto; left: 1.5rem; }
