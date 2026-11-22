@@ -113,3 +113,5 @@
 .mcard .card-swatches{margin:14px 0 10px}
 .card-wrapper .card-swatches{margin-top:12px}
 .is-swatched .mcard__img--second,.is-swatched .media > img + img{opacity:0 !important;visibility:hidden}
+.is-swatched .mcard__link:hover .mcard__img--main,.mcard:has(.card-swatches:hover) .mcard__img--main{opacity:1 !important}
+.mcard:has(.card-swatches:hover) .mcard__img--second{opacity:0 !important}
