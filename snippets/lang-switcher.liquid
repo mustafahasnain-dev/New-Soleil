@@ -1,32 +1,29 @@
 {%- comment -%}
-  English <-> Arabic toggle for the header icons. Shows the other language's name ("العربية" / "EN")
-  and switches to it via Shopify's localization form. Hidden while the store has only one published language.
+  EN | AR pill toggle for the header icons. The current language is filled in the header icon colour;
+  clicking the other one switches via Shopify's localization form. Hidden while the store has only one published language.
 {%- endcomment -%}
 {%- if localization.available_languages.size > 1 -%}
-  {%- liquid
-    assign target = nil
-    for language in localization.available_languages
-      if language.iso_code != request.locale.iso_code
-        assign target = language
-        if language.iso_code == 'ar' or request.locale.iso_code == 'ar'
-          break
-        endif
-      endif
-    endfor
-  -%}
-  {%- if target -%}
-    {%- form 'localization', class: 'lang-switch', id: 'LangSwitch' -%}
-      <input type="hidden" name="locale_code" value="{{ target.iso_code }}">
-      <input type="hidden" name="return_to" value="{{ request.path }}">
-      <button type="submit" class="header__button lang-switch__btn" lang="{{ target.iso_code }}" aria-label="{{ target.endonym_name | escape }}">
-        {%- if target.iso_code == 'ar' -%}العربية{%- elsif target.iso_code == 'en' -%}EN{%- else -%}{{ target.endonym_name | escape }}{%- endif -%}
-      </button>
-    {%- endform -%}
-    <style>
-      .lang-switch{display:inline-flex;align-items:center;margin:0}
-      .lang-switch__btn{background:none;border:0;padding:0 2px;cursor:pointer;font-size:14px;line-height:1;letter-spacing:.04em;color:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, currentColor)))}
-      .lang-switch__btn[lang="ar"]{font-size:16px;letter-spacing:0;font-family:'Noto Kufi Arabic','Tajawal',system-ui,sans-serif}
-      .lang-switch__btn:hover{opacity:.7}
-    </style>
-  {%- endif -%}
+  {%- form 'localization', class: 'lang-toggle', id: 'LangToggle' -%}
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+    {%- for language in localization.available_languages -%}
+      {%- assign is_current = false -%}
+      {%- if language.iso_code == request.locale.iso_code -%}{%- assign is_current = true -%}{%- endif -%}
+      <button
+        type="submit"
+        name="locale_code"
+        value="{{ language.iso_code }}"
+        class="lang-toggle__opt{% if is_current %} is-active{% endif %}"
+        lang="{{ language.iso_code }}"
+        aria-label="{{ language.endonym_name | escape }}"
+        {% if is_current %}aria-current="true" disabled{% endif %}
+      >{{ language.iso_code | upcase }}</button>
+    {%- endfor -%}
+  {%- endform -%}
+  <style>
+    .lang-toggle{--lt-ink:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, #1c1f5a)));display:inline-flex;align-items:center;gap:2px;margin:0 6px 0 0;padding:3px;border:1px solid var(--lt-ink);border-radius:999px}
+    .lang-toggle__opt{min-width:34px;height:24px;padding:0 9px;border:0;border-radius:999px;background:transparent;color:var(--lt-ink);font:inherit;font-size:11px;font-weight:500;letter-spacing:.12em;line-height:24px;cursor:pointer;transition:background-color .2s ease,color .2s ease}
+    .lang-toggle__opt:hover:not(.is-active){opacity:.65}
+    .lang-toggle__opt.is-active{background:var(--lt-ink);color:#fff;cursor:default}
+    @media (max-width:749px){.lang-toggle__opt{min-width:30px;height:22px;line-height:22px;padding:0 7px;font-size:10px}}
+  </style>
 {%- endif -%}
