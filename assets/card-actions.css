@@ -110,3 +110,6 @@
 .card-swatches__dot{display:inline-block;flex:none;width:24px;height:24px;padding:0;border-radius:50%;border:1px solid rgba(0,0,0,.18);cursor:pointer;outline-offset:3px;transition:box-shadow .15s ease}
 .card-swatches__dot.is-active,.card-swatches__dot:hover{box-shadow:0 0 0 2px #fff,0 0 0 3px #111}
 @media (max-width:749px){.card-swatches__dot{width:20px;height:20px}.card-swatches{gap:6px}}
+.mcard .card-swatches{margin:14px 0 10px}
+.card-wrapper .card-swatches{margin-top:12px}
+.is-swatched .mcard__img--second,.is-swatched .media > img + img{opacity:0 !important;visibility:hidden}

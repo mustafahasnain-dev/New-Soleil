@@ -175,7 +175,7 @@
     var card=dot.closest('.card-wrapper, .mcard');if(!card)return;
     card.querySelectorAll('.card-swatches__dot').forEach(function(d){d.classList.toggle('is-active',d===dot)});
     var img=card.querySelector('.mcard__img--main, .card__media img');
-    if(img&&dot.dataset.src){img.src=dot.dataset.src;if(dot.dataset.srcset)img.srcset=dot.dataset.srcset;}
+    if(img&&dot.dataset.src){img.src=dot.dataset.src;if(dot.dataset.srcset)img.srcset=dot.dataset.srcset;img.removeAttribute('loading');card.classList.add('is-swatched');}
     card.querySelectorAll('a.full-unstyled-link, a.mcard__link').forEach(function(a){if(dot.dataset.url)a.href=dot.dataset.url});
   }
   document.addEventListener('click',function(e){var d=e.target.closest('.card-swatches__dot');if(d){e.preventDefault();e.stopPropagation();pick(d);}});
