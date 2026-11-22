@@ -5,18 +5,19 @@
 [dir=rtl] .h0, [dir=rtl] .h1, [dir=rtl] .h2, [dir=rtl] .h3, [dir=rtl] .h4, [dir=rtl] .h5 { font-family: "Tajawal", var(--font-heading-family, sans-serif); letter-spacing: 0; }
 [dir=rtl] * { letter-spacing: 0 !important; }
 
-/* Menu drawer: open from the right, sub-menus slide in from the left */
-[dir=rtl] .menu-drawer { left: auto; right: 0; transform: translateX(100%); }
-[dir=rtl] .js .menu-drawer__submenu,
-[dir=rtl] #wk-scope .menu-drawer__submenu { left: auto; right: 0; transform: translateX(-100%); }
-[dir=rtl] .js details[open] > .menu-drawer,
-[dir=rtl] .js details[open] > .menu-drawer__submenu,
-[dir=rtl] #wk-scope details[open] > .menu-drawer__submenu { transform: translateX(0); }
+/* Side panels (menu, cart, filters): mirror which side they slide in from.
+   Note: .menu-drawer in this theme wraps the hamburger button, so it must not be moved. */
+[dir=rtl] #wk-scope .popup-modal.popup-modal__left .popup-modal__content{ transform: translate(110%); }
+[dir=rtl] #wk-scope .popup-modal.popup-modal__right{ justify-content: flex-start; }
+[dir=rtl] #wk-scope .popup-modal.popup-modal__right .popup-modal__content{ transform: translate(-110%); }
+[dir=rtl] #wk-scope details.menu-opening .popup-modal .popup-modal__content,
+[dir=rtl] #wk-scope .popup-modal.animate .popup-modal__content{ transform: translate(0); }
 
-/* Cart / filter drawers slide from the left */
-[dir=rtl] .drawer__inner { transform: translateX(-100%); }
-[dir=rtl] .drawer.active .drawer__inner { transform: translateX(0); }
-[dir=rtl] .drawer { justify-content: flex-start; }
+/* Search field: buttons on the left, text room on the right */
+[dir=rtl] .search__input.field__input{ padding-right: 1.5rem; padding-left: 9.8rem; }
+[dir=rtl] .search__button{ right: auto; left: var(--inputs-border-width); }
+[dir=rtl] .reset__button{ right: auto; left: calc(var(--inputs-border-width) + 4.4rem); }
+[dir=rtl] .reset__button::after{ right: auto !important; left: 0; border-right: 0 !important; border-left: .1rem solid rgba(var(--color-foreground), .08); }
 
 /* Direction-bearing icons point the other way */
 [dir=rtl] .icon-arrow,
@@ -33,5 +34,13 @@
 
 /* Forms */
 [dir=rtl] .field__label, [dir=rtl] .select__select, [dir=rtl] .field__input { text-align: right; }
-[dir=rtl] .field__label { left: auto; right: var(--inputs-border-width, 1px); padding-right: 1.5rem; }
+[dir=rtl] .field__label { left: auto; right: 1.5rem; }
 [dir=rtl] .select .icon-caret { right: auto; left: 1.5rem; }
+
+/* Wokiee inputs: label on the right, icon button on the left */
+[dir=rtl] #wk-scope .field__input{ padding-left: 50px; padding-right: 15px; text-align: right; }
+[dir=rtl] #wk-scope .field__label{ left: auto; right: 15px; padding-right: 0; }
+[dir=rtl] #wk-scope .field__button{ right: auto; left: 0; }
+[dir=rtl] #wk-scope .field__icon{ left: auto; right: 15px; }
+[dir=rtl] #wk-scope .field-with-icon .field__input{ padding-left: 15px; padding-right: 42px; }
+[dir=rtl] #wk-scope .field-with-icon .field__label{ left: auto; right: 42px; }
