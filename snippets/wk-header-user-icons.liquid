@@ -46,6 +46,7 @@
   
   <div class="header__icons__customer__icons{% if section.settings.icons_text == 'show' %} gap-20{% endif %}">
     {%- comment -%} WhatsApp sits in the same icon group as account / compare / wishlist / cart {%- endcomment -%}
+    {%- render 'lang-switcher' -%}
     {{ whatsapp_html }}
     {%- if section.settings.show_search == "closed" -%}
     {%- unless section.settings.classic_menu_position contains "bottom-menu-to" and section.settings.logo_position == 'logo-to-center' -%}

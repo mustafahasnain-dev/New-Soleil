@@ -1,0 +1,32 @@
+{%- comment -%}
+  English <-> Arabic toggle for the header icons. Shows the other language's name ("العربية" / "EN")
+  and switches to it via Shopify's localization form. Hidden while the store has only one published language.
+{%- endcomment -%}
+{%- if localization.available_languages.size > 1 -%}
+  {%- liquid
+    assign target = nil
+    for language in localization.available_languages
+      if language.iso_code != request.locale.iso_code
+        assign target = language
+        if language.iso_code == 'ar' or request.locale.iso_code == 'ar'
+          break
+        endif
+      endif
+    endfor
+  -%}
+  {%- if target -%}
+    {%- form 'localization', class: 'lang-switch', id: 'LangSwitch' -%}
+      <input type="hidden" name="locale_code" value="{{ target.iso_code }}">
+      <input type="hidden" name="return_to" value="{{ request.path }}">
+      <button type="submit" class="header__button lang-switch__btn" lang="{{ target.iso_code }}" aria-label="{{ target.endonym_name | escape }}">
+        {%- if target.iso_code == 'ar' -%}العربية{%- elsif target.iso_code == 'en' -%}EN{%- else -%}{{ target.endonym_name | escape }}{%- endif -%}
+      </button>
+    {%- endform -%}
+    <style>
+      .lang-switch{display:inline-flex;align-items:center;margin:0}
+      .lang-switch__btn{background:none;border:0;padding:0 2px;cursor:pointer;font-size:14px;line-height:1;letter-spacing:.04em;color:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, currentColor)))}
+      .lang-switch__btn[lang="ar"]{font-size:16px;letter-spacing:0;font-family:'Noto Kufi Arabic','Tajawal',system-ui,sans-serif}
+      .lang-switch__btn:hover{opacity:.7}
+    </style>
+  {%- endif -%}
+{%- endif -%}

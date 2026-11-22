@@ -277,6 +277,7 @@
     
     {%- assign show_search = section.settings.show_search | default: true -%}
     <div class="header__icons">
+      {%- render 'lang-switcher' -%}
       {%- if show_search != 'hide' -%}
       <div class="search-container">
         <wk-modal-opener class="display-flex popup-modal__opener" data-modal="#header-modal-search">
