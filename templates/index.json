@@ -419,7 +419,7 @@
     "about": {
       "type": "custom-aboutus",
       "settings": {
-        "image": "shopify://shop_images/c77a6c16-313a-47f9-b356-96f25b2206c3.png",
+        "image": "shopify://shop_images/c77a6c16-313a-47f9-b356.png",
         "mobile_ratio": "4 / 3",
         "mobile_focus": "center",
         "subheading": "Jewellery with a story",
