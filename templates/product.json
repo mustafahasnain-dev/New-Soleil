@@ -42,6 +42,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
+            "swatch_style": "color",
             "swatch_options": "Color,Colour",
             "size_chart_options": "Size,Ring size",
             "size_heading": "Select your size",
@@ -67,14 +68,14 @@
           "settings": {
             "icon_1": "feather",
             "text_1": "Lightweight & comfortable for daily wear",
-            "icon_2": "moon",
-            "text_2": "Inspired by heart",
+            "icon_2": "heart",
+            "text_2": "Inspired by love, with three cascading hearts.",
             "icon_3": "resize",
-            "text_3": "Easily adjustable to fit every size",
+            "text_3": "Adjustable chain length for a perfect fit",
             "icon_4": "leaf",
             "text_4": "Hypoallergenic materials for everyday comfort",
             "icon_5": "layers",
-            "text_5": "Perfect for stacking or wearing solo",
+            "text_5": "Perfect for layering or wearing solo",
             "icon_6": "gift",
             "text_6": "Ideal for gifting for any occasion"
           }
@@ -210,7 +211,7 @@
         "row_1": {
           "type": "row",
           "settings": {
-            "video": "shopify://files/videos/al kholoud collection .mp4",
+            "video": "shopify://files/videos/Lamis.mp4",
             "heading": "Inspired by crescent moons & starlit skies",
             "text": "<p>Drawing from the soft shimmer of stars and the delicate curve of the moon, the collection brings celestial beauty into everyday wear. Each piece captures a quiet glow, designed to reflect the stillness and sparkle of night.</p>",
             "bg_color": ""
@@ -219,7 +220,7 @@
         "row_2": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/amara_earnings.webp",
+            "image": "shopify://shop_images/Artboard_6_f03325d6-30fb-455b-a5c8-cebd95fdaf1b.png",
             "heading": "Lightweight & comfortable for daily wear",
             "text": "<p>Designed to feel light, effortless and radiant, each piece is crafted from hypoallergenic materials and finished with luminous crystals for lasting comfort. Whether you're getting ready for a quiet evening or a busy day, it moves with you.</p>",
             "bg_color": ""
