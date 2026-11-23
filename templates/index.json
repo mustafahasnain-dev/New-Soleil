@@ -385,7 +385,7 @@
     "image_video_split": {
       "type": "image-video-split",
       "settings": {
-        "image": "shopify://shop_images/ln1_97bad607-5ad7-4e7a-842e-57e4ffc12a92.jpg",
+        "image": "shopify://shop_images/soleil_image_2_under_25mp.jpg",
         "eyebrow": "Most-loved collection",
         "heading": "Fashion & style",
         "button_label": "Order now",
@@ -399,7 +399,7 @@
         "eyebrow_size": 15,
         "heading_size": 64,
         "text_color": "#ffffff",
-        "btn_bg": "#F5F5FA",
+        "btn_bg": "#f5f5fa",
         "btn_text": "#000000",
         "swap": false,
         "full_width": true,
