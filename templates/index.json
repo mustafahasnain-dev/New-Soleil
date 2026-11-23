@@ -389,7 +389,7 @@
         "eyebrow": "Most-loved collection",
         "heading": "Fashion & style",
         "button_label": "Order now",
-        "button_link": "",
+        "button_link": "shopify://collections/dana",
         "h_align": "flex-end",
         "v_align": "flex-end",
         "overlay": 15,
