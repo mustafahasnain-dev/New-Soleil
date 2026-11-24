@@ -910,3 +910,14 @@
 .mpc-swatch:has(.mpc-swatch__color) { width: 36px; height: 36px; padding: 3px; border-radius: 50%; border-color: transparent; }
 .mpc-swatch:has(.mpc-swatch__color) .mpc-swatch__color { border-radius: 50%; border: 1px solid rgba(0,0,0,.15); }
 .mpc-option__input:checked + .mpc-swatch:has(.mpc-swatch__color) { border-color: var(--mpc-text); box-shadow: none; }
+
+/* Image swatches: equal round tiles, photo cropped to fill */
+.mpc .mpc-option__values:has(.mpc-swatch img) { gap: 12px; }
+.mpc .mpc-swatch:has(img) { position: relative; width: 58px; height: 58px; padding: 3px; border: 1px solid transparent; border-radius: 50%; overflow: hidden; background: #fff; box-shadow: none; }
+.mpc .mpc-swatch:has(img) img { position: absolute; inset: 3px; width: calc(100% - 6px) !important; height: calc(100% - 6px) !important; max-width: none; object-fit: cover; border-radius: 50%; display: block; }
+.mpc .mpc-swatch:has(img):hover { border-color: var(--mpc-soft); }
+.mpc .mpc-option__input:checked + .mpc-swatch:has(img) { border-color: var(--mpc-text); box-shadow: none; }
+@media (max-width: 749px) {
+  .mpc .mpc-option__values:has(.mpc-swatch img) { gap: 10px; }
+  .mpc .mpc-swatch:has(img) { width: 52px; height: 52px; }
+}
