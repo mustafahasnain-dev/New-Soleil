@@ -15,6 +15,7 @@
   endcapture
 -%}
 <style>
+  #shopify-section-{{ section.id }}, #theme-section-{{ section.id }}{ max-width:100%; overflow-x:clip; }
   #theme-section-{{ section.id }}{
     --about-text: {{ section.settings.color_text }};
     --about-bg: {{ section.settings.color_background }};
@@ -102,6 +103,10 @@
   @media (min-width:990px){
     #theme-section-{{ section.id }} .custom-aboutus{
       display:block;
+      width:100%;
+      max-width:100%;
+      /* min-width:0 stops the browser widening the box to keep the image ratio when min-height kicks in */
+      min-width:0;
       aspect-ratio:{{ ratio }};
       min-height:{{ section.settings.min_height }}px;
     }
