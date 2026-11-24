@@ -1,36 +1,18 @@
 {%- comment -%}
-  Specifications table for the product page. Rows come from product metafields (namespace "specs"):
-  colour, materials, stone, adjustable_size, extra (multi-line "Label: Value"), plus the variant SKU.
-  Empty rows are skipped; renders nothing when there are no spec metafields.
+  Specifications table for the product page. Rows come from the product metafield specs.rows
+  (a list of "Specification row" metaobjects, each with a heading and a value), in the order added.
+  Renders nothing when the product has no rows.
   Accepts: product
 {%- endcomment -%}
-{%- liquid
-  assign s = product.metafields.specs
-  assign variant = product.selected_or_first_available_variant
-  assign has_specs = false
-  if s.colour != blank or s.materials != blank or s.stone != blank or s.adjustable_size != blank or s.extra != blank
-    assign has_specs = true
-  endif
--%}
-{%- if has_specs -%}
+{%- assign spec_rows = product.metafields.specs.rows.value -%}
+{%- if spec_rows != blank and spec_rows.size > 0 -%}
   <table class="spec-table">
     <tbody>
-      {%- if s.colour != blank -%}<tr><th scope="row">Colour</th><td>{{ s.colour.value | escape }}</td></tr>{%- endif -%}
-      {%- if s.materials != blank -%}<tr><th scope="row">Materials</th><td>{{ s.materials.value | escape }}</td></tr>{%- endif -%}
-      {%- if s.stone != blank -%}<tr><th scope="row">Stone</th><td>{{ s.stone.value | escape }}</td></tr>{%- endif -%}
-      {%- if s.adjustable_size != blank -%}<tr><th scope="row">Adjustable size</th><td>{{ s.adjustable_size.value | escape }}</td></tr>{%- endif -%}
-      {%- if s.extra != blank -%}
-        {%- assign lines = s.extra.value | newline_to_br | split: '<br />' -%}
-        {%- for line in lines -%}
-          {%- assign line = line | strip -%}
-          {%- if line contains ':' -%}
-            {%- assign label = line | split: ':' | first | strip -%}
-            {%- assign value = line | remove_first: label | remove_first: ':' | strip -%}
-            <tr><th scope="row">{{ label | escape }}</th><td>{{ value | escape }}</td></tr>
-          {%- endif -%}
-        {%- endfor -%}
-      {%- endif -%}
-      {%- if variant.sku != blank -%}<tr><th scope="row">SKU</th><td data-spec-sku>{{ variant.sku | escape }}</td></tr>{%- endif -%}
+      {%- for row in spec_rows -%}
+        {%- if row.label != blank -%}
+          <tr><th scope="row">{{ row.label | escape }}</th><td>{{ row.value | escape }}</td></tr>
+        {%- endif -%}
+      {%- endfor -%}
     </tbody>
   </table>
   <style>
