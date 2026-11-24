@@ -63,8 +63,13 @@
             "dot_color": "#3ec46d"
           }
         },
+        "description_7ebKWV": {
+          "type": "description",
+          "settings": {}
+        },
         "features": {
           "type": "features",
+          "disabled": true,
           "settings": {
             "icon_1": "feather",
             "text_1": "Lightweight & comfortable for daily wear",
@@ -178,6 +183,7 @@
         "price",
         "variant_picker",
         "delivery",
+        "description_7ebKWV",
         "features",
         "gift_wrap",
         "buy_buttons",
