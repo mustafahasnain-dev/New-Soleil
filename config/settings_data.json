@@ -396,6 +396,8 @@
           "delay": 4,
           "days": 7,
           "image": "shopify://shop_images/Soleil_Clover_Watch_on_Peach_Ribbon.png",
+          "logo": "shopify://shop_images/SOLEIL_Emblem_with_Arabic_Calligraphy.png",
+          "logo_width": 180,
           "heading": "Join the Soleil list",
           "subheading": "Subscribe for new collections, exclusive offers and styling inspiration, straight to your inbox.",
           "placeholder": "Enter your email address",
@@ -405,6 +407,10 @@
           "success_text": "You're on the list. Look out for our latest news and offers in your inbox.",
           "success_button": "Continue shopping",
           "text_color": "#1c1f5a",
+          "text_color_mobile": "#ffffff",
+          "mobile_overlay": 35,
+          "panel_bg": "#f7f8fc",
+          "field_bg": "#ffffff",
           "button_bg": "#1c1f5a",
           "button_text": "#ffffff"
         }
