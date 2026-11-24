@@ -178,7 +178,7 @@ class PredictiveSearch extends HTMLElement {
       return;
     }
 
-    fetch(`${routes.predictive_search_url}?q=${encodeURIComponent(searchTerm)}&resources[type]=product,collection,query&resources[options][fields]=title,product_type,tag,variants.title,vendor&section_id=predictive-search`, {
+    fetch(`${routes.predictive_search_url}?q=${encodeURIComponent(searchTerm)}&resources[options][fields]=title,product_type,tag,variants.title,vendor&section_id=wk-predictive-search`, {
       signal: this.abortController.signal }
     )
       .then((response) => {
@@ -191,7 +191,7 @@ class PredictiveSearch extends HTMLElement {
         return response.text();
       })
       .then((text) => {
-        const resultsMarkup = new DOMParser().parseFromString(text, 'text/html').querySelector('#shopify-section-predictive-search').innerHTML;
+        const resultsMarkup = new DOMParser().parseFromString(text, 'text/html').querySelector('#shopify-section-wk-predictive-search').innerHTML;
         this.allPredictiveSearchInstances.forEach(
           (predictiveSearchInstance) => {
             predictiveSearchInstance.cachedResults[queryKey] = resultsMarkup;
