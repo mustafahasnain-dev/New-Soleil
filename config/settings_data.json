@@ -404,8 +404,8 @@
           "success_heading": "Thank you for subscribing",
           "success_text": "You're on the list. Look out for our latest news and offers in your inbox.",
           "success_button": "Continue shopping",
-          "text_color": "#000000",
-          "button_bg": "#000000",
+          "text_color": "#1c1f5a",
+          "button_bg": "#1c1f5a",
           "button_text": "#ffffff"
         }
       }
