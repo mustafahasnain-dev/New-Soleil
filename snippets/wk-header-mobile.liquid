@@ -133,7 +133,7 @@
   {% endif %}
 </p>
 {%- endif -%}
-<div class="lang-toggle-drawer">{%- render 'lang-switcher' -%}</div>
+<div class="lang-toggle-drawer">{%- render 'currency-switcher', id_suffix: 'Drawer' -%}{%- render 'lang-switcher' -%}</div>
 {%- if settings.wk_enable_compare -%}
 <a href="{{ settings.wk_page_compare.url }}" class="header__button body2">
   {%- if section.settings.icons_text_mobile == 'show_only_text' -%} 

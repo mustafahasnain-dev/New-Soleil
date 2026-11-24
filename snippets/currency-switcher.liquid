@@ -1,0 +1,74 @@
+{%- comment -%}
+  Country / currency selector for the header (desktop) and menu drawer (mobile).
+  - Lists the countries in the store's Markets with their currency; choosing one submits Shopify's
+    localization form, which reloads the page with prices in that currency.
+  - On a first visit, detects the visitor's country (Shopify's /browsing_context_suggestions.json) and,
+    if it is one of the store's countries and differs from the current one, switches silently once.
+    A manual choice is remembered and never overridden.
+  - Renders nothing while the store has only one country.
+  Accepts: id_suffix (string, keeps ids unique when rendered twice)
+{%- endcomment -%}
+{%- if localization.available_countries.size > 1 -%}
+  {%- assign cs_id = 'CurrencySwitcher' | append: id_suffix -%}
+  {%- form 'localization', id: cs_id, class: 'cur-switch', data-cur-switch: '' -%}
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+    <label class="visually-hidden" for="{{ cs_id }}-select">{{ 'localization.country_label' | t }}</label>
+    <span class="cur-switch__current" aria-hidden="true">{{ localization.country.currency.iso_code }}</span>
+    <select id="{{ cs_id }}-select" class="cur-switch__select" name="country_code" data-cur-select>
+      {%- for country in localization.available_countries -%}
+        <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+          {{- country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+        </option>
+      {%- endfor -%}
+    </select>
+    <svg class="cur-switch__caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+  {%- endform -%}
+
+  {%- unless cur_switch_assets_loaded -%}
+    {%- assign cur_switch_assets_loaded = true -%}
+    <style>
+      .cur-switch{ --cs-ink:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, #1c1f5a))); position:relative; display:inline-flex; align-items:center; height:32px; margin:0 8px 0 0; padding:0 26px 0 12px; border:1px solid var(--cs-ink); border-radius:999px; color:var(--cs-ink); font-family:'Josefin Sans', sans-serif; font-size:11px; font-weight:500; letter-spacing:.12em; }
+      .cur-switch__current{ pointer-events:none; line-height:1; padding-top:1px; }
+      .cur-switch__select{ position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; font-size:16px; }
+      .cur-switch__caret{ position:absolute; top:50%; inset-inline-end:10px; width:9px; height:6px; transform:translateY(-50%); pointer-events:none; }
+      [dir=rtl] .cur-switch{ padding:0 12px 0 26px; margin:0 0 0 8px; }
+      #wk-scope .fixed-header-group:not(:has(.sticky-activated)) .cur-switch{ --cs-ink:var(--static-header-color, #fff); }
+      .lang-toggle-drawer .cur-switch, #wk-scope .lang-toggle-drawer .cur-switch{ --cs-ink:#000; margin:0 0 12px; }
+    </style>
+    <script>
+      (() => {
+        if (window.__curSwitchBound) return;
+        window.__curSwitchBound = true;
+        const KEY = 'soleil-currency-choice';
+        const get = () => { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
+        const set = (v) => { try { localStorage.setItem(KEY, v); } catch (e) {} };
+
+        // Manual choice: remember it and submit.
+        document.addEventListener('change', (e) => {
+          const sel = e.target.closest('[data-cur-select]');
+          if (!sel) return;
+          set('manual:' + sel.value);
+          sel.form.submit();
+        });
+
+        // First visit: detect country once and switch silently if it is one of ours.
+        if (get() || (window.Shopify && Shopify.designMode) || /bot|crawl|spider|lighthouse/i.test(navigator.userAgent)) return;
+        const form = document.querySelector('[data-cur-switch]');
+        if (!form) return;
+        const select = form.querySelector('[data-cur-select]');
+        const current = '{{ localization.country.iso_code }}';
+        const allowed = Array.from(select.options).map((o) => o.value);
+        fetch('/browsing_context_suggestions.json?country[enabled]=true&currency[enabled]=true', { credentials: 'same-origin' })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((data) => {
+            const code = data && data.detected_values && data.detected_values.country && data.detected_values.country.handle;
+            set('auto:' + (code || 'unknown'));
+            if (!code || code === current || !allowed.includes(code)) return;
+            select.value = code;
+            form.submit();
+          })
+          .catch(() => set('auto:error'));
+      })();
+    </script>
+  {%- endunless -%}
+{%- endif -%}
