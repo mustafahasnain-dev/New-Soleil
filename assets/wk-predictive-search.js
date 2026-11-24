@@ -26,6 +26,60 @@ class PredictiveSearch extends HTMLElement {
     this.setupEventListeners();
   }
 
+  /* Desktop: results render in a page-level panel attached to <body>, outside the (transparent) header,
+     so header styles cannot hide or clip them. Mobile keeps the in-header dropdown. */
+  isDesktop() {
+    return window.matchMedia('(min-width: 1025px)').matches && !this.closest('.search-parent-js');
+  }
+
+  getPanel() {
+    if (PredictiveSearch.panel) return PredictiveSearch.panel;
+    const panel = document.createElement('div');
+    panel.id = 'SearchPanel';
+    panel.className = 'sp-panel';
+    panel.hidden = true;
+    panel.innerHTML = '<div class="sp-panel__dim"></div><div class="sp-panel__box"><button type="button" class="sp-panel__close" aria-label="Close">&times;</button><div class="sp-panel__inner" data-sp-results></div></div>';
+    document.body.appendChild(panel);
+    // keep focus in the input when clicking inside the panel (links still navigate)
+    panel.querySelector('.sp-panel__box').addEventListener('mousedown', (e) => {
+      if (!e.target.closest('a')) e.preventDefault();
+    });
+    PredictiveSearch.panel = panel;
+    return panel;
+  }
+
+  getRoot() {
+    return this.isDesktop() && PredictiveSearch.panelOwner === this ? this.getPanel() : this;
+  }
+
+  positionPanel() {
+    const panel = this.getPanel();
+    const header = this.closest('.header__main') || this.closest('header') || this;
+    const top = Math.max(0, header.getBoundingClientRect().bottom);
+    panel.style.setProperty('--sp-top', top + 'px');
+  }
+
+  bindPanel() {
+    const panel = this.getPanel();
+    PredictiveSearch.panelOwner = this;
+    panel.querySelector('.sp-panel__close').onclick = () => this.close();
+    panel.querySelector('.sp-panel__dim').onclick = () => this.close();
+    panel.querySelector('[data-sp-results]').onclick = (e) => {
+      const all = e.target.closest('[data-sp-all]');
+      if (all) { e.preventDefault(); this.input.form.submit(); }
+    };
+    if (!this._panelListeners) {
+      this._panelListeners = true;
+      const reposition = () => { if (this.isOpen && PredictiveSearch.panelOwner === this) this.positionPanel(); };
+      window.addEventListener('scroll', reposition, { passive: true });
+      window.addEventListener('resize', () => {
+        if (!this.isDesktop() && PredictiveSearch.panelOwner === this) this.close();
+        reposition();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.isOpen) this.close(); });
+    }
+  }
+
   setupEventListeners() {
     this.input.form.addEventListener('submit', this.onFormSubmit.bind(this));
     this.input.addEventListener('input', debounce((event) => {
@@ -57,7 +111,7 @@ class PredictiveSearch extends HTMLElement {
   }
 
   onFormSubmit(event) {
-    if (!this.getQuery().length || this.querySelector('[aria-selected="true"] a')) event.preventDefault();
+    if (!this.getQuery().length || this.getRoot().querySelector('[aria-selected="true"] a')) event.preventDefault();
   }
 
   onFocus() {
@@ -77,7 +131,10 @@ class PredictiveSearch extends HTMLElement {
   onFocusOut() {
     if(this.classList.contains('static') && this.querySelector('.field__input').value != "" ) return false;
     setTimeout(() => {
-      if (!this.contains(document.activeElement)) this.close();
+      const active = document.activeElement;
+      if (this.contains(active)) return;
+      if (PredictiveSearch.panel && PredictiveSearch.panelOwner === this && PredictiveSearch.panel.contains(active)) return;
+      this.close();
     })
   }
 
@@ -115,9 +172,10 @@ class PredictiveSearch extends HTMLElement {
     if (!this.getAttribute('open')) return;
 
     const moveUp = direction === 'up';
-    const selectedElement = this.querySelector('[aria-selected="true"]');
+    const root = this.getRoot();
+    const selectedElement = root.querySelector('[aria-selected="true"]');
     const allVisibleElements = Array.from(
-      this.querySelectorAll("li, button.predictive-search__item")
+      root.querySelectorAll("li, button.predictive-search__item")
     ).filter((element) => element.offsetParent !== null);
     let activeElementIndex = 0;
 
@@ -158,7 +216,7 @@ class PredictiveSearch extends HTMLElement {
   }
 
   selectOption() {
-    const selectedOption = this.querySelector(
+    const selectedOption = this.getRoot().querySelector(
       '[aria-selected="true"] a, button[aria-selected="true"]'
     );
 
@@ -230,7 +288,12 @@ class PredictiveSearch extends HTMLElement {
    * @param {string} resultsMarkup
    */
   renderSearchResults(resultsMarkup) {
-    this.predictiveSearchResults.innerHTML = resultsMarkup;
+    if (this.isDesktop()) {
+      this.bindPanel();
+      this.getPanel().querySelector('[data-sp-results]').innerHTML = resultsMarkup;
+    } else {
+      this.predictiveSearchResults.innerHTML = resultsMarkup;
+    }
     this.setAttribute('results', true);
 
     this.setLiveRegionResults();
@@ -240,13 +303,13 @@ class PredictiveSearch extends HTMLElement {
   setLiveRegionResults() {
     this.removeAttribute('loading');
     var count_value = false;
-    if(this.querySelector('[data-predictive-search-live-region-count-value]')){
-      count_value = this.querySelector('[data-predictive-search-live-region-count-value]');
+    if(this.getRoot().querySelector('[data-predictive-search-live-region-count-value]')){
+      count_value = this.getRoot().querySelector('[data-predictive-search-live-region-count-value]');
     }
     else{
       count_value = this.closest('.search-parent-js').querySelector('[data-predictive-search-live-region-count-value]');
     }
-    this.setLiveRegionText(count_value.textContent);
+    if (count_value) this.setLiveRegionText(count_value.textContent);
   }
 
   getResultsMaxHeight() {
@@ -256,7 +319,11 @@ class PredictiveSearch extends HTMLElement {
 
   /** Opens the search dropdown menu. */
   open() {
-    if(!this.closest('.search-parent-js')){
+    if (this.isDesktop() && PredictiveSearch.panelOwner === this) {
+      this.positionPanel();
+      this.getPanel().hidden = false;
+      document.documentElement.classList.add('sp-open');
+    } else if(!this.closest('.search-parent-js')){
       this.predictiveSearchResults.style.maxHeight = this.resultsMaxHeight || `${this.getResultsMaxHeight()}px`;
     }
     this.setAttribute('open', true);
@@ -278,7 +345,11 @@ class PredictiveSearch extends HTMLElement {
       this.input.value = '';
       this.removeAttribute('results');
     }
-    const selected = this.querySelector('[aria-selected="true"]');
+    const selected = this.getRoot().querySelector('[aria-selected="true"]');
+    if (PredictiveSearch.panel && PredictiveSearch.panelOwner === this) {
+      PredictiveSearch.panel.hidden = true;
+      document.documentElement.classList.remove('sp-open');
+    }
 
     if (selected) selected.setAttribute('aria-selected', false);
 

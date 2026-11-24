@@ -390,3 +390,7 @@ wk-predictive-search[loading] .predictive-search-container{
     color: var(--color-link-button-block-inverse-hover, var(--color-accent-section, var(--color-accent)));
   }
 }
+/* Desktop: results show in the page-level #SearchPanel (see wk-predictive-search.js), not in the header */
+@media (min-width:1025px){
+  #wk-scope wk-predictive-search .predictive-search-container{ display:none !important; }
+}

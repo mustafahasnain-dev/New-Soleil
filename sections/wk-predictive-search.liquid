@@ -29,7 +29,24 @@
   .sps__empty{ margin:0; padding:8px 0; font-size:14px; }
   .sps__all{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:46px; margin-top:22px; background:#1c1f5a; color:#fff; font-size:13px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border:0; cursor:pointer; }
   .sps__all:hover{ opacity:.88; }
+  /* Desktop page-level panel (created by wk-predictive-search.js, attached to <body>) */
+  .sp-panel{ position:fixed; inset:0; z-index:1000; }
+  .sp-panel[hidden]{ display:none; }
+  .sp-panel__dim{ position:absolute; inset:var(--sp-top, 0) 0 0 0; background:rgba(0,0,0,.25); }
+  .sp-panel__box{ position:absolute; top:var(--sp-top, 0); left:0; right:0; max-height:calc(100vh - var(--sp-top, 0px) - 24px); overflow-y:auto; background:#fff; box-shadow:0 12px 30px rgba(0,0,0,.12); }
+  .sp-panel__inner{ max-width:1400px; margin:0 auto; }
+  .sp-panel .sps{ padding:28px 40px 32px; }
+  .sp-panel .sps__grid{ grid-template-columns:repeat(6,minmax(0,1fr)); gap:24px 20px; }
+  .sp-panel .sps__all{ max-width:420px; margin-left:auto; margin-right:auto; }
+  .sp-panel__close{ position:absolute; top:10px; right:16px; z-index:1; width:36px; height:36px; border:0; background:none; font-size:28px; line-height:1; color:#1c1f5a; cursor:pointer; }
+  [dir=rtl] .sp-panel__close{ right:auto; left:16px; }
+  .sp-panel .sps, .sp-panel .sps *, .sp-panel .sps a{ color:#1c1f5a; }
+  .sp-panel .sps .sps__all, .sp-panel .sps .sps__all *{ color:#fff; }
+  .sp-panel .predictive-search__list-item[aria-selected="true"] .sps__card .sps__title{ text-decoration:underline; }
+  .sp-panel .sps__suggest [aria-selected="true"] a{ border-color:#1c1f5a; }
+  @media (min-width:750px) and (max-width:1024px){ .sps__grid li:nth-child(n+5){ display:none; } }
   @media (max-width:749px){
+    .sps__grid li:nth-child(n+5){ display:none; }
     .sps{ padding:16px; }
     .sps__grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   }
@@ -52,7 +69,7 @@
     {%- if products.size > 0 -%}
       <p class="sps__heading">{{ 'templates.search.products' | t | default: 'Products' }}</p>
       <ul id="predictive-search-results-list" class="sps__grid" role="group">
-        {%- for product in products limit: 4 -%}
+        {%- for product in products limit: 6 -%}
           <li class="predictive-search__list-item" role="option" aria-selected="false">
             <a href="{{ product.url }}" class="sps__card predictive-search__item" tabindex="-1">
               <div class="sps__img">
@@ -76,7 +93,7 @@
     {%- endif -%}
 
     <div id="predictive-search-option-search-keywords">
-      <button type="submit" class="sps__all predictive-search__item" role="option" aria-selected="false" tabindex="-1">
+      <button type="submit" data-sp-all class="sps__all predictive-search__item" role="option" aria-selected="false" tabindex="-1">
         {%- if products.size > 0 -%}View all results{%- else -%}{{ 'templates.search.search_for' | t: terms: ps.terms }}{%- endif -%}
         <span aria-hidden="true">&rarr;</span>
       </button>
