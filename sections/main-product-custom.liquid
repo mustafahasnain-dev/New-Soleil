@@ -145,7 +145,13 @@
           {%- for block in tab_blocks -%}
             {%- liquid
               assign tab_content = ''
-              if block.settings.metafield_key != blank
+              if block.settings.spec_table
+                capture tab_content
+                  render 'product-spec-table', product: product
+                endcapture
+                assign tab_content = tab_content | strip
+              endif
+              if tab_content == blank and block.settings.metafield_key != blank
                 assign mf_parts = block.settings.metafield_key | split: '.'
                 assign mf = product.metafields[mf_parts[0]][mf_parts[1]]
                 if mf != blank
@@ -2010,6 +2016,13 @@
           "type": "checkbox",
           "id": "open",
           "label": "Open by default",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "spec_table",
+          "label": "Show specifications table",
+          "info": "Rows come from the product's Spec metafields (Colour, Materials, Stone, Adjustable size, Extra rows) plus SKU. Falls back to the options below when the product has none.",
           "default": false
         },
         {

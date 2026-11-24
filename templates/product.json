@@ -147,6 +147,7 @@
           "settings": {
             "heading": "Specifications",
             "open": false,
+            "spec_table": true,
             "metafield_key": "custom.specifications",
             "use_description": true,
             "content": "",

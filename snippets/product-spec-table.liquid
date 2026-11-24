@@ -1,0 +1,43 @@
+{%- comment -%}
+  Specifications table for the product page. Rows come from product metafields (namespace "specs"):
+  colour, materials, stone, adjustable_size, extra (multi-line "Label: Value"), plus the variant SKU.
+  Empty rows are skipped; renders nothing when there are no spec metafields.
+  Accepts: product
+{%- endcomment -%}
+{%- liquid
+  assign s = product.metafields.specs
+  assign variant = product.selected_or_first_available_variant
+  assign has_specs = false
+  if s.colour != blank or s.materials != blank or s.stone != blank or s.adjustable_size != blank or s.extra != blank
+    assign has_specs = true
+  endif
+-%}
+{%- if has_specs -%}
+  <table class="spec-table">
+    <tbody>
+      {%- if s.colour != blank -%}<tr><th scope="row">Colour</th><td>{{ s.colour.value | escape }}</td></tr>{%- endif -%}
+      {%- if s.materials != blank -%}<tr><th scope="row">Materials</th><td>{{ s.materials.value | escape }}</td></tr>{%- endif -%}
+      {%- if s.stone != blank -%}<tr><th scope="row">Stone</th><td>{{ s.stone.value | escape }}</td></tr>{%- endif -%}
+      {%- if s.adjustable_size != blank -%}<tr><th scope="row">Adjustable size</th><td>{{ s.adjustable_size.value | escape }}</td></tr>{%- endif -%}
+      {%- if s.extra != blank -%}
+        {%- assign lines = s.extra.value | newline_to_br | split: '<br />' -%}
+        {%- for line in lines -%}
+          {%- assign line = line | strip -%}
+          {%- if line contains ':' -%}
+            {%- assign label = line | split: ':' | first | strip -%}
+            {%- assign value = line | remove_first: label | remove_first: ':' | strip -%}
+            <tr><th scope="row">{{ label | escape }}</th><td>{{ value | escape }}</td></tr>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {%- if variant.sku != blank -%}<tr><th scope="row">SKU</th><td data-spec-sku>{{ variant.sku | escape }}</td></tr>{%- endif -%}
+    </tbody>
+  </table>
+  <style>
+    .spec-table{ width:100%; max-width:560px; border-collapse:collapse; margin:0; }
+    .spec-table th, .spec-table td{ padding:16px 0; border-bottom:1px solid rgba(0,0,0,.12); text-align:start; vertical-align:middle; }
+    .spec-table th{ width:46%; padding-inline-end:16px; font-weight:500; font-size:14px; letter-spacing:.06em; text-transform:uppercase; }
+    .spec-table td{ font-size:14px; opacity:.85; }
+    @media (max-width:749px){ .spec-table th, .spec-table td{ padding:13px 0; font-size:13px; } .spec-table th{ width:50%; } }
+  </style>
+{%- endif -%}
