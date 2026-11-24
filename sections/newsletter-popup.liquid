@@ -99,12 +99,14 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !el.hidden) close(); });
     el.querySelector('form')?.addEventListener('submit', remember);
 
-    // After a sign-up or an error, Shopify reloads the page: show the result straight away.
-    {%- if show_success or has_error -%}
-    open();
-    {%- if show_success -%}remember();{%- endif -%}
-    return;
-    {%- endif -%}
+    /* After a sign-up or an error, Shopify reloads the page: show the result straight away. */
+    const showResult = {% if show_success or has_error %}true{% else %}false{% endif %};
+    const signedUp = {% if show_success %}true{% else %}false{% endif %};
+    if (showResult) {
+      open();
+      if (signedUp) remember();
+      return;
+    }
 
     if (design) {
       document.addEventListener('shopify:section:select', (e) => { if (e.target.contains(el)) open(); });
