@@ -170,7 +170,7 @@ class PredictiveSearch extends HTMLElement {
    * @param {string} searchTerm
    */
   getSearchResults(searchTerm) {
-    const queryKey = searchTerm.replace(" ", "-").toLowerCase();
+    const queryKey = searchTerm.replace(/s+/g, "-").toLowerCase();
     this.setLiveRegionLoadingState();
 
     if (this.cachedResults[queryKey]) {
@@ -178,7 +178,7 @@ class PredictiveSearch extends HTMLElement {
       return;
     }
 
-    fetch(`${routes.predictive_search_url}?q=${encodeURIComponent(searchTerm)}&section_id=predictive-search`, {
+    fetch(`${routes.predictive_search_url}?q=${encodeURIComponent(searchTerm)}&resources[type]=product,collection,query&resources[options][fields]=title,product_type,tag,variants.title,vendor&section_id=predictive-search`, {
       signal: this.abortController.signal }
     )
       .then((response) => {
