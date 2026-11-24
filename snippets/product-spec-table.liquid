@@ -16,10 +16,16 @@
     </tbody>
   </table>
   <style>
-    .spec-table{ width:100%; max-width:560px; border-collapse:collapse; margin:0; }
-    .spec-table th, .spec-table td{ padding:16px 0; border-bottom:1px solid rgba(0,0,0,.12); text-align:start; vertical-align:middle; }
-    .spec-table th{ width:46%; padding-inline-end:16px; font-weight:500; font-size:14px; letter-spacing:.06em; text-transform:uppercase; }
-    .spec-table td{ font-size:14px; opacity:.85; }
-    @media (max-width:749px){ .spec-table th, .spec-table td{ padding:13px 0; font-size:13px; } .spec-table th{ width:50%; } }
+    /* minimalist.ae style: no outer/vertical borders, thin divider under each row */
+    .mpc-tab__content .spec-table, .spec-table{ width:100%; max-width:560px; border:0 !important; border-collapse:collapse; border-spacing:0; margin:0; table-layout:fixed; }
+    .mpc-tab__content .spec-table tr, .spec-table tr{ border:0 !important; background:none !important; }
+    .mpc-tab__content .spec-table th, .mpc-tab__content .spec-table td,
+    .spec-table th, .spec-table td{ padding:18px 0 !important; border:0 !important; border-bottom:1px solid #e5e5e5 !important; background:none !important; text-align:start; vertical-align:middle; }
+    .mpc-tab__content .spec-table th, .spec-table th{ width:46%; padding-inline-end:16px !important; font-size:14px; font-weight:500; letter-spacing:.04em; text-transform:uppercase; color:#111; }
+    .mpc-tab__content .spec-table td, .spec-table td{ font-size:13px; font-weight:400; letter-spacing:.02em; text-transform:none; color:#555; }
+    @media (max-width:749px){
+      .mpc-tab__content .spec-table th, .mpc-tab__content .spec-table td, .spec-table th, .spec-table td{ padding:14px 0 !important; }
+      .mpc-tab__content .spec-table th, .spec-table th{ font-size:13px; width:50%; }
+    }
   </style>
 {%- endif -%}
