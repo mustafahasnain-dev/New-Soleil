@@ -1,0 +1,147 @@
+{%- comment -%}
+  Newsletter pop-up (minimalist.ae style): full-screen split panel with an image on one side and
+  heading, subheading, email field and button on the other. Signs people up as Shopify customers
+  with email marketing consent. Shows once after a delay, then stays hidden for N days after closing or signing up.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign show_success = false
+  assign has_error = false
+-%}
+{%- if s.enable -%}
+<div id="NewsletterPopup" class="nlp" role="dialog" aria-modal="true" aria-labelledby="NewsletterPopup-title" hidden
+  data-delay="{{ s.delay }}" data-days="{{ s.days }}" data-design-mode="{{ request.design_mode }}">
+  <div class="nlp__panel">
+    <div class="nlp__media">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 750px) 50vw, 100vw', alt: s.image.alt | default: s.heading }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'nlp__placeholder' }}
+      {%- endif -%}
+    </div>
+    <div class="nlp__body">
+      <button type="button" class="nlp__close" aria-label="{{ 'accessibility.close' | t }}" data-nlp-close>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+      <div class="nlp__content">
+        {%- form 'customer', id: 'NewsletterPopupForm', class: 'nlp__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter,popup">
+          {%- if form.posted_successfully? -%}{%- assign show_success = true -%}{%- endif -%}
+          {%- if form.errors -%}{%- assign has_error = true -%}{%- endif -%}
+
+          {%- if show_success -%}
+            <h2 id="NewsletterPopup-title" class="nlp__heading">{{ s.success_heading | escape }}</h2>
+            {%- if s.success_text != blank -%}<p class="nlp__sub">{{ s.success_text | escape }}</p>{%- endif -%}
+            <button type="button" class="nlp__btn" data-nlp-close>{{ s.success_button | escape }}</button>
+          {%- else -%}
+            <h2 id="NewsletterPopup-title" class="nlp__heading">{{ s.heading | escape | newline_to_br }}</h2>
+            {%- if s.subheading != blank -%}<p class="nlp__sub">{{ s.subheading | escape }}</p>{%- endif -%}
+            <label for="NewsletterPopup-email" class="visually-hidden">{{ 'newsletter.label' | t }}</label>
+            <input id="NewsletterPopup-email" class="nlp__input" type="email" name="contact[email]" required autocomplete="email" autocorrect="off" autocapitalize="off" placeholder="{{ s.placeholder | escape }}"{% if has_error %} aria-invalid="true" aria-describedby="NewsletterPopup-error"{% endif %}>
+            {%- if has_error -%}<p id="NewsletterPopup-error" class="nlp__error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>{%- endif -%}
+            <button type="submit" class="nlp__btn">{{ s.button_label | escape }}</button>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+      {%- if s.legal != blank and show_success == false -%}<div class="nlp__legal">{{ s.legal }}</div>{%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .nlp{ position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,.45); display:flex; }
+  .nlp[hidden]{ display:none; }
+  .nlp__panel{ position:relative; display:grid; grid-template-columns:1fr 1fr; width:100%; height:100%; background:#fff; animation:nlp-in .35s ease; }
+  @keyframes nlp-in{ from{ opacity:0; } to{ opacity:1; } }
+  .nlp__media{ position:relative; overflow:hidden; background:#efe9e3; }
+  .nlp__media img, .nlp__media .nlp__placeholder{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .nlp__body{ position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 40px 40px; color:{{ s.text_color }}; text-align:center; }
+  .nlp__close{ position:absolute; top:20px; inset-inline-end:20px; width:44px; height:44px; display:grid; place-items:center; border:0; background:none; color:inherit; cursor:pointer; }
+  .nlp__content{ width:100%; max-width:420px; margin:auto 0; }
+  .nlp__heading{ margin:0 0 14px; font-size:clamp(24px,2.4vw,34px); font-weight:400; line-height:1.2; letter-spacing:.02em; text-transform:uppercase; color:inherit; }
+  .nlp__sub{ margin:0 0 40px; font-size:clamp(15px,1.2vw,19px); line-height:1.4; color:inherit; opacity:.6; }
+  .nlp__input{ display:block; width:100%; height:54px; margin:0 0 12px; padding:0 24px; border:0; border-radius:999px; background:#f0f0f0; color:inherit; font:inherit; font-size:16px; text-align:center; }
+  .nlp__input::placeholder{ color:inherit; opacity:.45; }
+  .nlp__input:focus{ outline:1px solid {{ s.button_bg }}; outline-offset:2px; }
+  .nlp__btn{ display:flex; align-items:center; justify-content:center; width:100%; height:54px; border:0; border-radius:999px; background:{{ s.button_bg }}; color:{{ s.button_text }}; font:inherit; font-size:15px; font-weight:500; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; }
+  .nlp__error{ margin:-4px 0 12px; font-size:13px; color:#b3261e; }
+  .nlp__legal{ margin-top:24px; font-size:11px; opacity:.7; }
+  .nlp__legal p{ margin:0; }
+  .nlp__legal a{ color:inherit; text-decoration:underline; }
+  html.nlp-open{ overflow:hidden; }
+  @media (max-width:749px){
+    .nlp{ align-items:center; justify-content:center; padding:16px; }
+    .nlp__panel{ grid-template-columns:1fr; grid-template-rows:38% auto; height:auto; max-height:100%; overflow-y:auto; border-radius:4px; }
+    .nlp__media{ min-height:220px; }
+    .nlp__body{ padding:40px 22px 24px; }
+    .nlp__sub{ margin-bottom:26px; }
+  }
+  @media (max-width:749px){
+    .nlp__close{ top:12px; inset-inline-end:12px; background:rgba(255,255,255,.9); border-radius:50%; }
+    .nlp__panel{ position:relative; }
+    .nlp__body{ position:static; }
+  }
+</style>
+
+<script>
+  (() => {
+    const el = document.getElementById('NewsletterPopup');
+    if (!el || el.dataset.bound) return;
+    el.dataset.bound = '1';
+    const KEY = 'soleil-newsletter-popup';
+    const days = Number(el.dataset.days) || 0;
+    const design = el.dataset.designMode === 'true';
+    const read = () => { try { return Number(localStorage.getItem(KEY)) || 0; } catch (e) { return 0; } };
+    const remember = () => { try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {} };
+    const open = () => { el.hidden = false; document.documentElement.classList.add('nlp-open'); el.querySelector('.nlp__input, .nlp__btn')?.focus({ preventScroll: true }); };
+    const close = () => { el.hidden = true; document.documentElement.classList.remove('nlp-open'); remember(); };
+    el.addEventListener('click', (e) => { if (e.target === el || e.target.closest('[data-nlp-close]')) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !el.hidden) close(); });
+    el.querySelector('form')?.addEventListener('submit', remember);
+
+    // After a sign-up or an error, Shopify reloads the page: show the result straight away.
+    {%- if show_success or has_error -%}
+    open();
+    {%- if show_success -%}remember();{%- endif -%}
+    return;
+    {%- endif -%}
+
+    if (design) {
+      document.addEventListener('shopify:section:select', (e) => { if (e.target.contains(el)) open(); });
+      document.addEventListener('shopify:section:deselect', (e) => { if (e.target.contains(el)) { el.hidden = true; document.documentElement.classList.remove('nlp-open'); } });
+      return;
+    }
+    const last = read();
+    if (last && Date.now() - last < days * 86400000) return;
+    setTimeout(open, (Number(el.dataset.delay) || 0) * 1000);
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Newsletter pop-up",
+  "class": "newsletter-popup-section",
+  "settings": [
+    { "type": "checkbox", "id": "enable", "label": "Show pop-up", "default": true },
+    { "type": "paragraph", "content": "In the theme editor, select this section to preview the pop-up. Sign-ups appear in Customers with email marketing consent and the tag \"newsletter\"." },
+    { "type": "range", "id": "delay", "label": "Show after", "min": 0, "max": 30, "step": 1, "unit": "s", "default": 4 },
+    { "type": "range", "id": "days", "label": "Hide for this many days after closing", "min": 1, "max": 60, "step": 1, "default": 7 },
+    { "type": "header", "content": "Content" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Celebrating Soleil" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Sign-up to unlock your exclusive reward" },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Claim your reward" },
+    { "type": "richtext", "id": "legal", "label": "Small print", "default": "<p>By clicking this button, you also agree to our <a href=\"/policies/terms-of-service\" title=\"Terms\">Terms</a> &amp; <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a>.</p>" },
+    { "type": "header", "content": "After sign-up" },
+    { "type": "text", "id": "success_heading", "label": "Heading", "default": "Thank you for joining" },
+    { "type": "text", "id": "success_text", "label": "Text", "default": "Check your inbox for your exclusive reward." },
+    { "type": "text", "id": "success_button", "label": "Button label", "default": "Continue shopping" },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#000000" },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#000000" },
+    { "type": "color", "id": "button_text", "label": "Button text", "default": "#ffffff" }
+  ]
+}
+{% endschema %}

@@ -350,6 +350,7 @@
       {%- if settings.cart_type == 'drawer' and template.name != 'cart' -%}
         {% section 'wk-cart-drawer' %}
       {%- endif -%}
+      {% section 'newsletter-popup' %}
       {%- liquid
         assign transparent_header = false
         if template.name == 'index'
