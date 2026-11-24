@@ -88,8 +88,10 @@
         "gift_wrap": {
           "type": "gift_wrap",
           "settings": {
+            "style": "icon",
+            "text_color": "#1c2a5a",
             "text": "Every order comes with SOLEIL's signature gift packaging.",
-            "image": "shopify://shop_images/ea6e440a-852d-4a7d-9841-cf57d5d59358_7387b127-61ef-4631-a62a-f55145c45661.png",
+            "image": "shopify://shop_images/Luxury_Soleil_Gift_Box_with_Satin_Bow.png",
             "property_name": "Gift wrapping",
             "property_value": "yes"
           }
@@ -159,6 +161,7 @@
           "settings": {
             "heading": "Shipping and delivery",
             "open": false,
+            "spec_table": false,
             "metafield_key": "",
             "use_description": false,
             "content": "<ul><li>Express delivery within 1–3 business days.</li><li>Exchange is within 3 days.</li></ul>",
@@ -170,6 +173,7 @@
           "settings": {
             "heading": "12 months warranty",
             "open": false,
+            "spec_table": false,
             "metafield_key": "",
             "use_description": false,
             "content": "<p>Every piece is covered by a 12 month warranty against manufacturing defects. Keep your order number handy and contact our team for assistance.</p>",
