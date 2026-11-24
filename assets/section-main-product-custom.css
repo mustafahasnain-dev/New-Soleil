@@ -446,7 +446,7 @@
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
-.mpc-swatch img { width: 100%; height: 100%; object-fit: contain; }
+.mpc-swatch img { width: 100%; height: 100%; object-fit: cover; }
 .mpc-swatch__color { width: 100%; height: 100%; }
 .mpc-swatch__text { font-size: 11px; text-align: center; }
 .mpc-swatch:hover { border-color: var(--mpc-soft); }

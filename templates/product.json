@@ -42,7 +42,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "swatch_style": "color",
+            "swatch_style": "image",
             "swatch_options": "Color,Colour",
             "size_chart_options": "Size,Ring size",
             "size_heading": "Select your size",
