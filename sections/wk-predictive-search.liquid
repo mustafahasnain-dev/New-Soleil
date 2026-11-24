@@ -9,8 +9,10 @@
   assign total = products.size | plus: suggestions_size | plus: ps.resources.pages.size
 -%}
 <style>
-  #wk-scope wk-predictive-search .predictive-search-container:has(.sps){ min-width:min(760px, calc(100vw - 32px)); left:auto; right:0; padding:0; max-height:80vh; overflow-y:auto; }
-  .sps{ width:100%; padding:20px 24px 24px; color:var(--color-base, #1c1f5a); text-align:start; }
+  #wk-scope wk-predictive-search .predictive-search-container:has(.sps){ min-width:min(760px, calc(100vw - 32px)); left:auto; right:0; padding:0; max-height:80vh; overflow-y:auto; background:#fff; }
+  #wk-scope .sps *, #wk-scope .sps a{ color:#1c1f5a; }
+  #wk-scope .sps .sps__all, #wk-scope .sps .sps__all *{ color:#fff; }
+  .sps{ width:100%; padding:20px 24px 24px; background:#fff; color:#1c1f5a; text-align:start; }
   .sps__heading{ margin:0 0 12px; padding:0 0 8px; border-bottom:1px solid currentColor; font-size:13px; letter-spacing:.12em; text-transform:uppercase; }
   .sps__suggest{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px; padding:0; list-style:none; }
   .sps__suggest a{ display:inline-block; padding:6px 14px; border:1px solid rgba(0,0,0,.15); border-radius:999px; font-size:13px; color:inherit; text-decoration:none; transition:border-color .2s; }
@@ -25,7 +27,7 @@
   .sps__price{ font-size:13px; }
   .sps__price s{ opacity:.55; margin-inline-end:6px; }
   .sps__empty{ margin:0; padding:8px 0; font-size:14px; }
-  .sps__all{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:46px; margin-top:22px; background:var(--color-base, #1c1f5a); color:#fff; font-size:13px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border:0; cursor:pointer; }
+  .sps__all{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:46px; margin-top:22px; background:#1c1f5a; color:#fff; font-size:13px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border:0; cursor:pointer; }
   .sps__all:hover{ opacity:.88; }
   @media (max-width:749px){
     .sps{ padding:16px; }
