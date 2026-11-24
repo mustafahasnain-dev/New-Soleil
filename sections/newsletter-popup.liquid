@@ -108,6 +108,21 @@
     .nlp__close{ top:12px; inset-inline-end:12px; }
     .nlp__legal{ margin-top:auto; padding-top:20px; }
   }
+/* Brand typography and spacing; #wk-scope beats the theme's own heading/paragraph rules */
+  #wk-scope .nlp, #wk-scope .nlp *{ font-family:'Josefin Sans', sans-serif; }
+  #wk-scope .nlp__logo{ margin:0 0 32px; }
+  #wk-scope .nlp__heading{ margin:0 0 16px; font-size:clamp(22px,1.9vw,28px); font-weight:400; line-height:1.25; letter-spacing:.08em; color:inherit; text-align:center; }
+  #wk-scope .nlp__sub{ margin:0 auto 32px; max-width:360px; font-size:15px; line-height:1.6; color:inherit; opacity:.75; text-align:center; }
+  #wk-scope .nlp__field{ margin:0 0 14px; }
+  #wk-scope .nlp__input{ font-size:15px; letter-spacing:.02em; }
+  #wk-scope .nlp__btn{ font-size:14px; letter-spacing:.16em; }
+  #wk-scope .nlp__legal{ margin-top:28px; font-size:11px; letter-spacing:.02em; }
+  @media (max-width:749px){
+    #wk-scope .nlp__logo{ margin-bottom:22px; }
+    #wk-scope .nlp__heading{ font-size:22px; margin-bottom:12px; }
+    #wk-scope .nlp__sub{ font-size:14px; margin-bottom:24px; }
+    #wk-scope .nlp__field{ margin-bottom:12px; }
+  }
 </style>
 
 <script>
