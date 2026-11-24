@@ -417,7 +417,18 @@
                 </ul>
 
               {%- when 'gift_wrap' -%}
-                <label class="mpc-block mpc-gift" {{ block.shopify_attributes }}>
+                {%- liquid
+                  assign gift_style = block.settings.style | default: 'icon'
+                  assign gift_tag = 'div'
+                  if gift_style == 'checkbox'
+                    assign gift_tag = 'label'
+                  endif
+                -%}
+                <{{ gift_tag }} class="mpc-block mpc-gift mpc-gift--{{ gift_style }}" style="--mpc-gift-color: {{ block.settings.text_color }};" {{ block.shopify_attributes }}>
+                  {%- if gift_style == 'icon' -%}
+                  <span class="mpc-gift__icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="21" height="5" rx="1"/><path d="M6 16v11h17V16"/><path d="M14.5 11v16"/><path d="M14.5 11c-1.2-3.6-5.6-5-6.6-2.6-.9 2 2.6 2.6 6.6 2.6zM14.5 11c1.2-3.6 5.6-5 6.6-2.6.9 2-2.6 2.6-6.6 2.6z"/><path d="M26 19.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg></span>
+                  <span class="mpc-gift__divider" aria-hidden="true"></span>
+                  {%- else -%}
                   <input
                     type="checkbox"
                     class="mpc-gift__input"
@@ -426,11 +437,12 @@
                     value="{{ block.settings.property_value | escape }}"
                   >
                   <span class="mpc-gift__check" aria-hidden="true"></span>
+                  {%- endif -%}
                   <span class="mpc-gift__text">{{ block.settings.text | escape }}</span>
                   {%- if block.settings.image != blank -%}
                     <span class="mpc-gift__image">{{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</span>
                   {%- endif -%}
-                </label>
+                </{{ gift_tag }}>
 
               {%- when 'buy_buttons' -%}
                 <div class="mpc-block mpc-buy" {{ block.shopify_attributes }}>
@@ -1549,7 +1561,23 @@
       "settings": [
         {
           "type": "paragraph",
-          "content": "When ticked, the choice is saved on the cart line as a line item property."
+          "content": "Gift icon: shows the message with a gift icon. Tick option: customers can tick it, and the choice is saved on the cart line as a line item property."
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "default": "icon",
+          "options": [
+            { "value": "icon", "label": "Gift icon (message only)" },
+            { "value": "checkbox", "label": "Tick option (customer can select)" }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text and icon colour",
+          "default": "#1c2a5a"
         },
         {
           "type": "text",
