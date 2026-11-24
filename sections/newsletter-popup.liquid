@@ -31,7 +31,7 @@
           <div class="nlp__logo">
             {{ s.logo | image_url: width: 400 | image_tag: loading: 'lazy', class: 'nlp__logo-img nlp__logo-img--desktop', alt: shop.name, style: logo_style }}
             {%- assign m_logo = s.logo_mobile | default: s.logo -%}
-            {{ m_logo | image_url: width: 400 | image_tag: loading: 'lazy', class: 'nlp__logo-img nlp__logo-img--mobile{% if s.logo_mobile == blank %} nlp__logo-img--auto-white{% endif %}', alt: shop.name, style: logo_style }}
+            {{ m_logo | image_url: width: 400 | image_tag: loading: 'lazy', class: 'nlp__logo-img nlp__logo-img--mobile', alt: shop.name, style: logo_style }}
           </div>
         {%- endif -%}
         {%- form 'customer', id: 'NewsletterPopupForm', class: 'nlp__form' -%}
@@ -122,16 +122,6 @@
     #wk-scope .nlp__heading{ font-size:22px; margin-bottom:12px; }
     #wk-scope .nlp__sub{ font-size:14px; margin-bottom:24px; }
     #wk-scope .nlp__field{ margin-bottom:12px; }
-  }
-#wk-scope .nlp__input, #wk-scope .nlp__input::placeholder{ font-family:'Josefin Sans', sans-serif !important; font-weight:400 !important; }
-  @media (max-width:749px){
-    #wk-scope .nlp__body{ justify-content:center; padding-top:64px; padding-bottom:64px; }
-    #wk-scope .nlp__content{ margin:auto 0; }
-    #wk-scope .nlp__logo-img--auto-white{ filter:brightness(0) invert(1); }
-    #wk-scope .nlp__heading, #wk-scope .nlp__sub, #wk-scope .nlp__legal, #wk-scope .nlp__legal a, #wk-scope .nlp__close{ color:{{ s.text_color_mobile }}; }
-    #wk-scope .nlp__sub{ opacity:1; }
-    #wk-scope .nlp__legal{ position:absolute; left:22px; right:22px; bottom:20px; margin:0; padding:0; opacity:.9; }
-    #wk-scope .nlp__media::after{ background:rgba(0,0,0,{{ s.mobile_overlay | divided_by: 100.0 }}); }
   }
 </style>
 
