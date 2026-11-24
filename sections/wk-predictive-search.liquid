@@ -22,23 +22,27 @@
   .sps__heading{ font-size:13px !important; font-weight:500; line-height:1.3; }
   .sps__title{ min-height:2.7em; }
   .sps__price{ line-height:1.3; }
+  #wk-scope .sps ul, .sps ul{ padding:0 !important; margin-left:0 !important; margin-right:0 !important; }
+  .sps__all-wrap{ display:flex; justify-content:center; margin-top:22px; }
+  #wk-scope .sps a, #wk-scope .sps a:hover, .sps a:hover{ text-decoration:none !important; opacity:1 !important; }
+  #wk-scope .sps .sps__card:hover .sps__img img{ transform:none !important; }
   .sps{ width:100%; padding:20px 24px 24px; background:#fff; color:#1c1f5a; text-align:start; }
   .sps__heading{ margin:0 0 12px; padding:0 0 8px; border-bottom:1px solid currentColor; font-size:13px; letter-spacing:.12em; text-transform:uppercase; }
   .sps__suggest{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px; padding:0; list-style:none; }
-  .sps__suggest a{ display:inline-block; padding:6px 14px; border:1px solid rgba(0,0,0,.15); border-radius:999px; font-size:13px; color:inherit; text-decoration:none; transition:border-color .2s; }
-  .sps__suggest a:hover{ border-color:currentColor; }
+  .sps__suggest a{ display:inline-block; padding:6px 14px; border:1px solid rgba(0,0,0,.15); border-radius:999px; font-size:13px; color:inherit; text-decoration:none; }
+  
   .sps__suggest mark{ background:none; color:inherit; font-weight:600; }
   .sps__grid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px 16px; margin:0; padding:0; list-style:none; }
   .sps__card{ display:block; color:inherit; text-decoration:none; }
   .sps__img{ position:relative; aspect-ratio:1/1; overflow:hidden; background:#f6f5f3; }
-  .sps__img img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; transition:transform .4s ease; }
-  .sps__card:hover .sps__img img{ transform:scale(1.04); }
+  .sps__img img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  
   .sps__title{ margin:10px 0 4px; font-size:13px; line-height:1.35; letter-spacing:.04em; text-transform:uppercase; }
   .sps__price{ font-size:13px; }
   .sps__price s{ opacity:.55; margin-inline-end:6px; }
   .sps__empty{ margin:0; padding:8px 0; font-size:14px; }
-  .sps__all{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:46px; margin-top:22px; background:#1c1f5a; color:#fff; font-size:13px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border:0; cursor:pointer; }
-  .sps__all:hover{ opacity:.88; }
+  .sps__all{ display:flex; align-items:center; justify-content:center; gap:10px; width:100%; max-width:420px; min-height:46px; background:#1c1f5a; color:#fff; font-size:13px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; border:0; cursor:pointer; }
+  
   /* Desktop page-level panel (created by wk-predictive-search.js, attached to <body>) */
   .sp-panel{ position:fixed; inset:0; z-index:1000; }
   .sp-panel[hidden]{ display:none; }
@@ -47,7 +51,7 @@
   .sp-panel__inner{ max-width:1400px; margin:0 auto; }
   .sp-panel .sps{ padding:28px 40px 32px; }
   .sp-panel .sps__grid{ grid-template-columns:repeat(6,minmax(0,1fr)); gap:24px 20px; }
-  .sp-panel .sps__all{ max-width:420px; margin-left:auto; margin-right:auto; }
+  
   .sp-panel__close{ position:absolute; top:10px; right:16px; z-index:1; width:36px; height:36px; border:0; background:none; font-size:28px; line-height:1; color:#1c1f5a; cursor:pointer; }
   [dir=rtl] .sp-panel__close{ right:auto; left:16px; }
   .sp-panel .sps, .sp-panel .sps *, .sp-panel .sps a{ color:#1c1f5a; }
@@ -106,11 +110,11 @@
       <p class="sps__empty">{{ 'templates.search.no_results' | t: terms: ps.terms }}</p>
     {%- endif -%}
 
-    <div id="predictive-search-option-search-keywords">
-      <button type="submit" data-sp-all class="sps__all predictive-search__item" role="option" aria-selected="false" tabindex="-1">
+    <div id="predictive-search-option-search-keywords" class="sps__all-wrap" role="option" aria-selected="false">
+      <a href="{{ routes.search_url }}?q={{ ps.terms | url_encode }}&amp;options%5Bprefix%5D=last" class="sps__all">
         {%- if products.size > 0 -%}View all results{%- else -%}{{ 'templates.search.search_for' | t: terms: ps.terms }}{%- endif -%}
         <span aria-hidden="true">&rarr;</span>
-      </button>
+      </a>
     </div>
 
     <span class="hidden" data-predictive-search-live-region-count-value>

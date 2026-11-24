@@ -64,10 +64,6 @@ class PredictiveSearch extends HTMLElement {
     PredictiveSearch.panelOwner = this;
     panel.querySelector('.sp-panel__close').onclick = () => this.close();
     panel.querySelector('.sp-panel__dim').onclick = () => this.close();
-    panel.querySelector('[data-sp-results]').onclick = (e) => {
-      const all = e.target.closest('[data-sp-all]');
-      if (all) { e.preventDefault(); this.input.form.submit(); }
-    };
     if (!this._panelListeners) {
       this._panelListeners = true;
       const reposition = () => { if (this.isOpen && PredictiveSearch.panelOwner === this) this.positionPanel(); };
