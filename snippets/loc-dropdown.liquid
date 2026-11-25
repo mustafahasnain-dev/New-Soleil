@@ -1,0 +1,102 @@
+{%- comment -%}
+  Theme-styled country/currency or language dropdown (no native <select>), used in the header and footer.
+  Each option is a submit button of Shopify's localization form.
+  Accepts:
+  - type: 'country' (default) or 'language'
+  - variant: 'header' (compact pill) or 'footer' (outlined box, opens upwards)
+  - id: unique id
+{%- endcomment -%}
+{%- liquid
+  assign loc_type = type | default: 'country'
+  assign loc_variant = variant | default: 'header'
+  if loc_type == 'language'
+    assign loc_count = localization.available_languages.size
+    assign current_label = localization.language.endonym_name
+    assign current_short = localization.language.iso_code | upcase
+  else
+    assign loc_count = localization.available_countries.size
+    assign current_label = localization.country.name | append: ' (' | append: localization.country.currency.iso_code | append: ' ' | append: localization.country.currency.symbol | append: ')'
+    assign current_short = localization.country.currency.iso_code
+  endif
+-%}
+{%- if loc_count > 1 -%}
+  {%- form 'localization', id: id, class: 'locdd', data-locdd: loc_type -%}
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+    <details class="locdd__details locdd--{{ loc_variant }}" data-locdd-details>
+      <summary class="locdd__toggle" aria-label="{% if loc_type == 'language' %}{{ 'localization.language_label' | t }}{% else %}{{ 'localization.country_label' | t }}{% endif %}: {{ current_label | escape }}">
+        <span class="locdd__current">
+          {%- if loc_variant == 'footer' -%}{{ current_label | escape }}{%- else -%}{{ current_short }}{%- endif -%}
+        </span>
+        <svg class="locdd__caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </summary>
+      <ul class="locdd__list" role="list">
+        {%- if loc_type == 'language' -%}
+          {%- for language in localization.available_languages -%}
+            {%- assign is_cur = false -%}{%- if language.iso_code == localization.language.iso_code -%}{%- assign is_cur = true -%}{%- endif -%}
+            <li>
+              <button type="submit" name="locale_code" value="{{ language.iso_code }}" class="locdd__opt{% if is_cur %} is-current{% endif %}" lang="{{ language.iso_code }}"{% if is_cur %} aria-current="true"{% endif %}>
+                <span class="locdd__opt-name">{{ language.endonym_name | capitalize }}</span>
+                <span class="locdd__opt-meta">{{ language.iso_code | upcase }}</span>
+              </button>
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for country in localization.available_countries -%}
+            {%- assign is_cur = false -%}{%- if country.iso_code == localization.country.iso_code -%}{%- assign is_cur = true -%}{%- endif -%}
+            <li>
+              <button type="submit" name="country_code" value="{{ country.iso_code }}" class="locdd__opt{% if is_cur %} is-current{% endif %}" data-locdd-country="{{ country.iso_code }}"{% if is_cur %} aria-current="true"{% endif %}>
+                <span class="locdd__opt-name">{{ country.name }}</span>
+                <span class="locdd__opt-meta">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
+              </button>
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </details>
+  {%- endform -%}
+
+  <style>
+    .locdd{ position:relative; display:inline-block; margin:0; font-family:'Josefin Sans', sans-serif; }
+    .locdd__details{ position:relative; }
+    .locdd__toggle{ list-style:none; display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none; }
+    .locdd__toggle::-webkit-details-marker{ display:none; }
+    .locdd__toggle::marker{ content:''; }
+    .locdd__caret{ width:9px; height:6px; flex:none; transition:transform .2s ease; }
+    .locdd__details[open] .locdd__caret{ transform:rotate(180deg); }
+    .locdd__list{ position:absolute; z-index:30; min-width:240px; max-height:320px; overflow-y:auto; margin:0; padding:8px; list-style:none; background:#fff; border:1px solid rgba(28,31,90,.12); border-radius:12px; box-shadow:0 12px 30px rgba(28,31,90,.12); }
+    .locdd__opt{ display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; padding:10px 12px; border:0; border-radius:8px; background:none; color:#1c1f5a; font:inherit; font-size:13px; letter-spacing:.02em; text-align:start; cursor:pointer; }
+    .locdd__opt:hover, .locdd__opt:focus-visible{ background:#f3f4fa; outline:none; }
+    .locdd__opt.is-current{ background:#1c1f5a; color:#fff; cursor:default; }
+    .locdd__opt-meta{ flex:none; font-size:11px; letter-spacing:.08em; opacity:.7; }
+    .locdd__opt.is-current .locdd__opt-meta{ opacity:.85; }
+
+    /* Header: compact pill matching the EN | AR toggle */
+    .locdd--header .locdd__toggle{ --ld-ink:var(--color-text-icons-block, var(--color-base-section, var(--color-text-icons-main, #1c1f5a))); height:32px; padding:0 12px 0 14px; border:1px solid var(--ld-ink); border-radius:999px; color:var(--ld-ink); font-size:11px; font-weight:500; letter-spacing:.12em; }
+    .locdd--header .locdd__current{ padding-top:1px; line-height:1; }
+    .locdd--header .locdd__list{ top:calc(100% + 8px); inset-inline-end:0; }
+    #wk-scope .fixed-header-group:not(:has(.sticky-activated)) .locdd--header .locdd__toggle{ --ld-ink:var(--static-header-color, #fff); }
+    .locdd:has(.locdd--header){ margin-inline-end:8px; }
+    .lang-toggle-drawer .locdd--header .locdd__toggle{ --ld-ink:#000; }
+    .lang-toggle-drawer .locdd{ margin:0 0 12px; }
+    .lang-toggle-drawer .locdd--header .locdd__list{ inset-inline-end:auto; inset-inline-start:0; }
+
+    /* Footer: outlined box with full label, list opens upwards */
+    .locdd--footer .locdd__toggle{ min-width:200px; height:44px; justify-content:space-between; padding:0 16px; border:1px solid currentColor; border-radius:6px; font-size:13px; letter-spacing:.04em; }
+    .locdd--footer .locdd__list{ bottom:calc(100% + 8px); inset-inline-start:0; }
+    @media (max-width:749px){ .locdd__list{ min-width:220px; } .locdd--footer .locdd__toggle{ min-width:0; width:100%; } }
+  </style>
+  <script>
+    (() => {
+      if (window.__locddBound) return;
+      window.__locddBound = true;
+      // Close other open dropdowns, and close on outside click / Escape.
+      document.addEventListener('click', (e) => {
+        document.querySelectorAll('[data-locdd-details][open]').forEach((d) => { if (!d.contains(e.target)) d.open = false; });
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        document.querySelectorAll('[data-locdd-details][open]').forEach((d) => { d.open = false; d.querySelector('summary').focus(); });
+      });
+    })();
+  </script>
+{%- endif -%}

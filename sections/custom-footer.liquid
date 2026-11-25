@@ -92,7 +92,7 @@
   #theme-section-{{ section.id }} .custom-footer__social{ display:block; }
   #theme-section-{{ section.id }} .custom-footer__social .list-social{ justify-content:flex-start; gap:4px; margin:0 0 0 -1.1rem; padding:0; }
   #theme-section-{{ section.id }} .custom-footer__social .list-social__link{ color:var(--cf-heading); }
-  #theme-section-{{ section.id }} .custom-footer__selectors .localization-form{ padding:0; margin:0; }
+  #theme-section-{{ section.id }} .custom-footer__selectors{ display:flex; flex-wrap:wrap; gap:12px; color:var(--cf-heading); }
   #theme-section-{{ section.id }} .custom-footer__selectors .localization-form__select{ margin:0; }
 
   /* Newsletter */
@@ -272,25 +272,11 @@
     <div class="custom-footer__bottom">
       <div class="custom-footer__bottom-row">
         <div class="custom-footer__selectors">
-          {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-            <localization-form>
-              {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-                <div>
-                  <h2 class="visually-hidden" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
-                  {%- render 'country-localization', localPosition: 'FooterCountry' -%}
-                </div>
-              {%- endform -%}
-            </localization-form>
+          {%- if section.settings.enable_country_selector -%}
+            {%- render 'loc-dropdown', type: 'country', variant: 'footer', id: 'FooterCountryForm' -%}
           {%- endif -%}
-          {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-            <localization-form>
-              {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-                <div>
-                  <h2 class="visually-hidden" id="FooterLanguageLabel">{{ 'localization.language_label' | t }}</h2>
-                  {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
-                </div>
-              {%- endform -%}
-            </localization-form>
+          {%- if section.settings.enable_language_selector -%}
+            {%- render 'loc-dropdown', type: 'language', variant: 'footer', id: 'FooterLanguageForm' -%}
           {%- endif -%}
         </div>
 
