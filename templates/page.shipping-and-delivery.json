@@ -16,9 +16,66 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "shipping": {
+      "type": "shipping-rates",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "service": "Dubai, Abu Dhabi, Sharjah",
+            "cost": "<p>AED 30 per order</p>",
+            "time": "Standard: 1-2 business days"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "service": "Rest of the UAE",
+            "cost": "<p>AED 30 per order</p>",
+            "time": "Standard: 1-2 business days"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "service": "International orders",
+            "cost": "<p>AED 70 per order</p>",
+            "time": "3-5 business days"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3"
+      ],
+      "settings": {
+        "heading": "UAE Shipping",
+        "intro": "<p>Once your payment is confirmed, we prepare and dispatch your order on the same business day. Orders placed after 3 PM (GST), on weekends or on public holidays are dispatched on the next business day. Every order arrives in SOLEIL’s signature gift packaging. Please see the table below for our rates and delivery times.</p>",
+        "table_heading": "Shipping rates & delivery",
+        "col_service": "Service",
+        "col_cost": "Cost",
+        "col_time": "Delivery time",
+        "note": "<p>Delivery times are estimates and start from the day your order is dispatched. You will receive a tracking link by email as soon as your order ships.</p>",
+        "max_width": 1100,
+        "text_color": "#1c1f5a",
+        "border_color": "#e3e3e3",
+        "head_bg": "rgba(0,0,0,0)",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "padding_top": 48,
+        "padding_bottom": 64,
+        "padding_left": 0,
+        "padding_right": 0,
+        "spacing_mobile": 70
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "shipping"
   ]
 }
