@@ -84,6 +84,12 @@
     .locdd--footer .locdd__toggle{ min-width:200px; height:44px; justify-content:space-between; padding:0 16px; border:1px solid currentColor; border-radius:6px; font-size:13px; letter-spacing:.04em; }
     .locdd--footer .locdd__list{ bottom:calc(100% + 8px); inset-inline-start:0; }
     @media (max-width:749px){ .locdd__list{ min-width:220px; } .locdd--footer .locdd__toggle{ min-width:0; width:100%; } }
+
+    /* Beat the theme's list indentation (ul padding-left) */
+    #wk-scope .locdd__list, .locdd .locdd__list{ padding:8px !important; margin:0 !important; list-style:none !important; min-width:260px; }
+    #wk-scope .locdd__list li, .locdd .locdd__list li{ margin:0 !important; padding:0 !important; list-style:none; }
+    #wk-scope .locdd__list li::before, .locdd .locdd__list li::before{ content:none !important; }
+    .locdd__opt-name{ white-space:nowrap; }
   </style>
   <script>
     (() => {
