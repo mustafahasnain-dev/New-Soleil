@@ -1,0 +1,24 @@
+{%- comment -%}
+  Search results page only. Shopify adds loosely related products to plain searches,
+  so each word is sent in quotes to get exact matches. The quotes are stripped again
+  wherever the search term is shown to the shopper (remove: '"').
+  Only plain English words are quoted: quoted Arabic and product codes (SKUs)
+  return no results, so those searches are left untouched.
+{%- endcomment -%}
+<script>
+  (function () {
+    var url = new URL(window.location.href);
+    var query = (url.searchParams.get('q') || '').trim();
+    if (!/^[A-Za-z\s]+$/.test(query)) return;
+
+    var exact = query
+      .split(/\s+/)
+      .map(function (word) {
+        return '"' + word + '"';
+      })
+      .join(' ');
+
+    url.searchParams.set('q', exact);
+    window.location.replace(url.toString());
+  })();
+</script>

@@ -19,6 +19,7 @@
 {%- liquid
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign total_active_values = 0
+  assign shown_terms = results.terms | remove: '"'
   assign default_presentation = 'text'
   if results.url
     assign results_url = results.url
@@ -426,7 +427,7 @@
             <h2 class="product-count__text text-body">
               <span id="ProductCountDesktop">
                 {%- if results.results_count -%}
-                  {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
+                  {{ 'templates.search.results_with_count' | t: terms: shown_terms, count: results.results_count }}
                 {%- elsif results.products_count == results.all_products_count -%}
                   {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
                 {%- else -%}
@@ -496,7 +497,7 @@
                 </h2>
                 <p class="mobile-facets__count">
                   {%- if results.results_count -%}
-                    {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
+                    {{ 'templates.search.results_with_count' | t: terms: shown_terms, count: results.results_count }}
                   {%- elsif results.products_count == results.all_products_count -%}
                     {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
                   {%- else -%}
@@ -884,7 +885,7 @@
         data-total-count="{{ results.all_products_count | default: results.products_count | default: results.results_count }}"
       >
         {%- if results.results_count -%}
-          {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
+          {{ 'templates.search.results_with_count' | t: terms: shown_terms, count: results.results_count }}
         {%- elsif results.products_count == results.all_products_count -%}
           {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
         {%- else -%}

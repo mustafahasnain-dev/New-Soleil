@@ -317,7 +317,7 @@
           id="Search-Inline"
           type="search"
           name="q"
-          value="{{ search.terms | escape }}"
+          value="{{ search.terms | remove: '"' | escape }}"
           placeholder="{{ 'general.search.search' | t }}"
         >
         <button type="submit" aria-label="{{ 'general.search.search' | t }}">
