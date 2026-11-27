@@ -47,7 +47,7 @@
               id="{{ input_id }}"
               type="search"
               name="q"
-              value="{{ search.terms | remove: '"' | escape }}"
+              value="{{ search.terms | remove: '&quot;' | remove: '"' | escape_once }}"
               placeholder="{{ 'general.search.search' | t }}"
               {%- if settings.predictive_search_enabled -%}
                 role="combobox"

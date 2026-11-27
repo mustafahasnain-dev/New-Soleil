@@ -46,7 +46,7 @@
 {%- liquid
   assign sort_by = search.sort_by | default: search.default_sort_by
   assign terms = search.terms | escape
-  assign shown_terms = search.terms | remove: '"'
+  assign shown_terms = search.terms | remove: '&quot;' | remove: '"'
   assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
 -%}
 
@@ -86,7 +86,7 @@
                 id="Search-In-Template"
                 type="search"
                 name="q"
-                value="{{ search.terms | remove: '"' | escape }}"
+                value="{{ search.terms | remove: '&quot;' | remove: '"' | escape_once }}"
                 placeholder="{{ 'general.search.search' | t }}"
                 {%- if settings.predictive_search_enabled -%}
                   role="combobox"
