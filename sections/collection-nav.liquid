@@ -2,11 +2,17 @@
   Category navigation bar under the collection banner, as on minimalist.ae: a grey strip of uppercase
   links from a menu picked in the theme editor. The link for the current collection is highlighted.
   Scrolls sideways on small screens.
+  A collection can use its own menu: put the menu's handle in its custom.collection_menu metafield.
+  If that is empty, or the menu has no links, the menu from the theme editor is shown.
 {%- endcomment -%}
 {%- liquid
   assign s = section.settings
   assign sid = '#shopify-section-' | append: section.id
   assign nav_menu = linklists[s.menu]
+  assign own_handle = collection.metafields.custom.collection_menu.value | handleize
+  if own_handle != blank and linklists[own_handle].links.size > 0
+    assign nav_menu = linklists[own_handle]
+  endif
 -%}
 {%- if nav_menu.links.size > 0 -%}
   <style>
@@ -52,7 +58,7 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "link_list", "id": "menu", "label": "Menu", "info": "e.g. New, All Jewellery, Sets, Necklaces, Bracelets, Earrings, Rings" },
+    { "type": "link_list", "id": "menu", "label": "Default menu", "info": "Used unless a collection's custom.collection_menu metafield names another menu." },
     { "type": "color", "id": "bg_color", "label": "Background", "default": "#ececec" },
     { "type": "color", "id": "text_color", "label": "Link color", "default": "#6b6b6b" },
     { "type": "color", "id": "active_color", "label": "Active / hover color", "default": "#000000" },
