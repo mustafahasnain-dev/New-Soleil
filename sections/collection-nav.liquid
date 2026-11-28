@@ -2,13 +2,24 @@
   Category navigation bar under the collection banner, as on minimalist.ae: a grey strip of uppercase
   links from a menu picked in the theme editor. The link for the current collection is highlighted.
   Scrolls sideways on small screens.
-  A collection can use its own menu: put the menu's handle in its custom.collection_menu metafield.
-  If that is empty, or the menu has no links, the menu from the theme editor is shown.
+  A collection can use its own menu, chosen in this order:
+  1. its custom.collection_menu metafield (a menu handle),
+  2. a "Menu for a collection" block added to this section,
+  3. the default menu in the section settings.
+  A choice that is empty or has no links is skipped.
 {%- endcomment -%}
 {%- liquid
   assign s = section.settings
   assign sid = '#shopify-section-' | append: section.id
   assign nav_menu = linklists[s.menu]
+  if collection
+    for block in section.blocks
+      if block.settings.collection.handle == collection.handle and linklists[block.settings.menu].links.size > 0
+        assign nav_menu = linklists[block.settings.menu]
+        break
+      endif
+    endfor
+  endif
   assign own_handle = collection.metafields.custom.collection_menu.value | handleize
   if own_handle != blank and linklists[own_handle].links.size > 0
     assign nav_menu = linklists[own_handle]
@@ -58,7 +69,7 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "link_list", "id": "menu", "label": "Default menu", "info": "Used unless a collection's custom.collection_menu metafield names another menu." },
+    { "type": "link_list", "id": "menu", "label": "Default menu", "info": "Used for collections without their own menu (set by a block below or the Collection menu metafield)." },
     { "type": "color", "id": "bg_color", "label": "Background", "default": "#ececec" },
     { "type": "color", "id": "text_color", "label": "Link color", "default": "#6b6b6b" },
     { "type": "color", "id": "active_color", "label": "Active / hover color", "default": "#000000" },
@@ -66,6 +77,16 @@
     { "type": "range", "id": "gap", "label": "Space between links", "min": 16, "max": 80, "step": 2, "unit": "px", "default": 40 },
     { "type": "range", "id": "padding", "label": "Bar height (padding)", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 20 },
     { "type": "range", "id": "margin_bottom", "label": "Space below", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 0 }
+  ],
+  "blocks": [
+    {
+      "type": "collection_menu",
+      "name": "Menu for a collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "info": "The Collection menu metafield, if filled in, takes priority." }
+      ]
+    }
   ],
   "presets": [ { "name": "Collection navigation" } ]
 }
