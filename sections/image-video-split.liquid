@@ -6,10 +6,15 @@
 {%- liquid
   assign s = section.settings
   assign sid = '#shopify-section-' | append: section.id
+  assign image_sizes = '(min-width: 750px) 50vw, 100vw'
+  if s.hide_video
+    assign image_sizes = '100vw'
+  endif
 -%}
 <style>
   {{ sid }} .ivs{ display:grid; grid-template-columns:1fr 1fr; height:{{ s.height }}px;{% unless s.full_width %} max-width:1620px; margin:0 auto;{% endunless %} }
   {{ sid }} .ivs--swap .ivs__image{ order:2; }
+  {{ sid }} .ivs--single{ grid-template-columns:1fr; }
   {{ sid }} .ivs__image, {{ sid }} .ivs__video{ position:relative; overflow:hidden; background:#e9e6e1; }
   {{ sid }} .ivs__image > img, {{ sid }} .ivs__image > svg, {{ sid }} .ivs__video video, {{ sid }} .ivs__video img, {{ sid }} .ivs__video svg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
   {{ sid }} .ivs__image::after{ content:''; position:absolute; inset:0; background:#000; opacity:{{ s.overlay | divided_by: 100.0 }}; pointer-events:none; }
@@ -27,10 +32,12 @@
   }
 </style>
 
-<div class="ivs{% if s.swap %} ivs--swap{% endif %}">
+{%- unless s.hide_image and s.hide_video -%}
+<div class="ivs{% if s.swap %} ivs--swap{% endif %}{% if s.hide_image or s.hide_video %} ivs--single{% endif %}">
+  {%- unless s.hide_image -%}
   <div class="ivs__image">
     {%- if s.image != blank -%}
-      {{ s.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1500, 1800', sizes: '(min-width: 750px) 50vw, 100vw', alt: s.heading }}
+      {{ s.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1500, 1800', sizes: image_sizes, alt: s.heading }}
     {%- else -%}
       {{ 'lifestyle-1' | placeholder_svg_tag }}
     {%- endif -%}
@@ -40,6 +47,8 @@
       {%- if s.button_label != blank -%}<a href="{{ s.button_link | default: '#' }}" class="ivs__btn">{{ s.button_label | escape }}</a>{%- endif -%}
     </div>
   </div>
+  {%- endunless -%}
+  {%- unless s.hide_video -%}
   <div class="ivs__video">
     {%- if s.video != blank -%}
       {{ s.video | video_tag: autoplay: true, muted: true, loop: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1200x' }}
@@ -50,7 +59,9 @@
     {%- endif -%}
     {%- if s.video_link != blank -%}<a href="{{ s.video_link }}" class="ivs__link" aria-label="{{ s.heading | escape }}"></a>{%- endif -%}
   </div>
+  {%- endunless -%}
 </div>
+{%- endunless -%}
 
 {% schema %}
 {
@@ -59,6 +70,7 @@
   "class": "section",
   "settings": [
     { "type": "header", "content": "Image side" },
+    { "type": "checkbox", "id": "hide_image", "label": "Hide image side", "default": false, "info": "Also hides its heading and button. The video fills the full width." },
     { "type": "image_picker", "id": "image", "label": "Image" },
     { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Most-loved collection" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Fashion & style" },
@@ -70,6 +82,7 @@
       { "value": "flex-start", "label": "Top" }, { "value": "center", "label": "Middle" }, { "value": "flex-end", "label": "Bottom" } ] },
     { "type": "range", "id": "overlay", "label": "Image darkening", "min": 0, "max": 70, "step": 5, "unit": "%", "default": 15 },
     { "type": "header", "content": "Video side" },
+    { "type": "checkbox", "id": "hide_video", "label": "Hide video side", "default": false, "info": "The image fills the full width." },
     { "type": "video", "id": "video", "label": "Video", "info": "Plays muted and looped." },
     { "type": "text", "id": "video_url", "label": "Or video URL (.mp4)" },
     { "type": "url", "id": "video_link", "label": "Video link", "info": "Optional. Makes the video clickable." },
